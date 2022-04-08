@@ -13,14 +13,10 @@
 
 <title>Home</title>
 <link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-	crossorigin="anonymous">
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <link
@@ -36,7 +32,7 @@
 
 		<!-- navigation bar start -->
 		<nav class="navbar navbar-expand-lg"
-			style="background-color: #dbdbdb;">
+			style="border-bottom: 1px solid grey;">
 			<a class="navbar-brand" href="#"><span
 				style="color: rgb(153, 40, 59); font-weight: bolder;">Proxi</span><span
 				style="color: orange; font-weight: bolder;">Bid</span></a>
@@ -79,7 +75,7 @@
 		</nav>
 		<!-- navigation bar end -->
 		<div class="caontiner text-center"
-			style="font-family: monospace; background-color: orange; color: rgb(153, 40, 59);">
+			style="font-family: monospace; color: rgb(153, 40, 59);">
 			<h3>Bid, buy and enjoy!</h3>
 		</div>
 
@@ -96,7 +92,7 @@
 		<c:if test="${categorizedList.size()==0}">
 			<div class="container card text-center" style="margin-bottom: 30em;">
 				<div class="text-center" style="font-size: 2em;">
-					Oops, sorry for the inconvenient. <br> No results found for
+					Oops, sorry for the inconvenience. <br> No results found for
 					this category. <br>
 				</div>
 				<a href="http://localhost:9192/">Back to home</a>

@@ -25,8 +25,13 @@
 			<h2 style="font-weight: bold;">Create Auctioneer Account</h2>
 		</div>
 
-		<form id="signup" method="post" name="signup"
-			action="http://localhost:9192/auctionhouse/signup">
+		<%
+		if (null != request.getAttribute("error")) {
+			out.println("<div class=\"alert alert-danger\"><b>" + request.getAttribute("error") + "</b></div>");
+		}
+		%>
+		<form id="signup" method="POST" name="signup"
+			action="http://localhost:9192/auctionhouse/signup/save">
 			<label>Email Id :</label> <input type="email" name="email" id="email" />
 			<label>AuctionHouse Name :</label> <input type="text"
 				name="houseName" id="houseName" /> <label>Address :</label> <input
@@ -45,7 +50,8 @@
 		function flagCheckForAlert() {
 			let myform = document.getElementById("signup");
 			let fd = new FormData(myform);
-			$.ajax({
+			$
+					.ajax({
 						type : "POST",
 						url : "http://localhost:9192/auctionhouse/signup",
 						data : fd,

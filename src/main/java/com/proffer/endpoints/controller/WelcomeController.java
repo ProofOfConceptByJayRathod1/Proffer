@@ -22,6 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -151,19 +152,22 @@ public class WelcomeController {
 		return "auctioneer-login";
 	}
 
-	@RequestMapping(value = "/auctionhouse/signup", method = RequestMethod.GET)
-	public String signup() {
+	@RequestMapping(value = "/auctionhouse/signup")
+	public String auctioneerSignUp(@ModelAttribute Seller seller) {
 		return "auctioneer-signup";
 	}
 
-	@RequestMapping(value = "/auctionhouse/signup", method = RequestMethod.POST)
-	@ResponseBody
-	public String signUpAsAuctioneer(@ModelAttribute Seller seller) {
-		if (sellerService.checkIfSellerEmailIdAlreadyExistInTheDatabase(seller)) {// email exist in the database
-			return "failure";
+	@RequestMapping(value = "/auctionhouse/signup/save")
+	public String signUpAsAuctioneer(@ModelAttribute Seller seller, HttpServletRequest request) {
+		request.setAttribute("error", null);
+		if (sellerService.existsByEmail(seller.getEmail())) {
+			request.setAttribute("error", "User with same email already exixst!");
+			return "auctioneer-signup";
 		} else {
+			seller.setPassword(new BCryptPasswordEncoder().encode(seller.getPassword()));
 			sellerService.saveSeller(seller);
-			return "success";
+			System.out.println("user created");
+			return "redirect:/login";
 		}
 	}
 
@@ -374,16 +378,22 @@ public class WelcomeController {
 	 * ------------------------------
 	 */
 
-	@RequestMapping(value = "/bidder/signup", method = RequestMethod.GET)
-	public String bidderSignUp() {
+	@RequestMapping(value = "/bidder/signup")
+	public String bidderSignUp(@ModelAttribute Bidder bidder) {
 		return "bidder-signup";
 	}
 
-	@RequestMapping(value = "/bidder/signup", method = RequestMethod.POST)
-	public String bidderSignInAfterSignUp(@ModelAttribute Bidder bidder) {
-
-		bidderService.bidderSignUp(bidder);
-		return "bidder-login";
+	@RequestMapping(value = "/bidder/signup/save")
+	public String bidderSignInAfterSignUp(@ModelAttribute Bidder bidder, HttpServletRequest request) {
+		request.setAttribute("error", null);
+		if (bidderService.bidderExistsByEmail(bidder.getBidderEmail())) {
+			request.setAttribute("error", "User with same email already exixst!");
+			return "bidder-signup";
+		} else {
+			bidder.setBidderPassword(new BCryptPasswordEncoder().encode(bidder.getBidderPassword()));
+			bidderService.bidderSignUp(bidder);
+			return "redirect:/login";
+		}
 	}
 
 	@RequestMapping(value = "/bidder/dashboard", method = RequestMethod.GET)

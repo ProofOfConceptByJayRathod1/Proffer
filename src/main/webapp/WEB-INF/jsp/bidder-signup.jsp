@@ -17,23 +17,28 @@
 </head>
 
 <body>
-	<div class="container card shadow-lg " style="height: 75%;">
+	<div class="container card shadow-lg " style="height: 82%;">
 
 		<div class="card text-center mt-3"
 			style="color: rgb(153, 40, 59); border: none;">
 			<h2 style="font-weight: bold;">Create Bidder Account</h2>
 		</div>
-
-		<form id="signup" method="post" name="signup"
-			action="http://localhost:9192/bidder/signup">
+		<%
+		if (null != request.getAttribute("error")) {
+			out.println("<div class=\"alert alert-danger\"><b>" + request.getAttribute("error") + "</b></div>");
+		}
+		%>
+		<form id="signup" method="POST" name="signup"
+			action="http://localhost:9192/bidder/signup/save">
 			<label>Email :</label> <input type="email" name="bidderEmail"
 				id="bidderEmail" /> <label>First name :</label> <input type="text"
 				name="bidderFirstName" id="bidderFirstName" /> <label>LastName
 				:</label> <input type="text" name="bidderLastName" id="bidderLastName" /> <label>Contact
-				:</label> <input type="text" name="bidderContact" id="bidderContact" /> <label>Password
+				:</label> <input type="tel" name="bidderContact" id="bidderContact" /> <label>Password
 				:</label> <input type="password" name="bidderPassword" id="bidderPassword" />
 			<input type="submit" value="SignUp">
-			<div style="text-align: center; margin-top: 0.2em; width: 100%;font-weight: bold;">
+			<div
+				style="text-align: center; margin-top: 0.2em; width: 100%; font-weight: bold;">
 				<br> <a href="/auctionhouse/signup">Create Auctioneer
 					Account</a>
 

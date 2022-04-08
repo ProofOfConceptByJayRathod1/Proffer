@@ -15,11 +15,11 @@ public class Bidder implements UserDetails{
 	private String bidderEmail;
 	private String bidderFirstName;
 	private String bidderLastName;
-	private long bidderContact;
+	private int bidderContact;
 	private String bidderPassword;
 	
 	
-	public Bidder(String bidderEmail, String bidderFirstName, String bidderLastName, long bidderContact,
+	public Bidder(String bidderEmail, String bidderFirstName, String bidderLastName, int bidderContact,
 			String bidderPassword) {
 		super();
 		this.bidderEmail = bidderEmail;
@@ -57,7 +57,7 @@ public class Bidder implements UserDetails{
 	public long getBidderContact() {
 		return bidderContact;
 	}
-	public void setBidderContact(long bidderContact) {
+	public void setBidderContact(int bidderContact) {
 		this.bidderContact = bidderContact;
 	}
 	public String getBidderPassword() {

@@ -63,9 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().disable().csrf().disable();
 		http.authorizeRequests()
-				.antMatchers("/authenticate", "/auctionhouse/signup", "/bidder/signup", "/css/**", "/scripts/**", "/",
-						"/category/**", "/proxibid.com", "/carousel/**", "/auctionimage/**", "/catalogimage/**",
-						"/proxibid.com/**", "/login")
+				.antMatchers("/authenticate", "/auctionhouse/signup", "/auctionhouse/signup/save", "/bidder/signup",
+						"/bidder/signup/save", "/css/**", "/scripts/**", "/", "/category/**", "/proxibid.com",
+						"/carousel/**", "/auctionimage/**", "/catalogimage/**", "/proxibid.com/**", "/login")
 				.permitAll().anyRequest().authenticated();
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
