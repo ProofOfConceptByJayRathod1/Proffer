@@ -90,7 +90,14 @@
 		</c:if>
 
 		<div class="container">
-			Results for <b>${category}</b>
+			Results for
+			<c:if test="${category!=null}">
+				<b>${category}</b>
+			</c:if>
+			<c:if test="${keyword!=null}">
+				<b>/ ${keyword}</b>
+			</c:if>
+
 		</div>
 
 

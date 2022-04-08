@@ -129,6 +129,7 @@ public class WelcomeController {
 			model.addAttribute("categories", categoryservice.getAllCategories());
 			model.addAttribute("categorizedList", catalogService.findByKeyword(keyword));
 			model.addAttribute("category", "All");
+			model.addAttribute("keyword", keyword);
 			return "view-category";
 		}
 
