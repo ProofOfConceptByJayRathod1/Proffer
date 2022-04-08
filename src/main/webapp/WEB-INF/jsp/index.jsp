@@ -1,16 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Required meta tags -->
-<!-- <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
- -->
-<!-- Bootstrap CSS -->
-
 <title>Home</title>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
@@ -24,10 +15,6 @@
 	rel="stylesheet" type="text/css">
 
 <link href="/css/index.css" rel="stylesheet" type="text/css">
-
-<style>
-</style>
-
 
 </head>
 <body>
@@ -50,11 +37,6 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<!-- <li class="nav-item active"><a class="nav-link" href="#">Home
-							<span class="sr-only">(current)</span>
-					</a>
-
-					</li> -->
 					<li class="nav-item 	dropdown" style="font-weight: bold;"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -67,7 +49,9 @@
 							</c:forEach>
 
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">View all categories</a>
+							<a class="dropdown-item"
+								href="http://localhost:9192/proxibid.com/ViewCategory?category=all">View
+								all categories</a>
 						</div></li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0"

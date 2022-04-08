@@ -22,8 +22,12 @@ public class CatalogService {
 	public List<Catalog> getFirstEight() {
 		return catalogRepository.findFirstEight();
 	}
-	
+
 	public List<Catalog> getRandomFive() {
 		return catalogRepository.findRandomEight();
+	}
+
+	public List<Catalog> findByKeyword(String keyword) {
+		return catalogRepository.search(keyword);
 	}
 }

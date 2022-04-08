@@ -59,7 +59,9 @@
 							</c:forEach>
 
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">View all categories</a>
+							<a class="dropdown-item"
+								href="http://localhost:9192/proxibid.com/ViewCategory?category=all">View
+								all categories</a>
 						</div></li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0"
@@ -74,15 +76,18 @@
 			</div>
 		</nav>
 		<!-- navigation bar end -->
-		<div class="caontiner text-center"
-			style="font-family: monospace; color: rgb(153, 40, 59);">
-			<h3>Bid, buy and enjoy!</h3>
-		</div>
-
-
-
-
-
+		<c:if test="${category.equals('All')}">
+			<div class="caontiner text-center"
+				style="font-family: monospace; color: rgb(153, 40, 59);">
+				<form
+					action="http://localhost:9192/proxibid.com/ViewCategory?keyword"
+					class="mt-4 container">
+					<input type="text" class="form-control" name="keyword" id="keyword"
+						placeholder="Search">
+				</form>
+				<!-- <h3>Bid, buy and enjoy!</h3> -->
+			</div>
+		</c:if>
 
 		<div class="container">
 			Results for <b>${category}</b>
@@ -131,11 +136,6 @@
 										<b>Bid : </b>$ ${item.itemStartBid}
 									</div>
 								</div>
-								<div class="row">
-									<div class="col" style="font-size: 12px; opacity: 0.6;">
-										<b>Sold by </b>: ${auctionHouseName}
-									</div>
-								</div>
 								<div class="row mt-4">
 									<div class="col">
 										<a href="/bidder/live-auction/" class="btn btn-danger"> <i
@@ -153,16 +153,7 @@
 				</div>
 			</div>
 		</c:forEach>
-
-
 		<!-- selected category items end -->
-
-
-
-
-
-
-
 
 		<!-- Footer -->
 		<footer class="text-center text-lg-start bg-light text-muted">

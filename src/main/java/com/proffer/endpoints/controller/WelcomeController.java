@@ -122,7 +122,22 @@ public class WelcomeController {
 	}
 
 	@RequestMapping("/proxibid.com/ViewCategory")
-	public String viewcategory(@RequestParam String category, Model model) {
+	public String viewcategory(@RequestParam(required = false) String category,
+			@RequestParam(required = false) String keyword, Model model) {
+
+		if (keyword != null) {
+			model.addAttribute("categories", categoryservice.getAllCategories());
+			model.addAttribute("categorizedList", catalogService.findByKeyword(keyword));
+			model.addAttribute("category", "All");
+			return "view-category";
+		}
+
+		if (category.equals("all")) {
+			model.addAttribute("categorizedList", catalogService.getAll());
+			model.addAttribute("category", "All");
+			model.addAttribute("categories", categoryservice.getAllCategories());
+			return "view-category";
+		}
 
 		List<Catalog> categorizedList = new ArrayList<>();
 
