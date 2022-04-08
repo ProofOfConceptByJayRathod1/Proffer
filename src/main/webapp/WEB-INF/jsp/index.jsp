@@ -28,46 +28,7 @@
 <style>
 </style>
 
-<script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
 
-						function setCountdon(date)
-						{
-							
-							alert(date)
-							setInterval(
-									function() {
-
-										// Get todays date and time
-										var now = new Date().getTime();
-
-										// Find the distance between now an the count down date
-										var distance = countDownDate - now;
-
-										// Time calculations for days, hours, minutes and seconds
-										var hours = Math
-												.floor((distance % (1000 * 60 * 60 * 24))
-														/ (1000 * 60 * 60));
-										var minutes = Math
-												.floor((distance % (1000 * 60 * 60))
-														/ (1000 * 60));
-										var seconds = Math
-												.floor((distance % (1000 * 60)) / 1000);
-
-										// Output the result in an element with id="demo"
-
-										// If the count down is over, write some text 
-										if (distance < 0) {
-											clearInterval(x);
-											document.getElementById("demo").innerHTML = "EXPIRED";
-										}
-									}, 1000);
-						}
-
-					});
-</script>
 </head>
 <body>
 
@@ -291,7 +252,7 @@
 			Upcoming Events</div>
 
 		<!-- Upcoming events start -->
-		<c:forEach var="item" items="${upcomingAuctions}">
+		<c:forEach var="item" items="${upcomingAuctions}" varStatus="loop">
 			<div class="container py-3">
 				<div class="card"
 					style="overflow: hidden; padding: 5; border: none; border-radius: .28571429rem; box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5; margin-top: 20px; flex-direction: row; align-items: center;">
@@ -321,25 +282,29 @@
 										Internet Premium: 19.5% See Special Terms for additional fees</div>
 
 								</div>
-								<%-- <div class="row">
-									Starts in <span class="countdown">
-										<button onclick="setCountdon(${item.startTime})">Click</button>
-										00h:00m
-									</span>
-								</div> --%>
+								<div class="row">
+
+									<div class="col">
+										<b> Starts in</b>&nbsp;&nbsp; <span
+											onload="countdownTimeStart('${item.startTime}','timer${loop.index}')"
+											class="timer${loop.index}">Countdown Timer</span>
+									</div>
+								</div>
 
 								<div class="row">
 									<div class="col">
-										<a href="/bidder/live-auction/${item.eventNo}"
+										<br> <a href="/bidder/live-auction/${item.eventNo}"
 											class="btn btn-danger"> <i class="fa fa-wifi"
 											aria-hidden="true"></i> Enter live auction
 										</a>
 									</div>
-									<div class="col"
-										style="font-size: 15px; vertical-align: text-bottom; text-align: right;">
-										<b>Seller </b>: ${auctionHouseName}
-									</div>
 
+									<div class="col"
+										style="border-left: 1px solid rgb(170, 170, 170);">
+										<b>Date And Time :</b> <br> ${item.startDate}
+										${item.startTime}
+
+									</div>
 								</div>
 							</div>
 						</div>
@@ -466,5 +431,41 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+	<script type="text/javascript">
+		//register onload event for span tag
+		$(function() {
+			$('span[onload]').trigger('onload');
+		});
+
+		function countdownTimeStart(startTime, target) {
+
+			let countDownDate = new Date("Apr 08, 2022 " + startTime).getTime();
+			// Update the count down every 1 second
+			let x = setInterval(
+					function() {
+
+						var now = new Date().getTime();
+						distance = countDownDate - now;
+						let hours = Math
+								.floor((distance % (1000 * 60 * 60 * 24))
+										/ (1000 * 60 * 60));
+						let minutes = Math.floor((distance % (1000 * 60 * 60))
+								/ (1000 * 60));
+						let seconds = Math
+								.floor((distance % (1000 * 60)) / 1000);
+
+						let updatedTime = hours + "h " + minutes + "m "
+								+ seconds + "s ";
+
+						document.getElementsByClassName(target)[0].innerText = updatedTime;
+
+						if (distance < 0) {
+							clearInterval(x);
+							document.getElementsByClassName(target)[0].innerHTML = "EXPIRED";
+						}
+					}, 1000);
+		}
+	</script>
 </body>
 </html>

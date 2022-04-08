@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.proffer.endpoints.entity.Bidder;
+import com.proffer.endpoints.repository.AuctionRepository;
 import com.proffer.endpoints.service.AuctioneerDetailsService;
 import com.proffer.endpoints.service.BidderDestailsService;
 import com.proffer.endpoints.service.CustomUserDetailsService;
@@ -21,6 +22,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -33,8 +36,6 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			FilterChain filterChain) throws ServletException, IOException {
-
-//		System.out.println(new BCryptPasswordEncoder().encode("JayPassword"));
 
 		String authorizationHeader = null;
 		Cookie[] cookies = httpServletRequest.getCookies();
