@@ -13,17 +13,19 @@ public class SellerService {
 
 	@Autowired
 	private SellerRepository sellerRepository;
-	
-	public void saveSeller(Seller seller)
-	{
+
+	public void saveSeller(Seller seller) {
 		sellerRepository.save(seller);
-	
+
 	}
-	
 
 	public boolean checkIfSellerEmailIdAlreadyExistInTheDatabase(Seller seller) {
-		if(sellerRepository.findByEmail(seller.getEmail())!=null) return true;
+		if (sellerRepository.findByEmail(seller.getEmail()) != null)
+			return true;
 		return false;
 	}
 
+	public boolean existsByEmail(String email) {
+		return sellerRepository.existsByEmail(email);
+	}
 }

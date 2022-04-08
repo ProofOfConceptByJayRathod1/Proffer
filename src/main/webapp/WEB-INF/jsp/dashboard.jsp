@@ -29,16 +29,17 @@
 	});
 </script>
 <style type="text/css">
-#navbarSupportedContent {
+/* #navbarSupportedContent {
 	margin-left: 75em;
-}
+} */
 </style>
 </head>
 <body>
 
 
 	<!-- navigation bar start -->
-	<nav class="navbar navbar-expand-lg ">
+	<nav class="navbar navbar-expand-lg"
+		style="border-bottom: 1px solid grey;">
 		<a class="navbar-brand" href="#"><span
 			style="color: rgb(153, 40, 59); font-weight: bolder;">Proxi</span><span
 			style="color: orange; font-weight: bolder;">Bid</span></a>
@@ -51,18 +52,22 @@
 		</button>
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+			</ul>
+			<form class="form-inline my-2 my-lg-0"
+				style="color: rgb(153, 40, 59); font-weight: bold;">
 
-			<form class="form-inline my-1 my-lg-0">
-
-				<a class="mr-3" href="#">Help</a> <a class="mr-3" href="#">Selling</a>
-				<button
-					class="btn btn-warning my-3 my-sm-0 font-weight-bold logout-btn"
-					type="submit"
-					style="color: rgb(153, 40, 59); outline-color: rgb(153, 40, 59);">Logout</button>
+				<a class="mr-3" href="#">Help</a> <a
+					class=" my-3 my-sm-0 font-weight-bold"
+					style="color: rgb(153, 40, 59); outline-color: rgb(153, 40, 59);"
+					href="http://localhost:9192/logout">Logout</a>
 			</form>
 		</div>
 	</nav>
 	<!-- navigation bar end -->
+
+
+
 
 
 	<!-- Navbar section -->
@@ -84,31 +89,8 @@
 			<div id="orange">
 				<span class="fa fa-minus"></span>
 			</div>
-			<!-- <form>
-          <div class="form-group"> <input type="checkbox" id="artisan"> <label for="artisan">Jewellery</label> </div>
-          <div class="form-group"> <input type="checkbox" id="breakfast"> <label for="breakfast">Groceries</label> </div>
-          <div class="form-group"> <input type="checkbox" id="healthy"> <label for="healthy">Vehicles</label> </div>
-      </form> -->
 		</div>
-		<!-- <div class="py-2 border-bottom ml-3">
-      <h6 class="font-weight-bold">Accompainments</h6>
-      <div id="orange"><span class="fa fa-minus"></span></div>
-      <form>
-          <div class="form-group"> <input type="checkbox" id="tea"> <label for="tea">Tea Cakes</label> </div>
-          <div class="form-group"> <input type="checkbox" id="cookies"> <label for="cookies">Cookies</label> </div>
-          <div class="form-group"> <input type="checkbox" id="pastries"> <label for="pastries">Pastries</label> </div>
-          <div class="form-group"> <input type="checkbox" id="dough"> <label for="dough">Cookie Dough</label> </div>
-          <div class="form-group"> <input type="checkbox" id="choco"> <label for="choco">Chocolates</label> </div>
-      </form>
-  </div>
-  <div class="py-2 ml-3">
-      <h6 class="font-weight-bold">Top Offers</h6>
-      <div id="orange"><span class="fa fa-minus"></span></div>
-      <form>
-          <div class="form-group"> <input type="checkbox" id="25off"> <label for="25">25% off</label> </div>
-          <div class="form-group"> <input type="checkbox" id="5off"> <label for="5off" id="off">5% off on artisan breads</label> </div>
-      </form>
-  </div> -->
+
 	</div>
 	<!-- Sidebar filter section -->
 	<section id="sidebar">
@@ -134,46 +116,18 @@
 					results</button>
 			</form>
 		</div>
-		<!-- <div class="py-2 border-bottom ml-3">
-      <h6 class="font-weight-bold">Accompainments</h6>
-      <div id="orange"><span class="fa fa-minus"></span></div>
-      <form>
-          <div class="form-group"> <input type="checkbox" id="tea"> <label for="tea">Tea Cakes</label> </div>
-          <div class="form-group"> <input type="checkbox" id="cookies"> <label for="cookies">Cookies</label> </div>
-          <div class="form-group"> <input type="checkbox" id="pastries"> <label for="pastries">Pastries</label> </div>
-          <div class="form-group"> <input type="checkbox" id="dough"> <label for="dough">Cookie Dough</label> </div>
-          <div class="form-group"> <input type="checkbox" id="choco"> <label for="choco">Chocolates</label> </div>
-      </form>
-  </div> -->
-		<!-- <div class="py-2 ml-3">
-      <h6 class="font-weight-bold">Top Offers</h6>
-      <div id="orange"><span class="fa fa-minus"></span></div>
-      <form>
-          <div class="form-group"> <input type="checkbox" id="25off"> <label for="25">25% off</label> </div>
-          <div class="form-group"> <input type="checkbox" id="5off"> <label for="5off" id="off">5% off on artisan breads</label> </div>
-      </form>
-  </div> -->
+
 	</section>
 	<!-- products section -->
 	<section id="products">
 		<div class="container">
-			<!-- <div class="d-flex flex-row"> 
-          <div class="text-muted m-2" id="res">Showing 44 results</div>
-          <div class="ml-auto mr-lg-4">
-              <div id="sorting" class="border rounded p-1 m-1"> <span class="text-muted">Sort by</span> <select name="sort" id="sort">
-                      <option value="popularity"><b>Popularity</b></option>
-                      <option value="prcie"><b>Price</b></option>
-                      <option value="rating"><b>Rating</b></option>
-                  </select> </div>
-          </div>
-      </div> -->
+
 			<c:forEach var="auction" items="${auctions}">
 				<div class="card mb-3" style="max-width: fit-content;">
 					<div class="row no-gutters">
 						<div class="col-md-4">
-							<img
-								src="/auctionimage/${auction.imageName}"
-								class="card-img" alt="...">
+							<img src="/auctionimage/${auction.imageName}" class="card-img"
+								alt="...">
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">
@@ -192,123 +146,7 @@
 					</div>
 				</div>
 			</c:forEach>
-
-			<!-- <div class="card mb-3" style="max-width: fit-content;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="https://image.shutterstock.com/image-vector/graph-paper-coordinate-grid-squared-600w-1917481553.jpg" class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="card mb-3" style="max-width: fit-content;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="https://image.shutterstock.com/image-vector/graph-paper-coordinate-grid-squared-600w-1917481553.jpg" class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3" style="max-width: fit-content;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="https://image.shutterstock.com/image-vector/graph-paper-coordinate-grid-squared-600w-1917481553.jpg" class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-        </div>
-      </div> -->
-			<!-- <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-              <div class="card"> <img class="card-img-top" src="https://images.pexels.com/photos/3085146/pexels-photo-3085146.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-                  <div class="card-body">
-                      <h5><b>Bagels</b> </h5>
-                      <div class="d-flex flex-row my-2">
-                          <div class="text-muted">₹35/piece</div>
-                          <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 pc</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                      </div> <button class="btn w-100 rounded my-2">Add to cart</button>
-                  </div>
-              </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-              <div class="card"> <img class="card-img-top" src="https://images.pexels.com/photos/1448665/pexels-photo-1448665.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-                  <div class="card-body">
-                      <h5><b>White Bread</b> </h5>
-                      <div class="d-flex flex-row my-2">
-                          <div class="text-muted">₹80/loaf</div>
-                          <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 loaf</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                      </div> <button class="btn w-100 rounded my-2">Add to cart</button>
-                  </div>
-              </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-              <div class="card"> <img class="card-img-top" src="https://images.pexels.com/photos/461060/pexels-photo-461060.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-                  <div class="card-body">
-                      <h5><b>Baguette</b> </h5>
-                      <div class="d-flex flex-row my-2">
-                          <div class="text-muted">₹160/piece</div>
-                          <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 pc</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                      </div> <button class="btn w-100 rounded my-2">Add to cart</button>
-                  </div>
-              </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-              <div class="card"> <img class="card-img-top" src="https://images.pexels.com/photos/209206/pexels-photo-209206.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-                  <div class="card-body">
-                      <h5><b>Masala Bun</b> </h5>
-                      <div class="d-flex flex-row my-2">
-                          <div class="text-muted">₹85/piece</div>
-                          <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 pc</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                      </div> <button class="btn w-100 rounded my-2">Add to cart</button>
-                  </div>
-              </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-              <div class="card d-relative"> <img class="card-img-top" src="https://images.pexels.com/photos/3570/morning-breakfast-croissant.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-                  <div class="card-body">
-                      <h5><b>Croissant</b> </h5>
-                      <div class="rounded bg-white discount" id="orange">10% off</div>
-                      <div class="d-flex flex-row my-2">
-                          <div class="text-muted price"><del>₹55</del>₹45/piece</div>
-                          <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span>1pc</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                      </div> <button class="btn w-100 rounded my-2">Add to cart</button>
-                  </div>
-              </div>
-          </div> -->
 		</div>
 	</section>
-	<!-- <script> 
-  $("input[name='checkbox']").click(function(e){ 
-  if (e.target.checked) { 
-  localStorage.checked = true; 
-  } else { 
-  localStorage.checked = false; 
-  } 
-  }) 
-   
-  $( document ).ready(function() { 
-    <c:forEach var="category" items="${categories}">
-      document.querySelector("input[name='checkbox']").checked = localStorage.checked 
-  </c:forEach>
-   
-  }); 
-  </script>  -->
 </body>
 </html>

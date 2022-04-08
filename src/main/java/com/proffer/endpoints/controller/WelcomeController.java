@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -13,12 +14,15 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,13 +46,20 @@ import com.proffer.endpoints.repository.CatalogRepository;
 import com.proffer.endpoints.repository.CategoryRepository;
 import com.proffer.endpoints.repository.SellerRepository;
 import com.proffer.endpoints.service.BidderService;
+import com.proffer.endpoints.service.CatalogService;
+import com.proffer.endpoints.service.CategoryService;
 import com.proffer.endpoints.service.SellerService;
 import com.proffer.endpoints.util.JwtUtil;
+import com.proffer.endpoints.util.ListUtils;
 
 @Controller
 @CrossOrigin(origins = "*")
 public class WelcomeController {
 
+	@Autowired
+	private CategoryService categoryservice;
+	@Autowired
+	private CatalogService catalogService;
 	@Autowired
 	CategoryRepository categoryRepository;
 	@Autowired
@@ -70,8 +81,73 @@ public class WelcomeController {
 
 	public static String uploadDirectoryForCatalog = System.getProperty("user.dir") + "/src/main/webapp/catalogimage";
 
-	@RequestMapping(value = "/auctionhouse/login", method = RequestMethod.GET)
-	public String login() {
+	@RequestMapping(value = "/login")
+	public String login(HttpServletRequest request, Model model) {
+		System.out.println("Auctioneer login");
+
+		HttpSession session = request.getSession(false);
+		String errorMessage = null;
+		if (session != null) {
+			AuthenticationException ex = (AuthenticationException) session
+					.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+			if (ex != null) {
+				errorMessage = ex.getMessage();
+			}
+		}
+		model.addAttribute("error", errorMessage);
+		return "login";
+	}
+
+	@RequestMapping("/")
+	public String landingPage() {
+		return "redirect:/proxibid.com";
+	}
+
+	@RequestMapping("/proxibid.com")
+	public String homePage(Model model) {
+
+		model.addAttribute("categories", categoryservice.getAllCategories());
+
+		model.addAttribute("catalogItems", catalogService.getFirstEight());
+
+		List<List<Catalog>> listOfListOfCatalog = ListUtils.chunkList(auctionRepository.findAll().get(0).getItems(), 4);
+
+		model.addAttribute("auctionFourItems", listOfListOfCatalog.get(0));
+		model.addAttribute("auctionItems", listOfListOfCatalog);
+		model.addAttribute("catalogFiveItems", catalogService.getRandomFive());
+		model.addAttribute("upcomingAuctions", auctionRepository.findFirstThree());
+
+		return "index";
+	}
+
+	@RequestMapping("/proxibid.com/ViewCategory")
+	public String viewcategory(@RequestParam String category, Model model) {
+
+		List<Catalog> categorizedList = new ArrayList<>();
+
+		auctionRepository.findAllByCategoryContaining(category.trim().toLowerCase()).stream().forEach((s) -> {
+			categorizedList.addAll(s.getItems());
+		});
+		model.addAttribute("categories", categoryservice.getAllCategories());
+		model.addAttribute("categorizedList", categorizedList);
+		model.addAttribute("category", category);
+		return "view-category";
+	}
+
+	@RequestMapping(value = "/auctionhouse/login")
+	public String auctionHouseLogin(HttpServletRequest request, Model model) {
+		System.out.println("Auctioneer login");
+
+		HttpSession session = request.getSession(false);
+		String errorMessage = null;
+		if (session != null) {
+			AuthenticationException ex = (AuthenticationException) session
+					.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+			if (ex != null) {
+				errorMessage = ex.getMessage();
+			}
+		}
+		model.addAttribute("error", errorMessage);
 		return "auctioneer-login";
 	}
 
@@ -310,11 +386,6 @@ public class WelcomeController {
 		return "bidder-login";
 	}
 
-	@RequestMapping(value = "/bidder/login", method = RequestMethod.GET)
-	public String bidderLogin() {
-		return "bidder-login";
-	}
-
 	@RequestMapping(value = "/bidder/dashboard", method = RequestMethod.GET)
 	public String bidderdashboard(Model model) {
 		model.addAttribute("auctions", auctionRepository.findAll());
@@ -322,12 +393,29 @@ public class WelcomeController {
 		return "dashboard";
 	}
 
-	@RequestMapping(value = "/bidder/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/logout")
 	public String bidderLogout(HttpServletRequest request, HttpServletResponse response) {
-		Cookie c1 = new Cookie("token", "");
-		c1.setMaxAge(0);
-		System.out.println("Logout ");
-		response.addCookie(c1);
+
+		Cookie cookie = new Cookie("token", "");
+		cookie.setMaxAge(0); // expires in 10 minutes
+		cookie.setSecure(true);
+		cookie.setHttpOnly(true);
+		response.addCookie(cookie);
+		return "redirect:/proxibid.com";
+	}
+
+	@RequestMapping(value = "/bidder/login", method = RequestMethod.GET)
+	public String bidderLogin(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession(false);
+		String errorMessage = null;
+		if (session != null) {
+			AuthenticationException ex = (AuthenticationException) session
+					.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+			if (ex != null) {
+				errorMessage = ex.getMessage();
+			}
+		}
+		model.addAttribute("error", errorMessage);
 		return "bidder-login";
 	}
 
@@ -360,7 +448,7 @@ public class WelcomeController {
 		model.addAttribute("eventNumber", eventNo);
 
 		model.addAttribute("auctionHouseName",
-				sellerRepository.findByEmail(current_auction.getSellerId()).getHouseName());
+				sellerRepository.findByEmail(current_auction.getSellerId()).get().getHouseName());
 //    	Auction a = (Auction) auctionRepository.findByeventNo(eventNo);
 
 		Auction a = (Auction) auctionRepository.findByeventNo(eventNo);

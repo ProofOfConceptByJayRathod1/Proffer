@@ -16,28 +16,26 @@ import java.util.ArrayList;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
-    private SellerRepository repository;
-    
-    @Autowired
-    private BidderRepository bidderRepository;
+	@Autowired
+	private SellerRepository repository;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    	
-        Seller seller = repository.findByEmail(email);
-    
-        if(seller == null)
-        {
-        	Bidder bidder=bidderRepository.findByBidderEmail(email);
-        	
-        
-        	 return new org.springframework.security.core.userdetails.User(bidder.getBidderEmail(), bidder.getBidderPassword(), new ArrayList<>());
-        }
-        else
-        {
-        	 return new org.springframework.security.core.userdetails.User(seller.getEmail(), seller.getPassword(), new ArrayList<>());
-        }
-       
-    }
+	@Autowired
+	private BidderRepository bidderRepository;
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+		Seller seller = repository.findByEmail(email).orElse(null);
+
+		if (seller == null) {
+			Bidder bidder = bidderRepository.findByBidderEmail(email).orElse(null);
+			if (bidder == null) {
+				throw new UsernameNotFoundException("User not found!");
+			}
+			return bidder;
+		} else {
+			return seller;
+		}
+
+	}
 }

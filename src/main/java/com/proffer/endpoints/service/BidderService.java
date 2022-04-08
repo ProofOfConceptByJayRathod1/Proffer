@@ -10,12 +10,13 @@ import com.proffer.endpoints.repository.BidderRepository;
 public class BidderService {
 	@Autowired
 	private BidderRepository bidderRepository;
-	
-	public void bidderSignUp(Bidder bidder)
-	{
+
+	public void bidderSignUp(Bidder bidder) {
 		bidderRepository.save(bidder);
 	}
-	
-	
-	
+
+	public boolean bidderExistsByEmail(String email) {
+		return bidderRepository.existsByBidderEmail(email);
+	}
+
 }

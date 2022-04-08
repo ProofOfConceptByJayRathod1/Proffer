@@ -25,11 +25,10 @@
 	<div class="container card shadow-lg ">
 		<div class="card text-center mt-3"
 			style="color: rgb(153, 40, 59); border: none;">
-			<h2 style="font-weight: bold;">Bidder Login</h2>
+			<h2 style="font-weight: bold;">Login</h2>
 		</div>
 
-		<form method="post" name="myform"
-			action="http://localhost:9192/bidder/login">
+		<form method="post" name="myform" action="http://localhost:9192/login">
 
 			<div class="error-space">
 
@@ -41,8 +40,14 @@
 			</div>
 			<br> <label>Email :</label> <input type="email" name="userName"
 				id="userName" /> <label>Password :</label> <input type="password"
-				name="password" id="password" /> <input value="bidder" name="actor"
-				hidden="true"> <input type="submit" value="Submit">
+				name="password" id="password" /> <input type="submit"
+				value="Submit">
+
+			<div style="text-align: center; margin-top: 0.5em; width: 100%">
+				<br> <a href="/bidder/signup">Create Bidder Account</a> OR <a
+					href="/auctionhouse/signup">Create Auctioneer Account</a>
+			</div>
+
 		</form>
 
 	</div>
