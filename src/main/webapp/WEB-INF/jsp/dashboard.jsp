@@ -1,3 +1,4 @@
+<%@page import="java.util.Arrays"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -7,6 +8,9 @@
 <title>Auction events display</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -36,7 +40,6 @@
 </head>
 <body>
 
-
 	<!-- navigation bar start -->
 	<nav class="navbar navbar-expand-lg"
 		style="border-bottom: 1px solid grey;">
@@ -53,15 +56,35 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-			</ul>
-			<form class="form-inline my-2 my-lg-0"
-				style="color: rgb(153, 40, 59); font-weight: bold;">
 
-				<a class="mr-3" href="#">Help</a> <a
-					class=" my-3 my-sm-0 font-weight-bold"
-					style="color: rgb(153, 40, 59); outline-color: rgb(153, 40, 59);"
-					href="http://localhost:9192/logout">Logout</a>
-			</form>
+			</ul>
+			<div class="nav-item dropdown ">
+
+				<a class="nav-link dropdown-toggle" href="#"
+					id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false"> <%
+ JspWriter out2 = out;
+ if (request.getCookies() != null) {
+ 	Arrays.asList(request.getCookies()).forEach((c) -> {
+ 		if (c.getName().equals("username")) {
+ 	try {
+ 		out2.print(c.getValue());
+ 	} catch (Exception e) {
+ 		e.printStackTrace();
+ 	}
+ 		}
+ 	});
+ }
+ %> <i class="fa fa-user rounded-circle" aria-hidden="true"></i>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right"
+					style="margin-right: 10px;">
+					<a class="dropdown-item"
+						href="http://localhost:9192/bidder/dashboard">Dashboard</a> <a
+						class="dropdown-item" href="http://localhost:9192/logout">Log
+						Out</a>
+				</div>
+			</div>
 		</div>
 	</nav>
 	<!-- navigation bar end -->

@@ -84,12 +84,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						cookie.setHttpOnly(true);
 						response.addCookie(cookie);
 
+						Cookie username = new Cookie("username", authentication.getName());
+						username.setMaxAge(6 * 60); // expires in 10 minutes
+						username.setSecure(true);
+						username.setHttpOnly(true);
+						response.addCookie(username);
+						
 						if (sellerService.existsByEmail(authentication.getName())) {
 							new DefaultRedirectStrategy().sendRedirect(request, response, "/auctionhouse/dashboard");
 						} else {
 							new DefaultRedirectStrategy().sendRedirect(request, response, "/bidder/dashboard");
 						}
-
 					}
 				});
 

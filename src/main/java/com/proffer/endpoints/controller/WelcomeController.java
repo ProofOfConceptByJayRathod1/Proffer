@@ -84,7 +84,6 @@ public class WelcomeController {
 
 	@RequestMapping(value = "/login")
 	public String login(HttpServletRequest request, Model model) {
-		System.out.println("Auctioneer login");
 
 		HttpSession session = request.getSession(false);
 		String errorMessage = null;

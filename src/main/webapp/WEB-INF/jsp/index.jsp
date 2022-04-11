@@ -24,7 +24,7 @@
 		<!-- navigation bar start -->
 		<nav class="navbar navbar-expand-lg"
 			style="border-bottom: 1px solid grey;">
-			<a class="navbar-brand" href="#"><span
+			<a class="navbar-brand" href="http://localhost:9192/"><span
 				style="color: rgb(153, 40, 59); font-weight: bolder;">Proxi</span><span
 				style="color: orange; font-weight: bolder;">Bid</span></a>
 
@@ -160,7 +160,8 @@
 				</div>
 			</div>
 			<div class="container">
-				<a href="#"
+				<a
+					href="http://localhost:9192/proxibid.com/ViewCategory?category=all"
 					style="font-size: 20px; font-weight: bold; float: right;"> View
 					all</a>
 			</div>
@@ -190,8 +191,9 @@
 					</div>
 				</div>
 			</div>
-			<button class="btn btn-warning" style="margin: 1em;">View
-				All</button>
+			<a
+				href="http://localhost:9192/proxibid.com/ViewCategory?category=all"
+				class="btn btn-warning" style="margin: 1em;">View All</a>
 		</div>
 		<!-- catalog item slider end -->
 
@@ -218,7 +220,9 @@
 							</div>
 						</c:forEach>
 						<div class="card col-2 " style="margin: 1em; float: right;">
-							<a href=""> More categories</a>
+							<a
+								href="http://localhost:9192/proxibid.com/ViewCategory?category=all">
+								More categories</a>
 						</div>
 					</div>
 				</div>
@@ -361,13 +365,16 @@
 							<!-- Links -->
 							<h6 class="text-uppercase fw-bold mb-4">Buying & Selling</h6>
 							<p>
-								<a href="#!" class="text-reset">Seller Log in</a>
+								<a href="http:/localhost:9192/login" class="text-reset">Seller
+									Log in</a>
 							</p>
 							<p>
-								<a href="#!" class="text-reset">Buyer Sign Up</a>
+								<a href="http://localhost:9192/bidder/signup" class="text-reset">Buyer
+									Sign Up</a>
 							</p>
 							<p>
-								<a href="#!" class="text-reset">Apply To Sell</a>
+								<a href="http://localhost:9192/auctionhouse/signup"
+									class="text-reset">Apply To Sell</a>
 							</p>
 
 						</div>
@@ -424,7 +431,9 @@
 
 		function countdownTimeStart(startTime, target) {
 
-			let countDownDate = new Date("Apr 08, 2022 " + startTime).getTime();
+			let countDownDate = new Date("Apr 11, 2022 " + startTime).getTime();
+			
+			
 			// Update the count down every 1 second
 			let x = setInterval(
 					function() {
