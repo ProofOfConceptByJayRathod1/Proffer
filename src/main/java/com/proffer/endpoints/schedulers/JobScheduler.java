@@ -85,7 +85,7 @@ public class JobScheduler {
 
 	}
 
-	@Scheduled(cron = "0 16 10 ? * *")
+	@Scheduled(cron = "0 16 19 ? * *")
 	public void runEveryMidnight() {
 		// System.out.println("I will intrupt every minute");
 		auctionService.getTodaysEvents().forEach(a -> {

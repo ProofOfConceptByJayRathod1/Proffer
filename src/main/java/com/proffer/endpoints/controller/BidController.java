@@ -1,5 +1,6 @@
 package com.proffer.endpoints.controller;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.proffer.endpoints.repository.AuctionRepository;
 import com.proffer.endpoints.repository.BidRepository;
 import com.proffer.endpoints.repository.BidWinnerRepository;
 import com.proffer.endpoints.service.BidService;
+import com.proffer.endpoints.service.BidWinnerService;
 import com.proffer.endpoints.service.LiveBidService;
 import com.proffer.endpoints.util.JwtUtil;
 import com.proffer.endpoints.util.LiveBidStatus;
@@ -39,6 +41,9 @@ public class BidController {
 	@Autowired
 	private BidWinnerRepository bidWinnerRepository;
 
+	@Autowired
+	private BidWinnerService bidWinnerService;
+
 	@RequestMapping("/public/PlaceBid")
 	@ResponseBody
 	public LiveBid placeBid(@RequestParam Long id, @RequestParam String bidderId, @RequestParam int bidValue)
@@ -48,6 +53,26 @@ public class BidController {
 		bid.setBidStatus(LiveBidStatus.LIVE.toString());
 		bid.setBidTime(LocalTime.now());
 		bid.setCurrentBidValue(bidValue);
+		return liveBidService.save(bid);
+	}
+
+	@RequestMapping("/public/CloseBid")
+	@ResponseBody
+	public LiveBid closeBid(@RequestParam Long id, @RequestParam String bidderId, @RequestParam int bidValue)
+			throws Exception {
+		LiveBid bid = liveBidService.findById(id);
+		bid.setBidderId(bidderId);
+		bid.setBidStatus(LiveBidStatus.SOLD.toString());
+		bid.setBidTime(LocalTime.now());
+		bid.setCurrentBidValue(bidValue);
+
+		BidWinner bidWinner = new BidWinner();
+		bidWinner.setBidderId(bidderId);
+		bidWinner.setAmount(bidValue);
+		bidWinner.setEventNo(bid.getAuctionId());
+		bidWinner.setTimestamp(LocalDateTime.now());
+
+		bidWinnerService.save(bidWinner);
 		return liveBidService.save(bid);
 	}
 

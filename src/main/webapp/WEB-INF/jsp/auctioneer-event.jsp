@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Document</title>
+<title>Live Auction</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <link
@@ -83,7 +83,7 @@
 			<div class="tab-content">
 				<div id="tab1" class="tab active">
 					<div class="container" id="live-container">
-						<c:forEach var="c" items="${liveItems}">
+						<c:forEach var="c" items="${liveItems}" varStatus="loopStatus">
 							<div class="card">
 								<img src="/catalogimage/${c.catalog.itemImage}"
 									style="border: 5px solid #555;" class="card-img-top" />
@@ -93,7 +93,8 @@
 
 									<div id="name-from">
 
-										<div class="container-fluid">
+										<div class="container-fluid"
+											id="liveBidArea${loopStatus.index}">
 											<div class="row">
 												<div>
 													<small id="${c.catalog.itemId}auction" class="text-muted"></small>
@@ -103,11 +104,26 @@
 											<div class="row">
 												<div class="col">
 													<div class="conatiner">
-														<span style="font-size: 20px; font-weight: 300;">STATUS
-															: <span style="font-weight: 800; color: red;"><i
-																class="fa fa-wifi" aria-hidden="true"></i>
-																${c.bidStatus}</span>
-														</span>
+														<c:if test="${c.bidStatus.equals('SOLD')}">
+															<span style="font-size: 20px; font-weight: 300;">STATUS
+																: <span style="font-weight: 800; color: green;">
+																	${c.bidStatus}</span>
+															</span>
+														</c:if>
+														<c:if test="${c.bidStatus.equals('LIVE')}">
+															<span style="font-size: 20px; font-weight: 300;">STATUS
+																: <span style="font-weight: 800; color: red;"><i
+																	class="fa fa-wifi" aria-hidden="true"></i>
+																	${c.bidStatus}</span>
+															</span>
+														</c:if>
+
+														<c:if test="${c.bidStatus.equals('INITIAL')}">
+															<span style="font-size: 20px; font-weight: 300;">STATUS
+																: <span style="font-weight: 800; color: #ffb03b;">
+																	${c.bidStatus}</span>
+															</span>
+														</c:if>
 													</div>
 												</div>
 												<div class="col">
@@ -138,12 +154,19 @@
 										</div>
 									</div>
 
+									<c:if test="${c.bidStatus.equals('SOLD')}">
+										<div class="container text-center"
+											style="font-weight: 800; color: red; font-size: 2.5em;">
+											<span>You Closed!</span> <br>
+										</div>
+
+									</c:if>
 									<c:if test="${c.bidStatus.equals('LIVE')}">
 										<button class="btn btn-success float-right"
 											style="margin-right: 3em; margin-top: 2em;" id=""
-											onClick="closeBid()">ACCEPT & CLOSE</button>
+											onClick="closeBid('${c.id}','${c.bidderId}','${c.currentBidValue+10}','liveBidArea${loopStatus.index}')">ACCEPT
+											& CLOSE</button>
 									</c:if>
-
 
 								</div>
 							</div>
@@ -315,15 +338,7 @@
 
 
 	<script type="text/javascript">
-		function closeBid() {
-			if (confirm('Are you sure you want to close this bid?')) {
-
-				alert("bid sold to ")
-			} else {
-
-			}
-
-		}
+		
 	</script>
 	<script>
 		$(document).ready(

@@ -84,9 +84,12 @@
 							<div class="card">
 								<img src="/catalogimage/${c.catalog.itemImage}"
 									style="border: 5px solid #555;" class="card-img-top" />
-								<div class="card-body">
+
+
+								<div class="card-body" id="liveBidArea${loopStatus.index}">
 									<h5 class="card-title">${c.catalog.itemName}</h5>
 									<p class="card-text">${c.catalog.itemDesc}</p>
+
 
 									<div id="name-from">
 										<div class="container-fluid">
@@ -96,32 +99,64 @@
 														<!-- amount bid by this person  -->
 														<small id="${c.catalog.itemId}c" class="text-muted"></small>
 													</div>
-													<div class="input-group"
-														id="liveBidArea${loopStatus.index}">
+													<div class="input-group"></div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col">
+													<div class="conatiner">
+
+														<c:if test="${c.bidStatus.equals('SOLD')}">
+															<span style="font-size: 20px; font-weight: 300;">STATUS
+																: <span style="font-weight: 800; color: green;">
+																	${c.bidStatus}</span>
+															</span>
+														</c:if>
+														<c:if test="${c.bidStatus.equals('LIVE')}">
+															<span style="font-size: 20px; font-weight: 300;">STATUS
+																: <span style="font-weight: 800; color: red;"><i
+																	class="fa fa-wifi" aria-hidden="true"></i>
+																	${c.bidStatus}</span>
+															</span>
+														</c:if>
+
+														<c:if test="${c.bidStatus.equals('INITIAL')}">
+															<span style="font-size: 20px; font-weight: 300;">STATUS
+																: <span style="font-weight: 800; color: #ffb03b;">
+																	${c.bidStatus}</span>
+															</span>
+														</c:if>
+
+													</div>
+												</div>
+												<div class="col">
+													<div class="conatiner">
+														<span style="font-size: 20px; font-weight: 300;">HIGH
+															BID : <span style="font-weight: 800; color: blue;">$${c.currentBidValue}</span>
+														</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col">
+													<div class="conatiner">
+														<span style="font-size: 20px; font-weight: 300;"> <span
+															style="font-weight: 800; color: red;"></span>
+														</span>
+													</div>
+												</div>
+												<div class="col">
+													<div class="conatiner">
 														<c:choose>
 															<c:when test="${not c.bidderId.equals(bidderId)}">
-																<c:if test="${c.bidStatus.equals('live')}">
-																	<span style="font-size: 20px; font-weight: bold;">Current
-																		bid $${c.currentBidValue} by ${c.bidderId}</span>
-
-																	<button class="btn btn-success"
-																		id="live-btn1${loopStatus.index}"
-																		onClick="updateBid('${c.id}','${bidderId}','${c.currentBidValue+10}','liveBidArea${loopStatus.index}')">Bid
-																		by ${c.currentBidValue+10}</button>
-																</c:if>
-																<c:if test="${c.bidStatus.equals('Initial')}">
-																	<span style="font-size: 20px; font-weight: bold;">Initial
-																		bid $.${c.currentBidValue} by seller</span>
-																	<button class="btn btn-success"
-																		id="init-btn1${loopStatus.index}"
-																		onClick="updateBid('${c.id}','${bidderId}','${c.currentBidValue+10}','liveBidArea${loopStatus.index}')">Start
-																		bid by $${c.currentBidValue+10}</button>
-																</c:if>
+																<span style="font-size: 16px; font-weight: 300;">BY
+																	: <span style="font-weight: 300; color: #0d11e0;">${c.bidderId}</span>
+																</span>
 															</c:when>
 															<c:otherwise>
-																<span style="font-size: 20px; font-weight: bold;">Current
-																	bid $${c.currentBidValue} by You</span>
-																<br>
+																<span style="font-size: 16px; font-weight: 300;">BY
+																	: <span style="font-weight: 300; color: #0d11e0;">You</span>
+																</span>
 															</c:otherwise>
 														</c:choose>
 													</div>
@@ -129,6 +164,46 @@
 											</div>
 										</div>
 									</div>
+
+									<c:if
+										test="${c.bidStatus.equals('SOLD') && c.bidderId.equals(bidderId)}">
+
+										<div class="container text-center"
+											style="font-weight: 800; color: red; font-size: 3em;">
+											<span>You won!!!</span> <br>
+											<button class="btn btn-dark float-right"
+												style="margin-right: 0.5em; margin-top: 2em; width: 10em;"
+												onClick="">Checkout Now</button>
+										</div>
+
+									</c:if>
+
+									<c:if
+										test="${c.bidStatus.equals('LIVE') && c.bidderId.equals(bidderId)}">
+
+										<div class="container text-center"
+											style="font-weight: 800; color: green; font-size: 2.5em;">
+											<span>You Made BID!</span>
+
+										</div>
+
+									</c:if>
+									<c:if
+										test="${c.bidStatus.equals('LIVE') && not c.bidderId.equals(bidderId)}">
+										<button class="btn btn-success float-right"
+											style="margin-right: 0.8em; margin-top: 2em; width: 10em;"
+											id="live-btn1${loopStatus.index}"
+											onClick="updateBid('${c.id}','${bidderId}','${c.currentBidValue+10}','liveBidArea${loopStatus.index}')">BID
+											$${c.currentBidValue+10}</button>
+									</c:if>
+
+									<c:if test="${c.bidStatus.equals('INITIAL')}">
+										<button class="btn btn-success float-right"
+											style="margin-right: 0.8em; margin-top: 2em; width: 10em;"
+											id="live-btn1${loopStatus.index}"
+											onClick="updateBid('${c.id}','${bidderId}','${c.currentBidValue+10}','liveBidArea${loopStatus.index}')">START
+											BID $${c.currentBidValue+10}</button>
+									</c:if>
 								</div>
 							</div>
 						</c:forEach>

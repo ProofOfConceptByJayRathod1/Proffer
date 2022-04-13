@@ -3,7 +3,7 @@ var stompClient = null;
 var socket = new SockJS('/bidsocket');
 stompClient = Stomp.over(socket);
 stompClient.connect({}, function(frame) {
-	stompClient.subscribe('/bid/RefreshFeed', function(greeting) {
+	stompClient.subscribe('/bid/RefreshFeed', function(result) {
 		$("#live-container").load(location.href + " #live-container");
 	});
 });
@@ -14,9 +14,29 @@ function updateBid(liveBidId, bidderId, bidValue, target) {
 			+ "&bidderId=" + bidderId + "&bidValue=" + bidValue,
 		contentType: "application/json",
 		async: false,
-		success: function(data) {
+		success: function(result) {
 			$("#" + target).load(location.href + " #" + target);
 			stompClient.send("/app/UpdateLiveBid", {}, {});
 		}
 	});
+}
+
+function closeBid(liveBidId, bidderId, bidValue, target) {
+	if (confirm('Are you sure you want to close this bid?')) {
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:9192/public/CloseBid?id="
+				+ liveBidId + "&bidderId=" + bidderId
+				+ "&bidValue=" + bidValue,
+			contentType: "application/json",
+			async: false,
+			success: function(result) {
+				$("#" + target).load(location.href + " #" + target);
+				stompClient.send("/app/UpdateLiveBid", {}, {});
+			}
+		});
+	} else {
+
+	}
+
 }
