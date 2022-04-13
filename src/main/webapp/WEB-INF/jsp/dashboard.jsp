@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Auction events display</title>
+<title>Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <link rel="stylesheet"
@@ -18,25 +18,6 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="/css/dashboard.css" />
 
-<script type="text/javascript">
-	$(document).ready(function() {
-
-		$('.logout-btn').on('click',()=>{
-			$.ajax({
-				type : "GET",
-				url : "http://localhost:9192/bidder/logout",
-				dataType : 'json',
-				cache : false,
-			});
-		});
-
-	});
-</script>
-<style type="text/css">
-/* #navbarSupportedContent {
-	margin-left: 75em;
-} */
-</style>
 </head>
 <body>
 
@@ -117,7 +98,6 @@
 	</div>
 	<!-- Sidebar filter section -->
 	<section id="sidebar">
-		<!-- <p> Home | <b>All Breads</b></p> -->
 		<div class="border-bottom pb-2 ml-2">
 			<h4 id="burgundy">Filters</h4>
 		</div>
@@ -127,7 +107,7 @@
 			<div id="orange">
 				<span class="fa fa-minus"></span>
 			</div>
-			<form action="/bidder/dashboard/" method="POST">
+			<form action="/bidder/dashboard/" method="GET">
 				<c:forEach var="category" items="${categories}">
 					<div class="form-group">
 						<input type="checkbox" name="checkbox"
@@ -141,10 +121,10 @@
 		</div>
 
 	</section>
-	<!-- products section -->
+	<!-- live event products start -->
 	<section id="products">
 		<div class="container">
-
+			<h2>Live events</h2>
 			<c:forEach var="auction" items="${auctions}">
 				<div class="card mb-3" style="max-width: fit-content;">
 					<div class="row no-gutters">
@@ -171,5 +151,39 @@
 			</c:forEach>
 		</div>
 	</section>
+	<!-- live event products end -->
+
+	<!-- products section -->
+	<section id="products">
+		<div class="container">
+			<h2>Today's upcoming events</h2>
+			<c:forEach var="auction" items="${upcomingTodaysAuctions}">
+				<div class="card mb-3" style="max-width: fit-content;">
+					<div class="row no-gutters">
+						<div class="col-md-4">
+							<img src="/auctionimage/${auction.imageName}" class="card-img"
+								alt="...">
+						</div>
+						<div class="col-md-8">
+							<div class="card-body">
+								<h5 class="card-title">${auction.eventNo}.${auction.eventTitle}</h5>
+								<p class="card-text">${auction.description}Thisisawidercard
+									with supporting text below as a natural lead-in to additional
+									content. This content is a little bit longer.</p>
+								<p class="card-text">
+									<small class="text-muted">Starts at
+										${auction.startTime} ${auction.startDate}</small>
+								</p>
+								<a href="#" class="btn btn-outline-success" style="width: 10em;">Notify</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</section>
+
 </body>
+
+
 </html>

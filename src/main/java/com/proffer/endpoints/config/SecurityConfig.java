@@ -65,7 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/authenticate", "/auctionhouse/signup", "/auctionhouse/signup/save", "/bidder/signup",
 						"/bidder/signup/save", "/css/**", "/scripts/**", "/", "/category/**", "/proxibid.com",
-						"/carousel/**", "/auctionimage/**", "/catalogimage/**", "/proxibid.com/**", "/login")
+						"/carousel/**", "/auctionimage/**", "/catalogimage/**", "/proxibid.com/**", "/login",
+						"/public/**")
 				.permitAll().anyRequest().authenticated();
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -89,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						username.setSecure(true);
 						username.setHttpOnly(true);
 						response.addCookie(username);
-						
+
 						if (sellerService.existsByEmail(authentication.getName())) {
 							new DefaultRedirectStrategy().sendRedirect(request, response, "/auctionhouse/dashboard");
 						} else {

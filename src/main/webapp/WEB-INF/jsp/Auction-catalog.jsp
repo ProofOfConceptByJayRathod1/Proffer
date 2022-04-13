@@ -39,9 +39,6 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarColor">
 			<ul class="navbar-nav mr-auto">
-				<!-- <li class="nav-item rounded bg-light search-nav-item"><input type="text" id="search" class="bg-light" placeholder="Search bread, cakes, desserts"><span class="fa fa-search text-muted"></span></li>
-              <li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-user-o"></span><span class="text">Login</span></a> </li>
-              <li class="nav-item "><a class="nav-link" href="#"><span class="fa fa-shopping-cart"></span><span class="text">Cart</span></a> </li> -->
 			</ul>
 			<div class="nav-item dropdown ">
 
@@ -74,11 +71,6 @@
 	</nav>
 	<!-- navbar end -->
 	<div class="container">
-
-		<!-- <button id="addRow" type="button" class="btn btn-success">Add another product</button> -->
-
-		<!-- <svg xmlns="http://www.w3.org/2000/svg" id="addRow" style="size: 1cm;" type="button" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Zm4-9H13V8a1,1,0,0,0-2,0v3H8a1,1,0,0,0,0,2h3v3a1,1,0,0,0,2,0V13h3a1,1,0,0,0,0-2Z"/></svg> -->
-		<!-- <form method="post" name="catalog" enctype="multipart/form-data" id="catalogForm" action="/auctionhouse/catalog" > -->
 		<form method="POST" id="auctionform" name="auctionform"
 			enctype="multipart/form-data" action="/auctionhouse/auction">
 			<div class="container">
@@ -87,12 +79,7 @@
 					<p>Enter auction detalils</p>
 				</div>
 
-
 				<!--This is to add auction details-->
-
-
-
-
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="inputEmail4">Event Name</label> <input type="text"
@@ -136,7 +123,6 @@
 							<c:forEach var="category" items="${categories}">
 								<option>${category.categoryName}</option>
 							</c:forEach>
-
 
 							<option>Jwellery</option>
 							<option>Vehicales</option>
@@ -190,8 +176,6 @@
 									<label name="itemDesc">Product/Item description:</label> <input
 										type="text" class="form-control" id="itemDesc" name="itemDesc"
 										placeholder="Describe the product/object/entity/Item" required />
-									<!-- <textarea rows="4" cols="50" name="itemDesc"  type="text" class="form-control" id="itemDesc" form="catalogForm" placeholder="Describe the product/object/entity/Item">
-                                        </textarea> -->
 								</div>
 
 								<!-- <div class="text-right"> -->

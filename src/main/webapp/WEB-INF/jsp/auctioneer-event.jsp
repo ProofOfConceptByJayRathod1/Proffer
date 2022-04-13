@@ -17,11 +17,14 @@
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+
 <link rel="stylesheet" href="/css/event.css" />
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-<script src="/js/auctioneerbid.js"></script>
+<script src="/js/live-bid.js"></script>
 </head>
 
 <body>
@@ -68,13 +71,8 @@
 				</div>
 			</div>
 		</div>
-		</div>
 	</nav>
 	<!-- navbar end -->
-
-
-
-
 	<section>
 		<div class="tabs">
 			<ul class="tab-links">
@@ -84,71 +82,67 @@
 
 			<div class="tab-content">
 				<div id="tab1" class="tab active">
-					<div class="container">
-						<c:forEach var="c" items="${catalog}">
+					<div class="container" id="live-container">
+						<c:forEach var="c" items="${liveItems}">
 							<div class="card">
-								<img src="/catalogimage/${c.itemImage}"
+								<img src="/catalogimage/${c.catalog.itemImage}"
 									style="border: 5px solid #555;" class="card-img-top" />
 								<div class="card-body">
-									<h5 class="card-title">${c.itemId}.${c.itemName}</h5>
-									<p class="card-text">${c.itemDesc}</p>
-
-
-
-
-
-
+									<h5 class="card-title">${c.catalog.itemName}</h5>
+									<p class="card-text">${c.catalog.itemDesc}</p>
 
 									<div id="name-from">
 
 										<div class="container-fluid">
-
 											<div class="row">
 												<div>
-													<small id="${c.itemId}auction" class="text-muted"></small>
+													<small id="${c.catalog.itemId}auction" class="text-muted"></small>
 												</div>
-												<div class="input-group">
-													<button class="btn btn-success" id="${c.itemId}winbid"
-														onClick="finish(`${c.itemId}`,`${eventNo}`,`${c.itemId}`)"
-														style="display: none">Accept</button>
-												</div>
-												<div class="offset-md-8">
-
-
-
-
-
-													<div class="input-group">
-
-														<input type="text" value="${c.itemStartBid}"
-															id="${c.itemId}t" autofocus class="form-control">
-
-														<div class="input-group-append">
-
-															<button class="btn btn-success" id="${c.itemId}"
-																onClick="trigger(this.id)">Start Bid</button>
-
-														</div>
-
-
-
-													</div>
-
-
-
-												</div>
-
 											</div>
 
+											<div class="row">
+												<div class="col">
+													<div class="conatiner">
+														<span style="font-size: 20px; font-weight: 300;">STATUS
+															: <span style="font-weight: 800; color: red;"><i
+																class="fa fa-wifi" aria-hidden="true"></i>
+																${c.bidStatus}</span>
+														</span>
+													</div>
+												</div>
+												<div class="col">
+													<div class="conatiner">
+														<span style="font-size: 20px; font-weight: 300;">HIGH
+															BID : <span style="font-weight: 800; color: blue;">$${c.currentBidValue}</span>
+														</span>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col">
+													<div class="conatiner">
+														<span style="font-size: 20px; font-weight: 300;"> <span
+															style="font-weight: 800; color: red;"></span>
+														</span>
+													</div>
+												</div>
+												<div class="col">
+													<div class="conatiner">
+														<span style="font-size: 16px; font-weight: 300;">BY
+															: <span style="font-weight: 300; color: #0d11e0;">${c.bidderId}</span>
+														</span>
+													</div>
+												</div>
+											</div>
+											<br>
 										</div>
-
 									</div>
 
-
-
-
-
-
+									<c:if test="${c.bidStatus.equals('LIVE')}">
+										<button class="btn btn-success float-right"
+											style="margin-right: 3em; margin-top: 2em;" id=""
+											onClick="closeBid()">ACCEPT & CLOSE</button>
+									</c:if>
 
 
 								</div>
@@ -309,30 +303,28 @@
 						purchased with the expectation to resell for appraisal price, or
 						for profit.</p>
 				</div>
-
-
-
 			</div>
-
 		</div>
-
 	</section>
-
 	<br>
 	<hr>
 	<br>
-
-
-
-	<!-- <footer class="footer" style="height: 20px;">
-        <p >Proxibid </p>
-      </footer> -->
 
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
 
 
+	<script type="text/javascript">
+		function closeBid() {
+			if (confirm('Are you sure you want to close this bid?')) {
 
+				alert("bid sold to ")
+			} else {
+
+			}
+
+		}
+	</script>
 	<script>
 		$(document).ready(
 				function() {
@@ -353,7 +345,6 @@
 							});
 				});
 	</script>
-
 	<script>
 		window.onscroll = function() {
 			myFunction()
@@ -370,8 +361,6 @@
 			}
 		}
 	</script>
-
-
 	<script>
 		$(document).ready(
 				function() {
@@ -387,10 +376,5 @@
 					}
 				});
 	</script>
-
-
-
-
 </body>
-
 </html>

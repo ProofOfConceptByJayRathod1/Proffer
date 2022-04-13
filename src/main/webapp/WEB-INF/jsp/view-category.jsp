@@ -85,7 +85,6 @@
 					<input type="text" class="form-control" name="keyword" id="keyword"
 						placeholder="Search">
 				</form>
-				<!-- <h3>Bid, buy and enjoy!</h3> -->
 			</div>
 		</c:if>
 
@@ -222,13 +221,16 @@
 							<!-- Links -->
 							<h6 class="text-uppercase fw-bold mb-4">Buying & Selling</h6>
 							<p>
-								<a href="http:/localhost:9192/login" class="text-reset">Seller Log in</a>
+								<a href="http:/localhost:9192/login" class="text-reset">Seller
+									Log in</a>
 							</p>
 							<p>
-								<a href="http://localhost:9192/bidder/signup" class="text-reset">Buyer Sign Up</a>
+								<a href="http://localhost:9192/bidder/signup" class="text-reset">Buyer
+									Sign Up</a>
 							</p>
 							<p>
-								<a href="http://localhost:9192/auctionhouse/signup" class="text-reset">Apply To Sell</a>
+								<a href="http://localhost:9192/auctionhouse/signup"
+									class="text-reset">Apply To Sell</a>
 							</p>
 
 						</div>

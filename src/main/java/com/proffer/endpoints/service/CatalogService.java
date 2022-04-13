@@ -30,4 +30,8 @@ public class CatalogService {
 	public List<Catalog> findByKeyword(String keyword) {
 		return catalogRepository.search(keyword);
 	}
+
+	public void save(Catalog c) {
+		catalogRepository.save(c);
+	}
 }

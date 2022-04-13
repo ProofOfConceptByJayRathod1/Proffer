@@ -28,4 +28,9 @@ public class SellerService {
 	public boolean existsByEmail(String email) {
 		return sellerRepository.existsByEmail(email);
 	}
+
+	public Seller findByEmail(String sellerId) {
+		return sellerRepository.findByEmail(sellerId).get();
+
+	}
 }

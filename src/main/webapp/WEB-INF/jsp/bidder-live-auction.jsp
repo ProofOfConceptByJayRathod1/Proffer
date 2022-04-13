@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Document</title>
+<title>Live Auction</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <link
@@ -20,7 +20,6 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-<script src="/js/auctioneerbid.js"></script>
 </head>
 <body>
 
@@ -37,9 +36,6 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarColor">
 			<ul class="navbar-nav mr-auto">
-				<!-- <li class="nav-item rounded bg-light search-nav-item"><input type="text" id="search" class="bg-light" placeholder="Search bread, cakes, desserts"><span class="fa fa-search text-muted"></span></li>
-              <li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-user-o"></span><span class="text">Login</span></a> </li>
-              <li class="nav-item "><a class="nav-link" href="#"><span class="fa fa-shopping-cart"></span><span class="text">Cart</span></a> </li> -->
 			</ul>
 
 			<div class="nav-item dropdown ">
@@ -70,12 +66,9 @@
 				</div>
 			</div>
 		</div>
-		</div>
 	</nav>
+
 	<!-- navbar end -->
-
-
-
 	<input type="hidden" id="b_id" value="${bidderEmail}">
 	<section>
 		<div class="tabs">
@@ -86,70 +79,56 @@
 
 			<div class="tab-content">
 				<div id="tab1" class="tab active">
-					<div class="container">
-						<c:forEach var="c" items="${catalog}">
+					<div class="container" id="live-container">
+						<c:forEach var="c" items="${liveItems}" varStatus="loopStatus">
 							<div class="card">
-								<img src="/catalogimage/${c.itemImage}"
+								<img src="/catalogimage/${c.catalog.itemImage}"
 									style="border: 5px solid #555;" class="card-img-top" />
 								<div class="card-body">
-									<h5 class="card-title">${c.itemName}</h5>
-									<p class="card-text">${c.itemDesc}</p>
-
-
-
-
-
-
+									<h5 class="card-title">${c.catalog.itemName}</h5>
+									<p class="card-text">${c.catalog.itemDesc}</p>
 
 									<div id="name-from">
-
 										<div class="container-fluid">
-
 											<div class="row">
-
 												<div class="offset-md-12">
-
 													<div>
-
 														<!-- amount bid by this person  -->
-
-														<small id="${c.itemId}c" class="text-muted"></small>
-
+														<small id="${c.catalog.itemId}c" class="text-muted"></small>
 													</div>
+													<div class="input-group"
+														id="liveBidArea${loopStatus.index}">
+														<c:choose>
+															<c:when test="${not c.bidderId.equals(bidderId)}">
+																<c:if test="${c.bidStatus.equals('live')}">
+																	<span style="font-size: 20px; font-weight: bold;">Current
+																		bid $${c.currentBidValue} by ${c.bidderId}</span>
 
-													<div class="input-group">
-
-
-
-
-
-														<button class="btn btn-success" id="${c.itemId}b"
-															onClick="highbid(`${c.itemId}`,`${eventNo}`,this.innerHTML,`${bidderEmail}`)">This
-															auction will begin soon.</button>
-
-
-
-
-
+																	<button class="btn btn-success"
+																		id="live-btn1${loopStatus.index}"
+																		onClick="updateBid('${c.id}','${bidderId}','${c.currentBidValue+10}','liveBidArea${loopStatus.index}')">Bid
+																		by ${c.currentBidValue+10}</button>
+																</c:if>
+																<c:if test="${c.bidStatus.equals('Initial')}">
+																	<span style="font-size: 20px; font-weight: bold;">Initial
+																		bid $.${c.currentBidValue} by seller</span>
+																	<button class="btn btn-success"
+																		id="init-btn1${loopStatus.index}"
+																		onClick="updateBid('${c.id}','${bidderId}','${c.currentBidValue+10}','liveBidArea${loopStatus.index}')">Start
+																		bid by $${c.currentBidValue+10}</button>
+																</c:if>
+															</c:when>
+															<c:otherwise>
+																<span style="font-size: 20px; font-weight: bold;">Current
+																	bid $${c.currentBidValue} by You</span>
+																<br>
+															</c:otherwise>
+														</c:choose>
 													</div>
-
-
-
 												</div>
-
 											</div>
-
 										</div>
-
 									</div>
-
-
-
-
-
-
-
-
 								</div>
 							</div>
 						</c:forEach>
@@ -291,46 +270,74 @@
 						bidding. If you are unclear, please contact us at
 						auctionbarn.estates@gmail.com for clarification. If you are still
 						unsure, please enjoy the auction however, please do not bid.
-						IMPORTANT Notices & Disclaimers - Please Read Regarding Appraised
-						Jewelry and Loose Stones - AuctionBarn sends them out to a third
-						party for Retail Replacement Value Appraisals, which are the most
-						common. These types of evaluations are written for insurance
-						needs. This would be the cost to replace the jewelry with an item
-						of equal quality and kind, considered to be the current market
-						price or the replacement value. This type of appraisal is done to
-						protect you in the event of damage or loss of a valuable item. Our
-						appraisals are conducted by independent 3rd Party appraisal firms
-						that utilizes Certified GIA Gemologist. Appraisals should be used
-						for verification of gemstone and/or metal weight, size, and grade
-						only, not actual value. Appraisal value should be considered for
-						insurance purposes only, not actual value, as price varies greatly
-						from retail locations thru out the world. Items should not be
-						purchased with the expectation to resell for appraisal price, or
-						for profit.</p>
+						IMPORTANT Notices and Disclaimers - Please Read Regarding
+						Appraised Jewelry and Loose Stones - AuctionBarn sends them out to
+						a third party for Retail Replacement Value Appraisals, which are
+						the most common. These types of evaluations are written for
+						insurance needs. This would be the cost to replace the jewelry
+						with an item of equal quality and kind, considered to be the
+						current market price or the replacement value. This type of
+						appraisal is done to protect you in the event of damage or loss of
+						a valuable item. Our appraisals are conducted by independent 3rd
+						Party appraisal firms that utilizes Certified GIA Gemologist.
+						Appraisals should be used for verification of gemstone and/or
+						metal weight, size, and grade only, not actual value. Appraisal
+						value should be considered for insurance purposes only, not actual
+						value, as price varies greatly from retail locations thru out the
+						world. Items should not be purchased with the expectation to
+						resell for appraisal price, or for profit.</p>
 				</div>
-
-
-
 			</div>
-
 		</div>
-
 	</section>
-
 	<br>
 	<hr>
 	<br>
-
-
-
-	<!-- <footer class="footer" style="height: 20px;">
-        <p >Proxibid </p>
-      </footer> -->
 
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
 
 
+	<script type="text/javascript" src="/js/live-bid.js">
+		/* var stompClient = null;
+
+		var socket = new SockJS('/bidsocket');
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function(frame) {
+			stompClient.subscribe('/bid/RefreshFeed', function(greeting) {
+				$("#live-container").load(location.href + " #live-container");
+				$("#live-container").load(location.href + " #live-container");
+			});
+		});
+		function updateBid(liveBidId, bidderId, bidValue, target) {
+			$.ajax({
+				type : "POST",
+				url : "http://localhost:9192/public/PlaceBid?id=" + liveBidId
+						+ "&bidderId=" + bidderId + "&bidValue=" + bidValue,
+				contentType : "application/json",
+				async : false,
+				success : function(data) {
+					$("#" + target).load(location.href + " #" + target);
+					stompClient.send("/app/UpdateLiveBid", {}, {});
+				}
+			});
+		} */
+
+		function placeInitialBid(liveBidId, bidderId) {
+			$.ajax({
+				type : "POST",
+				url : "http://localhost:9192/public/GetCurrentBid?id="
+						+ Number(liveBidId) + "&bidderId=" + bidderId,
+				data : {},
+				contentType : "application/json",
+				async : false,
+				success : function(data) {
+					alert(data)
+					console.log(data)
+				}
+			});
+		}
+	</script>
 
 	<script>
 		$(document).ready(
@@ -386,10 +393,5 @@
 					}
 				});
 	</script>
-
-
-
-
 </body>
-
 </html>

@@ -5,7 +5,6 @@ stompClient = Stomp.over(socket);
 stompClient.connect({}, function(frame) {
 
 	//console.log('Connected: ' + frame);
-
 	stompClient.subscribe('/bid/returnbid', function(greeting) {
 		//update to bidder side
 		updateBid(JSON.parse(greeting.body));
@@ -20,7 +19,6 @@ stompClient.connect({}, function(frame) {
 	});
 });
 
-
 function winBid(win) {
 	//console.log(win.bidValue);
 	var bu_id = "#" + win.itemId + "b";
@@ -31,6 +29,15 @@ function sendName() {
 }
 
 function updateBid(message) {
+	//console.log(message);
+
+	/*$.ajax({
+		url: "http://localhost:9192/public/GetCurrentBid",
+		data: message,
+		success: function(result) {
+			console.log(result);
+		}
+	});*/
 	let b_id = "#" + message.itemId + "b";
 	$(b_id).html(message.rbid);
 }

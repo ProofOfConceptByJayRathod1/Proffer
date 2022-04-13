@@ -274,7 +274,7 @@
 
 									<div class="col">
 										<b> Starts in</b>&nbsp;&nbsp; <span
-											onload="countdownTimeStart('${item.startTime}','timer${loop.index}')"
+											onload="countdownTimeStart('${item.startDateTime}','timer${loop.index}')"
 											class="timer${loop.index}">Countdown Timer</span>
 									</div>
 								</div>
@@ -431,9 +431,9 @@
 
 		function countdownTimeStart(startTime, target) {
 
-			let countDownDate = new Date("Apr 11, 2022 " + startTime).getTime();
-			
-			
+			let countDownDate = new Date(startTime).getTime();
+			//let countDownDate = new Date("Apr 11, 2022 " + startTime).getTime();
+
 			// Update the count down every 1 second
 			let x = setInterval(
 					function() {

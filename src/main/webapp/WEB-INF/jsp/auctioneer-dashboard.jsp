@@ -177,23 +177,17 @@ to {
 				</div>
 			</div>
 		</div>
-		</div>
 	</nav>
 	<!-- navbar end -->
 	<div class="container py-3">
-		<h2>
-			Events created by you
+		<h2>Events created by you</h2>
+		<div style="text-align: right;">
+			<a href="http://localhost:9192/auctionhouse/auction"
+				title="create event and add products" role="button"
+				class="buttonarrow">Create an event</a>
+		</div>
 
-			<div style="text-align: right;">
-
-				<a href="http://localhost:9192/auctionhouse/auction"
-					title="create event and add products" role="button"
-					class="buttonarrow">Create an event</a>
-
-
-			</div>
-		</h2>
-		<!-- <div class="title h1 text-center">Proxibid</div> -->
+		<h2>Live events</h2>
 		<!-- Card Start -->
 		<c:forEach var="auction" items="${auctions}">
 
@@ -201,10 +195,6 @@ to {
 				<img src="/auctionimage/${auction.imageName}"
 					style="border: 10px solid;" class="card-img-top" />
 				<div class="card-body">
-					<!-- <h5 class="card-title">
-               ${auction.eventTitle}</h5> -->
-
-
 					<p class="card-text">
 					<div class="container">
 
@@ -237,6 +227,8 @@ to {
 
 										<a href="/auctionhouse/event/${auction.eventNo}"
 											class="btn btn-danger btn-block">Enter this event</a>
+
+
 									</div>
 								</div>
 							</div>
@@ -253,6 +245,64 @@ to {
 		<br>
 
 		<hr>
+
+		<h2>Today's Upcoming events</h2>
+		<!-- Card Start -->
+		<c:forEach var="auction" items="${todayUpcomingAuctions}">
+
+			<div class="card">
+				<img src="/auctionimage/${auction.imageName}"
+					style="border: 10px solid;" class="card-img-top" />
+				<div class="card-body">
+					<p class="card-text">
+					<div class="container">
+
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title">
+											<b>Event Title: </b>${auction.eventTitle}</h5>
+										<p class="card-text">
+											<b>Description: </b>${auction.description}</p>
+										<p class="card-text">
+											<b>Category: </b>${auction.category}</p>
+
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title">Timings of the event</h5>
+										<p class="card-text">
+											<b>Event starts at: </b>${auction.startDate}</p>
+										<p class="card-text">
+											<b>Time:</b>${auction.startTime} AM
+										</p>
+										<p class="card-text">
+											<b>Duration: </b>${auction.duration} minutes
+										</p>
+
+										<%-- <a href="/auctionhouse/event/${auction.eventNo}"
+											class="btn btn-danger btn-block">Enter this event</a> --%>
+										<a href="#" class="btn btn-outline-success btn-block">Notify</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					</p>
+
+				</div>
+			</div>
+		</c:forEach>
+
+		<!-- End of card -->
+
+
+
 	</div>
 
 	<br>

@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class bid {
+public class Bid {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +31,12 @@ public class bid {
 	}
 
 
-	public bid() {
+	public Bid() {
 		super();
 	}
 
 
-	public bid(int bidValue,long itemId,String bidderEmail) {
+	public Bid(int bidValue,long itemId,String bidderEmail) {
 		super();
 		this.itemId = itemId;
 		this.bidderEmail = bidderEmail;
@@ -44,7 +44,7 @@ public class bid {
 	}
 
 
-	public bid(int bidno, long eventNo, long itemId, LocalTime bidTime, String bidderEmail, int bidValue) {
+	public Bid(int bidno, long eventNo, long itemId, LocalTime bidTime, String bidderEmail, int bidValue) {
 		super();
 		this.bidno = bidno;
 		this.eventNo = eventNo;
