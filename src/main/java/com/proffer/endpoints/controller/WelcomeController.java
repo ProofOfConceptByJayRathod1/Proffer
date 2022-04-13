@@ -1,6 +1,5 @@
 package com.proffer.endpoints.controller;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.proffer.endpoints.entity.Auction;
 import com.proffer.endpoints.entity.AuthRequest;
 import com.proffer.endpoints.entity.Catalog;
 import com.proffer.endpoints.repository.AuctionRepository;
+import com.proffer.endpoints.service.AuctionService;
 import com.proffer.endpoints.service.CatalogService;
 import com.proffer.endpoints.service.CategoryService;
-import com.proffer.endpoints.util.DateFormatter;
 import com.proffer.endpoints.util.JwtUtil;
 import com.proffer.endpoints.util.ListUtils;
 
@@ -47,13 +45,7 @@ public class WelcomeController {
 	private CatalogService catalogService;
 
 	@Autowired
-	AuctionRepository auctionRepository;
-
-	@Autowired
-	private JwtUtil jwtUtil;
-
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private AuctionService auctionService;
 
 	public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/webapp/auctionimage";
 
@@ -87,13 +79,12 @@ public class WelcomeController {
 
 		model.addAttribute("catalogItems", catalogService.getFirstEight());
 
-		List<List<Catalog>> listOfListOfCatalog = ListUtils.chunkList(auctionRepository.findAll().get(0).getItems(), 4);
+		List<List<Catalog>> listOfListOfCatalog = ListUtils.chunkList(auctionService.getAll().get(0).getItems(), 4);
 
 		model.addAttribute("auctionFourItems", listOfListOfCatalog.get(0));
 		model.addAttribute("auctionItems", listOfListOfCatalog);
 		model.addAttribute("catalogFiveItems", catalogService.getRandomFive());
-		model.addAttribute("upcomingAuctions", auctionRepository.findFirstThree());
-
+		model.addAttribute("upcomingAuctions", auctionService.findTodaysUpcomingEvents());
 		return "index";
 	}
 
@@ -118,7 +109,7 @@ public class WelcomeController {
 
 		List<Catalog> categorizedList = new ArrayList<>();
 
-		auctionRepository.findAllByCategoryContaining(category.trim().toLowerCase()).stream().forEach((s) -> {
+		auctionService.findAllUpcomingByCategoryContaining(category.trim().toLowerCase()).stream().forEach((s) -> {
 			categorizedList.addAll(s.getItems());
 		});
 		model.addAttribute("categories", categoryservice.getAllCategories());
@@ -134,33 +125,6 @@ public class WelcomeController {
 		return multipartResolver;
 	}
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public String generateToken(@ModelAttribute AuthRequest authRequest, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
-		System.out.println(authRequest.getUserName());
-		System.out.println(authRequest.getPassword());
-		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
-		} catch (Exception ex) {
-			throw new Exception("inavalid username/password");
-
-		}
-
-		System.out.println(jwtUtil.generateToken(authRequest.getUserName()));
-
-		Cookie cookie = new Cookie("token", jwtUtil.generateToken(authRequest.getUserName()));
-		cookie.setMaxAge(60 * 60 * 10);
-		response.addCookie(cookie);
-		// HttpSession session = request.getSession();
-		// session.setAttribute("token",
-		// jwtUtil.generateToken(authRequest.getUserName()));
-		// response.sendRedirect("/welcome");
-		return "auctioneer-welcome";
-
-	}
-
 	@RequestMapping(value = "/logout")
 	public String bidderLogout(HttpServletRequest request, HttpServletResponse response) {
 
@@ -171,12 +135,4 @@ public class WelcomeController {
 		response.addCookie(cookie);
 		return "redirect:/proxibid.com";
 	}
-
-	@RequestMapping(value = "/public/updateEventStaus/{eventId}")
-	@ResponseBody
-	public String updateEventStatus(@PathVariable int eventId) {
-		System.out.println("Event updated successfuly");
-		return "Success";
-	}
-
 }

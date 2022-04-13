@@ -251,9 +251,7 @@
 							if (result == "failure") {
 								document.getElementById("message").innerHTML = "Sorry auction could not be created";
 								document.getElementById("auctionform").reset();
-							}
-
-							else if (result == "success") {
+							} else if (result == "success") {
 								swal(
 										{
 											title : "Auction successfully created",

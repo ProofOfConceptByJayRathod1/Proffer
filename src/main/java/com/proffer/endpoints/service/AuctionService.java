@@ -16,8 +16,20 @@ public class AuctionService {
 	@Autowired
 	private AuctionRepository auctionRepository;
 
+	public List<Auction> findAllByCategoryContaining(String category) {
+		return auctionRepository.findAllByCategoryContaining(category);
+	}
+
+	public List<Auction> findAllUpcomingByCategoryContaining(String category) {
+		return auctionRepository.findUpcomingAuctionsByCategory(LocalDateTime.now(), category);
+	}
+
 	public List<Auction> getTodaysEvents() {
 		return auctionRepository.findTodaysEvents();
+	}
+
+	public List<Auction> getAll() {
+		return auctionRepository.findAll();
 	}
 
 	public List<Auction> getByCategory(String category) {

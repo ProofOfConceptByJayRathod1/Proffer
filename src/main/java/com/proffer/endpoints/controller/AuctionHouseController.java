@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,6 +35,7 @@ import com.proffer.endpoints.service.CategoryService;
 import com.proffer.endpoints.service.LiveBidService;
 import com.proffer.endpoints.service.SellerService;
 import com.proffer.endpoints.util.AuctionStatus;
+import com.proffer.endpoints.util.DateFormatter;
 import com.proffer.endpoints.util.JwtUtil;
 
 @Controller
@@ -98,10 +100,22 @@ public class AuctionHouseController {
 			e.printStackTrace();
 		}
 
-		auction.setImageName(filename);
+		String startDate = auction.getStartDate().toString();
+		String startTime = auction.getStartTime().toString();
+
+		// merge date and time
+		LocalDateTime localDateTime = DateFormatter.getFormattedLocalDateTime(startDate, startTime);
+
+		// set local date time in default format
+		auction.setDate(localDateTime);
+
+		// change auction date format
+		auction.setStartDateTime(DateFormatter.formatToFullDateTime(startDate, startTime));
+
+		// calculate end time and save
+		auction.setEndDateTime(auction.getDate().plusMinutes(auction.getDuration()));
 		auction.setStatus(AuctionStatus.CREATED.toString());
 		auctionService.save(auction);
-
 		return "Save Data Successfully ! ";
 	}
 
@@ -175,6 +189,22 @@ public class AuctionHouseController {
 
 				e.printStackTrace();
 			}
+
+			String startDate = auction.getStartDate().toString();
+			String startTime = auction.getStartTime().toString();
+
+			// merge date and time
+			LocalDateTime localDateTime = DateFormatter.getFormattedLocalDateTime(startDate, startTime);
+
+			// set local date time in default format
+			auction.setDate(localDateTime);
+
+			// change auction date format
+			auction.setStartDateTime(DateFormatter.formatToFullDateTime(startDate, startTime));
+
+			// calculate end time and save
+			auction.setEndDateTime(auction.getDate().plusMinutes(auction.getDuration()));
+			auction.setStatus(AuctionStatus.CREATED.toString());
 
 			auction.setImageName(filename1);
 			String authorizationHeader = null;

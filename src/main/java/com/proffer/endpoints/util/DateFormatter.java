@@ -10,6 +10,7 @@ import java.util.Locale;
 
 public class DateFormatter {
 
+	// convert one format date to another
 	public static String format(SimpleDateFormat inputFormat, SimpleDateFormat outputFormat, LocalDateTime dateTime) {
 		Date date = null;
 		try {
@@ -20,6 +21,8 @@ public class DateFormatter {
 		return outputFormat.format(date);
 	}
 
+	// converts yyyy-MM-dd'T'HH:mm to MMM dd,yyyy HH:mm:ss
+	// used for countdown in JS
 	public static String formatToFullDateTime(String date, String time) {
 		LocalDate datePart = LocalDate.parse(date);
 		LocalTime timePart = LocalTime.parse(time);
@@ -29,6 +32,7 @@ public class DateFormatter {
 				new SimpleDateFormat("MMM dd,yyyy HH:mm:ss", Locale.US), dateTime);
 	}
 
+	// merge date and time
 	public static LocalDateTime getFormattedLocalDateTime(String date, String time) {
 		LocalDate datePart = LocalDate.parse(date);
 		LocalTime timePart = LocalTime.parse(time);

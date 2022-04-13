@@ -28,26 +28,21 @@ public class Auction {
 	private String description;
 	private String category;
 	private String imageName;
-//	@Temporal(TemporalType.DATE)
+	private long duration;
+	private String sellerId;
+	private String startDateTime;
+	private LocalDateTime date;
+	private LocalDateTime endDateTime;
+	private String status;
+
+	@OneToMany(targetEntity = Catalog.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "event_id", referencedColumnName = "eventNo")
+	private List<Catalog> items;
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
 	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
 	private LocalTime startTime;
-	private long duration;
-	@OneToMany(targetEntity = Catalog.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "event_id", referencedColumnName = "eventNo")
-	private List<Catalog> items;
-//	@OneToOne(targetEntity=Seller.class)
-//	@JoinColumn(name="seller_id",referencedColumnName="email")
-	private String sellerId;
-
-	private String startDateTime;
-
-	private LocalDateTime date;
-	private LocalDateTime endDateTime;
-
-	/* new code */
-	private String status;
 
 	public Auction() {
 		super();
