@@ -60,7 +60,13 @@
 				<div class="dropdown-menu dropdown-menu-right"
 					style="margin-right: 10px;">
 					<a class="dropdown-item"
-						href="http://localhost:9192/bidder/dashboard">Dashboard</a> <a
+						href="http://localhost:9192/bidder/dashboard">Dashboard</a>
+						
+						<a class="dropdown-item"
+						href="http://localhost:9192/bidder/cart">Cart</a>
+
+
+						<a
 						class="dropdown-item" href="http://localhost:9192/logout">Log
 						Out</a>
 				</div>
@@ -171,9 +177,10 @@
 										<div class="container text-center"
 											style="font-weight: 800; color: red; font-size: 3em;">
 											<span>You won!!!</span> <br>
+
 											<button class="btn btn-dark float-right"
 												style="margin-right: 0.5em; margin-top: 2em; width: 10em;"
-												onClick="">Checkout Now</button>
+												onClick="redirectToPayment()">Checkout Now</button>
 										</div>
 
 									</c:if>
@@ -371,7 +378,11 @@
 
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
-
+		<script>
+			function redirectToPayment() {
+				window.location.replace("http://localhost:9192/bidder/cart");
+	}
+	 </script>
 
 	<script type="text/javascript" src="/js/live-bid.js">
 		/* var stompClient = null;

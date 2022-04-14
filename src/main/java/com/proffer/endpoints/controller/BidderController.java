@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,40 @@ public class BidderController {
 	@Autowired
 	private LiveBidService liveBidService;
 
+	
+	@RequestMapping(value = "/bidder/cart", method = RequestMethod.GET)
+	public String bidWinnerCart(Model model, HttpServletRequest request, HttpServletResponse response) {
+//		model.addAttribute("bidderId", username);
+		
+		try {
+			String authorizationHeader = null;
+			
+			Cookie[] cookies = request.getCookies();
+			String username = null;
+			for (Cookie c : cookies) {
+				if (c.getName().equals("token")) {
+					authorizationHeader = c.getValue();
+				}
+				if (c.getName().equals("username")) {
+					username = c.getValue();
+				}
+			}
+			model.addAttribute("bidderEmail", jwtUtil.extractUsername(authorizationHeader));
+
+			
+			//  Block of code to try
+			}
+			catch(Exception e) {
+			  //  Block of code to handle errors
+				return "Error happened";
+			}
+		return "cart";
+	}
+	
+	
+	
+	
+	
 	@RequestMapping(value = "/bidder/signup")
 	public String bidderSignUp(@ModelAttribute Bidder bidder) {
 		return "bidder-signup";
