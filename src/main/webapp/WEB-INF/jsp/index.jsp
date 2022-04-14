@@ -423,42 +423,6 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-	<script type="text/javascript">
-		//register onload event for span tag
-		$(function() {
-			$('span[onload]').trigger('onload');
-		});
-
-		function countdownTimeStart(startTime, target) {
-
-			let countDownDate = new Date(startTime).getTime();
-			//let countDownDate = new Date("Apr 11, 2022 " + startTime).getTime();
-
-			// Update the count down every 1 second
-			let x = setInterval(
-					function() {
-
-						var now = new Date().getTime();
-						distance = countDownDate - now;
-						let hours = Math
-								.floor((distance % (1000 * 60 * 60 * 24))
-										/ (1000 * 60 * 60));
-						let minutes = Math.floor((distance % (1000 * 60 * 60))
-								/ (1000 * 60));
-						let seconds = Math
-								.floor((distance % (1000 * 60)) / 1000);
-
-						let updatedTime = hours + "h " + minutes + "m "
-								+ seconds + "s ";
-
-						document.getElementsByClassName(target)[0].innerText = updatedTime;
-
-						if (distance < 0) {
-							clearInterval(x);
-							document.getElementsByClassName(target)[0].innerHTML = "EXPIRED";
-						}
-					}, 1000);
-		}
-	</script>
+	<script type="text/javascript" src="/js/countdown-timer.js"></script>
 </body>
 </html>

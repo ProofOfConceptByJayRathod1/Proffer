@@ -2,8 +2,6 @@ package com.proffer.endpoints.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.proffer.endpoints.entity.Auction;
-import com.proffer.endpoints.entity.BidWinner;
 import com.proffer.endpoints.entity.Bidder;
 import com.proffer.endpoints.service.AuctionService;
 import com.proffer.endpoints.service.BidderService;
@@ -53,40 +48,32 @@ public class BidderController {
 	@Autowired
 	private LiveBidService liveBidService;
 
-	
 	@RequestMapping(value = "/bidder/cart", method = RequestMethod.GET)
 	public String bidWinnerCart(Model model, HttpServletRequest request, HttpServletResponse response) {
 //		model.addAttribute("bidderId", username);
-		
+
 		try {
 			String authorizationHeader = null;
-			
+
 			Cookie[] cookies = request.getCookies();
-			String username = null;
 			for (Cookie c : cookies) {
 				if (c.getName().equals("token")) {
 					authorizationHeader = c.getValue();
 				}
 				if (c.getName().equals("username")) {
-					username = c.getValue();
+					c.getValue();
 				}
 			}
 			model.addAttribute("bidderEmail", jwtUtil.extractUsername(authorizationHeader));
 
-			
-			//  Block of code to try
-			}
-			catch(Exception e) {
-			  //  Block of code to handle errors
-				return "Error happened";
-			}
+			// Block of code to try
+		} catch (Exception e) {
+			// Block of code to handle errors
+			return "Error happened";
+		}
 		return "cart";
 	}
-	
-	
-	
-	
-	
+
 	@RequestMapping(value = "/bidder/signup")
 	public String bidderSignUp(@ModelAttribute Bidder bidder) {
 		return "bidder-signup";
@@ -195,16 +182,11 @@ public class BidderController {
 		return "bidder-live-auction";
 	}
 
-	@RequestMapping(value = "/bidder/bidwinner", method = RequestMethod.POST)
-	@ResponseBody
-	public String winnerPost(BidWinner bidWinner) {
-		System.out.println("ok winner");
+	@RequestMapping(value = "/bidder/history")
+	public String histroy(Model model) {
 
-		System.out.println(bidWinner.getAmount());
-		System.out.println(bidWinner.getBidderId());
-		System.out.println(bidWinner.getEventNo());
-		System.out.println(bidWinner.getItemId());
-		return "success";
+		// model.addAllAttributes(null,null);
+		return "bidder-history";
 	}
 
 }

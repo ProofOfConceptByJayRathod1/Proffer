@@ -60,14 +60,12 @@
 				<div class="dropdown-menu dropdown-menu-right"
 					style="margin-right: 10px;">
 					<a class="dropdown-item"
-						href="http://localhost:9192/bidder/dashboard">Dashboard</a>
-						
-						<a class="dropdown-item"
-						href="http://localhost:9192/bidder/cart">Cart</a>
-
-
-						<a
-						class="dropdown-item" href="http://localhost:9192/logout">Log
+						href="http://localhost:9192/bidder/dashboard">Dashboard</a> <a
+						class="dropdown-item" href="http://localhost:9192/bidder/cart">My
+						Cart</a> <a class="dropdown-item"
+						href="http://localhost:9192/bidder/dashboard">History</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="http://localhost:9192/logout">Log
 						Out</a>
 				</div>
 			</div>
@@ -378,52 +376,13 @@
 
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
-		<script>
-			function redirectToPayment() {
-				window.location.replace("http://localhost:9192/bidder/cart");
-	}
-	 </script>
-
-	<script type="text/javascript" src="/js/live-bid.js">
-		/* var stompClient = null;
-
-		var socket = new SockJS('/bidsocket');
-		stompClient = Stomp.over(socket);
-		stompClient.connect({}, function(frame) {
-			stompClient.subscribe('/bid/RefreshFeed', function(greeting) {
-				$("#live-container").load(location.href + " #live-container");
-				$("#live-container").load(location.href + " #live-container");
-			});
-		});
-		function updateBid(liveBidId, bidderId, bidValue, target) {
-			$.ajax({
-				type : "POST",
-				url : "http://localhost:9192/public/PlaceBid?id=" + liveBidId
-						+ "&bidderId=" + bidderId + "&bidValue=" + bidValue,
-				contentType : "application/json",
-				async : false,
-				success : function(data) {
-					$("#" + target).load(location.href + " #" + target);
-					stompClient.send("/app/UpdateLiveBid", {}, {});
-				}
-			});
-		} */
-
-		function placeInitialBid(liveBidId, bidderId) {
-			$.ajax({
-				type : "POST",
-				url : "http://localhost:9192/public/GetCurrentBid?id="
-						+ Number(liveBidId) + "&bidderId=" + bidderId,
-				data : {},
-				contentType : "application/json",
-				async : false,
-				success : function(data) {
-					alert(data)
-					console.log(data)
-				}
-			});
+	<script>
+		function redirectToPayment() {
+			window.location.replace("http://localhost:9192/bidder/cart");
 		}
 	</script>
+
+	<script type="text/javascript" src="/js/live-bid.js"></script>
 
 	<script>
 		$(document).ready(
