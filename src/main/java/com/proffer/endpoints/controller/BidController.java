@@ -52,6 +52,7 @@ public class BidController {
 		bid.setBidValue(bidValue);
 		bid.setItemId(liveBid.getCatalog().getItemId());
 		bid.setBidStatus(liveBid.getBidStatus());
+		bid.setEventNo(liveBid.getAuctionId());
 
 		// save bid for log
 		bidService.saveBid(bid);
@@ -78,6 +79,7 @@ public class BidController {
 		bidWinner.setAmount(bidValue);
 		bidWinner.setEventNo(bid.getAuctionId());
 		bidWinner.setTimestamp(now);
+		bidWinner.setItemId(bid.getCatalog().getItemId());
 
 		// save bid winner
 		bidWinnerService.save(bidWinner);

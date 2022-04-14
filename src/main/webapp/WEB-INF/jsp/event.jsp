@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Document</title>
+<title>Live Auction Catalog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <link
@@ -58,7 +58,7 @@
  %> <i class="fa fa-user rounded-circle" aria-hidden="true"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right"
-				style="margin-right: 10px;">
+					style="margin-right: 10px;">
 					<a class="dropdown-item"
 						href="http://localhost:9192/bidder/dashboard">Dashboard</a> <a
 						class="dropdown-item"
@@ -87,12 +87,7 @@
 
 					<div class="row">
 
-						<div class="col">
-							<b> Starts in</b>&nbsp;&nbsp; <span
-								onload="countdownTimeStart('${items.startTime}','timer')"
-								class="timer">Countdown Timer</span>
-						</div>
-
+						<div class="col"></div>
 						<div class="col"
 							style="border-left: 1px solid rgb(170, 170, 170);">
 
@@ -104,7 +99,7 @@
 						style="border-right: 1px solid rgb(170, 170, 170);">
 						<a href="/bidder/live-auction/${eventNumber}"
 							class="btn btn-danger"> <i class="fa fa-wifi"
-							aria-hidden="true"></i> Enter live auction
+							aria-hidden="true"></i> Enter in live auction
 						</a>
 					</div>
 
@@ -333,54 +328,6 @@
 
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
-
-	<script type="text/javascript">
-		$(function() {
-			$('span[onload]').trigger('onload');
-		});
-
-		function countdownTimeStart(startTime, target) {
-
-			let countDownDate = new Date("Apr 11, 2022 " + startTime).getTime();
-			// Update the count down every 1 second
-			let x = setInterval(
-					function() {
-
-						var now = new Date().getTime();
-						distance = countDownDate - now;
-						let hours = Math
-								.floor((distance % (1000 * 60 * 60 * 24))
-										/ (1000 * 60 * 60));
-						let minutes = Math.floor((distance % (1000 * 60 * 60))
-								/ (1000 * 60));
-						let seconds = Math
-								.floor((distance % (1000 * 60)) / 1000);
-
-						let updatedTime = hours + "h " + minutes + "m "
-								+ seconds + "s ";
-
-						document.getElementsByClassName(target)[0].innerText = updatedTime;
-
-						if (distance < 0) {
-							clearInterval(x);
-							document.getElementsByClassName(target)[0].innerHTML = "EXPIRED";
-							updateStatus('${eventNumber}');
-
-						}
-					}, 1000);
-		}
-
-		function updateStatus(eventId) {
-			$.ajax({
-				url : "http://localhost:9192/public/updateEventStaus/"
-						+ eventId,
-				success : function(result) {
-
-				}
-			});
-		}
-	</script>
-
 	<script>
 		$(document).ready(
 				function() {

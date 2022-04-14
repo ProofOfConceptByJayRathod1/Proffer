@@ -164,7 +164,7 @@
 									<c:if test="${c.bidStatus.equals('LIVE')}">
 										<button class="btn btn-success float-right"
 											style="margin-right: 3em; margin-top: 2em;" id=""
-											onClick="closeBid('${c.id}','${c.bidderId}','${c.currentBidValue+10}','liveBidArea${loopStatus.index}')">ACCEPT
+											onClick="closeBid('${c.id}','${c.bidderId}','${c.currentBidValue}','liveBidArea${loopStatus.index}')">ACCEPT
 											& CLOSE</button>
 									</c:if>
 

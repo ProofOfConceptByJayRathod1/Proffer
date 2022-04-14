@@ -34,14 +34,7 @@
 	border: white solid 1px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
-	/* Setting opacity so button isn't so bright.  Could use a filter. */
 	opacity: 0.95;
-	/* Setting right padding for button 
-to push text away from the icon which is
-positioned as absolute to enable animations. 
-No need to declare button max/min width as button
-is responsive to font size.
-*/
 	padding-right: 3.5em;
 	cursor: pointer;
 }
@@ -57,11 +50,6 @@ is responsive to font size.
 	width: 2.8em;
 	transition: 0.2s;
 	transform-origin: 50% 60%;
-
-	/*  Uncomment below to set icon background color.  Set as black 
-in example with RGB opacity to  make it stand out a bit more.   */
-
-	/*  background: rgba(0,0,0,0.10); */
 }
 
 /* Arrow Button Markup  */
@@ -145,9 +133,6 @@ to {
 		</button>
 		<div class="collapse navbar-collapse" id="navbarColor">
 			<ul class="navbar-nav mr-auto">
-				<!-- <li class="nav-item rounded bg-light search-nav-item"><input type="text" id="search" class="bg-light" placeholder="Search bread, cakes, desserts"><span class="fa fa-search text-muted"></span></li>
-              <li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-user-o"></span><span class="text">Login</span></a> </li>
-              <li class="nav-item "><a class="nav-link" href="#"><span class="fa fa-shopping-cart"></span><span class="text">Cart</span></a> </li> -->
 			</ul>
 			<div class="nav-item dropdown ">
 
@@ -209,6 +194,10 @@ to {
 										<p class="card-text">
 											<b>Category: </b>${auction.category}</p>
 
+										<p class="card-text">
+											<span style="font-weight: 800; color: red;"><i
+												class="fa fa-wifi" aria-hidden="true"></i> LIVE</span>
+										</p>
 									</div>
 								</div>
 							</div>
@@ -217,26 +206,25 @@ to {
 									<div class="card-body">
 										<h5 class="card-title">Timings of the event</h5>
 										<p class="card-text">
-											<b>Event starts at: </b>${auction.startDate}</p>
+											<b>Event starts on: </b>${auction.startDate}</p>
 										<p class="card-text">
-											<b>Time:</b>${auction.startTime} AM
+											<b>Start Time : </b>${auction.startTime}
 										</p>
 										<p class="card-text">
-											<b>Duration: </b>${auction.duration} minutes
+											<b>End Time : </b>${auction.getEndDateTime().toLocalTime().toString()}
+
+										</p>
+										<p class="card-text">
+											<b>Duration : </b>${auction.duration} minutes
 										</p>
 
 										<a href="/auctionhouse/event/${auction.eventNo}"
 											class="btn btn-danger btn-block">Enter this event</a>
-
-
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					</p>
-
 				</div>
 			</div>
 		</c:forEach>
@@ -276,51 +264,32 @@ to {
 									<div class="card-body">
 										<h5 class="card-title">Timings of the event</h5>
 										<p class="card-text">
-											<b>Event starts at: </b>${auction.startDate}</p>
+											<b>Event starts on: </b>${auction.startDate}</p>
 										<p class="card-text">
-											<b>Time:</b>${auction.startTime} AM
+											<b>Start Time : </b>${auction.startTime}
 										</p>
 										<p class="card-text">
-											<b>Duration: </b>${auction.duration} minutes
+											<b>End Time : </b>${auction.getEndDateTime().toLocalTime().toString()}
 										</p>
-
-										<%-- <a href="/auctionhouse/event/${auction.eventNo}"
-											class="btn btn-danger btn-block">Enter this event</a> --%>
+										<p class="card-text">
+											<b>Duration : </b>${auction.duration} minutes
+										</p>
 										<a href="#" class="btn btn-outline-success btn-block">Notify</a>
+
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					</p>
-
 				</div>
 			</div>
 		</c:forEach>
-
 		<!-- End of card -->
-
-
-
 	</div>
-
 	<br>
 	<hr>
 	<br>
-
-
-
-	<!-- <footer class="footer" style="height: 20px;">
-        <p >Proxibid </p>
-      </footer> -->
-
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
-
-
-
-
 </body>
-
 </html>

@@ -139,8 +139,8 @@
 									with supporting text below as a natural lead-in to additional
 									content. This content is a little bit longer.</p>
 								<p class="card-text">
-									<small class="text-muted">Starts at
-										${auction.startTime} ${auction.startDate}</small>
+									<span style="font-weight: 800; color: red;"><i
+										class="fa fa-wifi" aria-hidden="true"></i> LIVE</span>
 								</p>
 								<a href="/bidder/event/${auction.eventNo}"
 									class="btn btn-primary"><b>Enter this auction event</b></a>
@@ -157,7 +157,8 @@
 	<section id="products">
 		<div class="container">
 			<h2>Today's upcoming events</h2>
-			<c:forEach var="auction" items="${upcomingTodaysAuctions}">
+			<c:forEach var="auction" items="${upcomingTodaysAuctions}"
+				varStatus="loop">
 				<div class="card mb-3" style="max-width: fit-content;">
 					<div class="row no-gutters">
 						<div class="col-md-4">
@@ -170,10 +171,17 @@
 								<p class="card-text">${auction.description}Thisisawidercard
 									with supporting text below as a natural lead-in to additional
 									content. This content is a little bit longer.</p>
+
+
+
 								<p class="card-text">
-									<small class="text-muted">Starts at
-										${auction.startTime} ${auction.startDate}</small>
+									<b> Starts in</b>&nbsp;&nbsp; <span
+										onload="countdownTimeStart('${auction.startDateTime}','timer${loop.index}')"
+										class="timer${loop.index}">Countdown Timer</span>
 								</p>
+
+
+
 								<a href="#" class="btn btn-outline-success" style="width: 10em;">Notify</a>
 							</div>
 						</div>
@@ -183,7 +191,8 @@
 		</div>
 	</section>
 
+	<script type="text/javascript" src="/js/countdown-timer.js">
+		
+	</script>
 </body>
-
-
 </html>
