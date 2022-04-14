@@ -152,8 +152,6 @@ public class BidderController {
 		}
 		model.addAttribute("bidderEmail", jwtUtil.extractUsername(authorizationHeader));
 		model.addAttribute("bidderId", username);
-		// model.addAttribute("bidderId", a);
-
 		return "bidder-live-auction";
 	}
 

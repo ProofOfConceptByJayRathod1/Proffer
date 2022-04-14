@@ -28,8 +28,9 @@ CREATE TABLE `bid_winner` (
   `bidder_id` varchar(255) DEFAULT NULL,
   `event_no` bigint NOT NULL,
   `item_id` bigint NOT NULL,
+  `timestamp` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +39,7 @@ CREATE TABLE `bid_winner` (
 
 LOCK TABLES `bid_winner` WRITE;
 /*!40000 ALTER TABLE `bid_winner` DISABLE KEYS */;
-INSERT INTO `bid_winner` VALUES (1,4290,'cj@gmail.com',3,5);
+INSERT INTO `bid_winner` VALUES (1,4290,'cj@gmail.com',3,5,NULL),(2,4270,'am@gmail.com',3,5,NULL),(3,1200,'tony@gmail.com',4,14,NULL),(4,295,'tony@gmail.com',8,13,'2022-04-13 16:37:00'),(5,320,'',8,0,'2022-04-13 19:27:15'),(6,305,'tony@gmail.com',8,0,'2022-04-13 19:32:47'),(7,345,'tony@gmail.com',8,0,'2022-04-13 21:43:56'),(8,44260,'cj@gmail.com',8,0,'2022-04-13 21:46:47');
 /*!40000 ALTER TABLE `bid_winner` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-11 11:56:37
+-- Dump completed on 2022-04-14 11:15:12

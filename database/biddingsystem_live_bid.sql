@@ -16,30 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `seller`
+-- Table structure for table `live_bid`
 --
 
-DROP TABLE IF EXISTS `seller`;
+DROP TABLE IF EXISTS `live_bid`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `seller` (
-  `email` varchar(255) NOT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `contact` varchar(255) DEFAULT NULL,
-  `house_name` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `live_bid` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `auction_id` bigint NOT NULL,
+  `bid_status` varchar(255) DEFAULT NULL,
+  `bid_time` time DEFAULT NULL,
+  `bidder_id` varchar(255) DEFAULT NULL,
+  `current_bid_value` int NOT NULL,
+  `item_id` bigint DEFAULT NULL,
+  `bid_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKbf8m4r4494k8fjn9tv19jyahe` (`item_id`),
+  CONSTRAINT `FKbf8m4r4494k8fjn9tv19jyahe` FOREIGN KEY (`item_id`) REFERENCES `catalog` (`item_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `seller`
+-- Dumping data for table `live_bid`
 --
 
-LOCK TABLES `seller` WRITE;
-/*!40000 ALTER TABLE `seller` DISABLE KEYS */;
-INSERT INTO `seller` VALUES ('am@gmail.com','123,Am House','8723626326','AM House','$2a$10$hfqy1xFeckEBIFg3j2Mqb.99mxX8LS3Q1J0QFyFUw3uh4sxI8jYcy'),('avinashsellerid@gmail.com','AvinashAuctionHouseAddress','9512710401','AvinashAuctionHouseName','AvinashPassword'),('jaysellerid@gmail.com','JayAuctionHouseAddress','9512710422','JayAuctionHouseName','$2a$10$YrCpOD/yrnekOxjfC3PVV.od5t86AAmtj5ZeaFJr/95yKpYpdPYRi'),('sq@gmail.com','SQSQ','123454665','SQ','$2a$10$GlJ9vHT2iBaoKWEVyP7Tf.4s28TcT4xnyuGexS2ORPmixL3KHBvq.');
-/*!40000 ALTER TABLE `seller` ENABLE KEYS */;
+LOCK TABLES `live_bid` WRITE;
+/*!40000 ALTER TABLE `live_bid` DISABLE KEYS */;
+INSERT INTO `live_bid` VALUES (10,3,'INITIAL','11:12:00','None',4270,5,'2022-04-14'),(11,3,'INITIAL','11:12:00','None',11837,6,'2022-04-14'),(12,3,'INITIAL','11:12:00','None',69160,7,'2022-04-14'),(13,3,'INITIAL','11:12:00','None',13500,9,'2022-04-14'),(14,5,'INITIAL','11:12:00','None',18000,8,'2022-04-14'),(15,5,'INITIAL','11:12:00','None',110,16,'2022-04-14'),(16,5,'INITIAL','11:12:00','None',4270,18,'2022-04-14'),(17,5,'INITIAL','11:12:00','None',13500,19,'2022-04-14'),(18,8,'INITIAL','11:12:00','None',44230,10,'2022-04-14'),(19,8,'INITIAL','11:12:00','None',65,13,'2022-04-14');
+/*!40000 ALTER TABLE `live_bid` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

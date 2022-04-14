@@ -32,8 +32,12 @@ CREATE TABLE `auction` (
   `seller_id` varchar(255) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `start_time` time DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `start_date_time` varchar(255) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `end_date_time` datetime DEFAULT NULL,
   PRIMARY KEY (`event_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +46,7 @@ CREATE TABLE `auction` (
 
 LOCK TABLES `auction` WRITE;
 /*!40000 ALTER TABLE `auction` DISABLE KEYS */;
-INSERT INTO `auction` VALUES (3,'Jewelry/ Gemstones & Watches','Auctionbarn Estates is a family Jewelry and watch business that is celebrating our 100th Anniversary in 2020, our online business was created in 1999 to bring rare & beautiful items to online auction',120,' Rare Rolex Certified Watches & Fine Jewelry by Auctionbarn Estates','11.jpg','avinashsellerid@gmail.com','2022-03-16','22:00:00'),(4,'Art/ Antiques & Collectibles','BK Auctions is pleased to present this catalog which is full of luxury and collectible goods for everyone.',240,' Paper Money, Artwork, & Coin Event!','1.jpg','avinashsellerid@gmail.com','2022-03-18','23:00:00'),(5,'Jewelry/ Gemstones & Watches','Auctionbarn Estates is a family Jewelry and watch business that is celebrating our 100th Anniversary in 2020, our online business was created in 1999 to bring rare & beautiful items to online auction',120,' Rare Rolex Certified Watches & Fine Jewelry','11.jpg','avinashsellerid@gmail.com','2022-03-16','09:00:00'),(6,'Art/ Antiques & Collectibles','Historical rocks',10,'Rocks and Rolls','microservice architecture.png','am@gmail.com','2022-05-01','17:00:00');
+INSERT INTO `auction` VALUES (3,'Jewelry/ Gemstones & Watches','Auctionbarn Estates is a family Jewelry and watch business that is celebrating our 100th Anniversary in 2020, our online business was created in 1999 to bring rare & beautiful items to online auction',240,' Rare Rolex Certified Watches & Fine Jewelry by Auctionbarn Estates','11.jpg','sq@gmail.com','2022-04-14','15:00:00','CREATED','Apr 14,2022 15:00:00','2022-04-14 15:00:00','2022-04-14 19:00:00'),(4,'Art/ Antiques & Collectibles','BK Auctions is pleased to present this catalog which is full of luxury and collectible goods for everyone.',240,' Paper Money, Artwork, & Coin Event!','1.jpg','sq@gmail.com','2022-04-15','10:00:00','CREATED','Apr 15,2022 10:00:00','2022-04-15 10:00:00','2022-04-15 14:00:00'),(5,'Jewelry/ Gemstones & Watches','Auctionbarn Estates is a family Jewelry and watch business that is celebrating our 100th Anniversary in 2020, our online business was created in 1999 to bring rare & beautiful items to online auction',420,' Rare Rolex Certified Watches & Fine Jewelry','11.jpg','sq@gmail.com','2022-04-14','10:00:00','CREATED','Apr 14,2022 10:00:00','2022-04-14 10:00:00','2022-04-16 17:00:00'),(6,'Art/ Antiques & Collectibles','Historical rocks',120,'Rocks and Rolls','microservice architecture.png','am@gmail.com','2022-04-14','17:00:00','CREATED','Apr 14,2022 17:00:00','2022-04-14 17:00:00','2022-05-01 19:00:00'),(7,'Art/ Antiques & Collectibles','Historical rocks',180,'Rocks and Rolls','microservice architecture.png','am@gmail.com','2022-04-15','20:00:00','CREATED','Apr 12,2022 20:00:00','2022-04-15 20:00:00','2022-04-15 23:00:00'),(8,'Art/ Antiques & Collectibles','Historical rocks',780,'Rocks and Rolls','microservice architecture.png','am@gmail.com','2022-04-14','09:00:00','CREATED','Apr 14,2022 09:00:00','2022-04-14 09:00:00','2022-04-14 22:00:00');
 /*!40000 ALTER TABLE `auction` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-11 11:56:37
+-- Dump completed on 2022-04-14 11:15:13

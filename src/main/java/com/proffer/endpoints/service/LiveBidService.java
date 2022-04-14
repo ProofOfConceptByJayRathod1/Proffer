@@ -18,6 +18,10 @@ public class LiveBidService {
 		return liveBidRepository.save(liveBid);
 	}
 
+	public void removeById(Long id) {
+		liveBidRepository.deleteById(id);
+	}
+
 	public List<LiveBid> findAllByAuctionId(long auctionId) {
 		return liveBidRepository.findAllByAuctionId(auctionId);
 	}

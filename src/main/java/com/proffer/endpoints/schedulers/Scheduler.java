@@ -4,13 +4,20 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class Scheduler {
+
+	private static final Logger log = LoggerFactory.getLogger(Scheduler.class);
 
 	private final TaskScheduler executor;
 
@@ -19,8 +26,12 @@ public class Scheduler {
 		this.executor = taskExecutor;
 	}
 
-	public void scheduleToday(final Runnable task, LocalDateTime dateTime) {
-		System.out.println("Im scheduled to run at " + dateTime.toString());
+	public void scheduleToday(final Runnable task, LocalDateTime dateTime, String eventTitle) {
+		executor.schedule(task, Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()));
+	}
+
+	public void scheduleTodaysAuctionEnding(final Runnable task, LocalDateTime dateTime, String eventTitle) {
+		log.info("\"" + eventTitle + "\"" + " scheduled to end on " + dateTime.toString());
 		executor.schedule(task, Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()));
 	}
 

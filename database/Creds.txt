@@ -1,0 +1,15 @@
+
+Bidders
+Username : tony@gmail.com
+Password : 123456
+
+Username : cj@gmail.com
+Password: 123456
+
+
+Auctioneers
+Username : am@gmail.com
+Password : am123
+
+Username : sq@gmail.com
+Password : 12345

@@ -4,18 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.proffer.endpoints.entity.Bidder;
-import com.proffer.endpoints.repository.AuctionRepository;
-import com.proffer.endpoints.service.AuctioneerDetailsService;
-import com.proffer.endpoints.service.BidderDestailsService;
 import com.proffer.endpoints.service.CustomUserDetailsService;
-import com.proffer.endpoints.service.LiveBidService;
-import com.proffer.endpoints.util.DateFormatter;
 import com.proffer.endpoints.util.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -24,17 +17,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {

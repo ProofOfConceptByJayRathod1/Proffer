@@ -114,7 +114,8 @@
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="image">Image</label><br> <input type="file"
-							class="form-control" id="imgName" name="imgName" required>
+							accept="image/*" class="form-control" id="imgName" name="imgName"
+							required>
 					</div>
 					<div class="form-group col-md-6">
 						<label for="inputState">Catagory</label> <select id="category"
@@ -145,19 +146,17 @@
 				<div>
 					<br>
 				</div>
-				<!-- method="post" enctype="multipart/form-data" action="/auctionhouse/addauction" -->
+
 				<div class="row">
 					<div class="col-lg-12">
 						<div id="inputFormRow">
 							<div class="input-group mb-3">
-								<!--this is input just in the beginning not after we add-->
-								<!-- <input type="text" name="title[]" class="form-control m-input" placeholder="Enter title" autocomplete="off"> -->
-
 
 								<div class="form-group col-md-3">
 									<label name="itemImage">Select Image of the Item</label> <input
-										type="file" class="form-control" name="itemImage"
-										id="itemImage" placeholder="Select image of the item" required />
+										accept="image/*" type="file" class="form-control"
+										name="itemImage" id="itemImage"
+										placeholder="Select image of the item" required />
 								</div>
 								<div class="form-group col-md-3">
 									<label name="itemName">Product/Item name:</label> <input
@@ -191,10 +190,10 @@
 							class="btn btn-success">Save all the catalog item
 							details</button>
 						<span id="message" style="color: red"></span>
-						<!-- the new row div above will replace the html tags with the script below -->
+
 					</div>
 				</div>
-				<!-- </form> -->
+			</div>
 		</form>
 	</div>
 

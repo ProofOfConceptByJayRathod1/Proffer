@@ -1,8 +1,11 @@
 package com.proffer.endpoints.schedulers;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,8 @@ public class JobScheduler {
 	@Autowired
 	private Scheduler scheduler;
 
+	private static final Logger log = LoggerFactory.getLogger(JobScheduler.class);
+
 	@Autowired
 	private AuctionService auctionService;
 
@@ -36,13 +41,13 @@ public class JobScheduler {
 		System.out.println("I will execute every minute");
 	}
 
-	@Scheduled(cron = "0 35 16 ? * *")
+	@Scheduled(cron = "0 11 11 ? * *")
 	public void runNow() {
 
 		auctionService.getTodaysEvents().forEach((a) -> {
 
 			// schedule event for all auction to end
-			scheduler.scheduleToday(() -> {
+			scheduler.scheduleTodaysAuctionEnding(() -> {
 
 				// set auction status to OVER and save
 				a.setStatus(AuctionStatus.OVER.toString());
@@ -62,8 +67,9 @@ public class JobScheduler {
 
 						bidWinnerService.save(bidWinner);
 
-						liveBid.setBidStatus(LiveBidStatus.SOLD.toString());
-						liveBidService.save(liveBid);
+						// remove live bid after winner is declared
+						liveBidService.removeById(liveBid.getId());
+
 					} else if (liveBid.getBidStatus().equals(LiveBidStatus.INITIAL.toString())) {
 
 						BidWinner bidWinner = new BidWinner();
@@ -74,22 +80,25 @@ public class JobScheduler {
 						bidWinner.setTimestamp(LocalDateTime.now());
 
 						bidWinnerService.save(bidWinner);
-						liveBid.setBidStatus(LiveBidStatus.PASS.toString());
-						liveBidService.save(liveBid);
+
+						// remove from live bid even if item did not get any bid
+						liveBidService.removeById(liveBid.getId());
 					}
 
 				});
-			}, a.getEndDateTime());
+			}, a.getEndDateTime(), a.getEventTitle());
 
 		});
 
 	}
 
-	@Scheduled(cron = "0 16 19 ? * *")
+	@Scheduled(cron = "0 12 11 ? * *")
 	public void runEveryMidnight() {
-		// System.out.println("I will intrupt every minute");
+
+		// set initial live bid at start of the day
+		// and save in database
 		auctionService.getTodaysEvents().forEach(a -> {
-			System.out.println(a.getEventNo());
+
 			a.getItems().forEach(item -> {
 				LiveBid liveBid = new LiveBid();
 
@@ -97,9 +106,11 @@ public class JobScheduler {
 				liveBid.setBidderId("None");
 				liveBid.setBidStatus(LiveBidStatus.INITIAL.toString());
 				liveBid.setBidTime(LocalTime.now());
+				liveBid.setBidDate(LocalDate.now());
 				liveBid.setCurrentBidValue(item.getItemStartBid());
 				liveBid.setCatalog(item);
 				liveBidService.save(liveBid);
+				log.info("Item id : " + item.getItemId() + " added for live bid.");
 			});
 
 		});

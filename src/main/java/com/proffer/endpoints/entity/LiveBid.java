@@ -1,5 +1,6 @@
 package com.proffer.endpoints.entity;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
@@ -21,6 +22,7 @@ public class LiveBid {
 	private long id;
 	private long auctionId;
 	private LocalTime bidTime;
+	private LocalDate bidDate;
 	private String bidderId;
 	private int currentBidValue;
 	private String bidStatus;
@@ -83,6 +85,14 @@ public class LiveBid {
 
 	public void setCatalog(Catalog catalog) {
 		this.catalog = catalog;
+	}
+
+	public LocalDate getBidDate() {
+		return bidDate;
+	}
+
+	public void setBidDate(LocalDate bidDate) {
+		this.bidDate = bidDate;
 	}
 
 }

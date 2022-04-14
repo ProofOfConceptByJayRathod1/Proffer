@@ -58,7 +58,7 @@
  %> <i class="fa fa-user rounded-circle" aria-hidden="true"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right"
-					style="margin-right: 10px;">
+				style="margin-right: 10px;">
 					<a class="dropdown-item"
 						href="http://localhost:9192/bidder/dashboard">Dashboard</a> <a
 						class="dropdown-item"
