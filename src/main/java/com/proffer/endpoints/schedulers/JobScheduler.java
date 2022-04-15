@@ -49,12 +49,36 @@ public class JobScheduler {
 	@Autowired
 	private BidderCartItemService cartItemService;
 
-	@Scheduled(fixedDelay = 1000 * 60)
-	public void runEveryMinute() {
-		System.out.println("I will execute every minute");
+	// change scheduler's time before running app
+	@Scheduled(cron = "0 12 11 ? * *")
+	public void runEveryMidnight() {
+
+		// set initial live bid at start of the day
+		// and save in database
+		auctionService.getTodaysEvents().forEach(a -> {
+
+			a.getItems().forEach(item -> {
+				LiveBid liveBid = new LiveBid();
+
+				liveBid.setAuctionId(a.getEventNo());
+				liveBid.setBidderId("None");
+				liveBid.setBidStatus(LiveBidStatus.INITIAL.toString());
+				liveBid.setBidTime(LocalTime.now());
+				liveBid.setBidDate(LocalDate.now());
+				liveBid.setCurrentBidValue(item.getItemStartBid());
+				liveBid.setCatalog(item);
+				liveBidService.save(liveBid);
+				log.info("Item id : " + item.getItemId() + " added for live bid.");
+			});
+
+		});
+
+		// ends auction automatically and declares bid winner
+		runNow();
+
 	}
 
-	@Scheduled(cron = "0 11 11 ? * *")
+	// ends auction automatically and declares bid winner
 	public void runNow() {
 
 		auctionService.getTodaysEvents().forEach((a) -> {
@@ -156,27 +180,4 @@ public class JobScheduler {
 
 	}
 
-	@Scheduled(cron = "0 12 11 ? * *")
-	public void runEveryMidnight() {
-
-		// set initial live bid at start of the day
-		// and save in database
-		auctionService.getTodaysEvents().forEach(a -> {
-
-			a.getItems().forEach(item -> {
-				LiveBid liveBid = new LiveBid();
-
-				liveBid.setAuctionId(a.getEventNo());
-				liveBid.setBidderId("None");
-				liveBid.setBidStatus(LiveBidStatus.INITIAL.toString());
-				liveBid.setBidTime(LocalTime.now());
-				liveBid.setBidDate(LocalDate.now());
-				liveBid.setCurrentBidValue(item.getItemStartBid());
-				liveBid.setCatalog(item);
-				liveBidService.save(liveBid);
-				log.info("Item id : " + item.getItemId() + " added for live bid.");
-			});
-
-		});
-	}
 }
