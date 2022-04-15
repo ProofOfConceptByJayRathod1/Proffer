@@ -35,8 +35,20 @@ function closeBid(liveBidId, bidderId, bidValue, target) {
 				stompClient.send("/app/UpdateLiveBid", {}, {});
 			}
 		});
-	} else {
+	}
+}
 
+function checkoutCartItems() {
+	if (confirm('Checkout all items?')) {
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:9192/public/bidder/checkout",
+			contentType: "application/json",
+			async: false,
+			success: function(result) {
+				$("#cart").load(location.href + " #cart");
+			}
+		});
 	}
 
 }

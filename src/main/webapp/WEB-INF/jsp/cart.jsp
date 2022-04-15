@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Live Auction</title>
+<title>My Cart</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <link
@@ -60,61 +60,108 @@
 				<div class="dropdown-menu dropdown-menu-right"
 					style="margin-right: 10px;">
 					<a class="dropdown-item"
-						href="http://localhost:9192/bidder/dashboard">Dashboard</a>
-						
-						<a class="dropdown-item"
-						href="http://localhost:9192/bidder/cart">Cart</a>
-
-
-						<a
-						class="dropdown-item" href="http://localhost:9192/logout">Log
+						href="http://localhost:9192/bidder/dashboard">Dashboard</a><a
+						class="dropdown-item" href="http://localhost:9192/bidder/cart">My
+						Cart</a> <a class="dropdown-item"
+						href="http://localhost:9192/bidder/history">History</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="http://localhost:9192/logout">Log
 						Out</a>
 				</div>
 			</div>
 		</div>
 	</nav>
 
-	<!-- navbar end -->
-	<section>
-        <h5 ><b>Products won by you</b></h5>
-        <!-- <c:forEach var="auction" items="${todayUpcomingAuctions}"> -->
-     <!-- </c:forEach> -->
-			<div class="card">
-          
-				<img src="/auctionimage/${auction.imageName}"
-					style="border: 10px solid;" class="card-img-top" />
-				<div class="card-body">
-					<p class="card-text">
-					<div class="container">
+	<div id="cart">
+		<c:if test="${cart==null}">
+			<section style="margin-top: 1em; margin-bottom: 35em;">
+				<div class="card container">
+					<div class="card-body">
+						<h5 class="card-title">Empty cart</h5>
+						<p class="card-text">You cart is empty. Start bidding to buy
+							something.</p>
 
-						<div class="row">
-			
-							<div class="col-sm-12">
-								<div class="card">
-									<div class="card-body">
-										<h5 class="card-title">ItemName</h5>
-										<p class="card-text">
-											<b>Amount: </b>$1000</p>
-	
-										<a href="#" class="btn btn-outline-success btn-block">Pay</a>
+					</div>
+				</div>
+			</section>
+		</c:if>
+
+		<!-- navbar end -->
+
+		<c:if test="${cart!=null}">
+
+			<section style="margin-top: 1em;">
+				<div class="container" id="live-container">
+					<c:forEach var="c" items="${cart.getCartItems()}"
+						varStatus="loopStatus">
+						<div class="card">
+							<div class="container-fluid">
+								<div class="row">
+									<img src="/catalogimage/${c.image}" class="card-img-top"
+										style="width: 12em;" />
+									<div class="col">
+										<div class="card-body" id="liveBidArea${loopStatus.index}">
+											<h5 class="card-title">${c.name}</h5>
+											<p class="card-text">${c.description}</p>
+										</div>
+										<div class="row">
+											<div class="col">
+												<p class="card-text">
+													<span class="font-weight-bold">Category :</span>
+													${c.category}
+												</p>
+												<div class="conatiner">
+													<span class="font-weight-bold">Auction :</span>
+													${c.auctionTitle}
+												</div>
+											</div>
+											<div class="col">
+												<p class="card-text">
+													<span class="font-weight-bold">Price :</span> ${c.price}
+												</p>
+												<div class="conatiner">
+													<span class="font-weight-bold">Seller :</span>
+													${c.sellerId}
+												</div>
+											</div>
+										</div>
 
 									</div>
 								</div>
 							</div>
 						</div>
+					</c:forEach>
+					<div class="container mt-2 d-table">
+
+						<div class="d-table-row">
+							<div class="float-left" style="font-size: 1.5em;">
+								<span class="font-weight-bold"> Total items : </span>${cart.getCartItems().size()}
+
+							</div>
+
+
+							<div class="float-right" style="font-size: 1.5em;">
+								<span class="font-weight-bold"> Total Amount : </span>
+								$${cart.getTotalAmount()}
+							</div>
+						</div>
+						<br>
+						<div class="d-table-row">
+							<button class="btn btn-dark float-right"
+								style="width: 10em; font-size: 1.2"
+								onClick="checkoutCartItems()">Checkout Now</button>
+						</div>
 					</div>
 				</div>
-			</div>
-		
-
-        </section>
-
-	<br>
-	<hr>
-	<br>
-
+			</section>
+		</c:if>
+		<br>
+		<hr>
+		<br>
+	</div>
 	<footer style="text-align: center; color: white;"> ProxiBid
-		All rights reserved      </footer>
+		All rights reserved</footer>
 
+	<script type="text/javascript" src="/js/live-bid.js"></script>
 </body>
 </html>

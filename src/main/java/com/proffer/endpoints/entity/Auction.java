@@ -48,6 +48,14 @@ public class Auction {
 		super();
 	}
 
+	public Auction(long eventNo, String eventTitle, String category, String sellerId) {
+		super();
+		this.eventNo = eventNo;
+		this.eventTitle = eventTitle;
+		this.category = category;
+		this.sellerId = sellerId;
+	}
+
 	public Auction(long eventNo, String eventTitle, String description, String category, String imageName,
 			LocalDate startDate, LocalTime startTime, long duration, List<Catalog> items, String sellerId) {
 		super();

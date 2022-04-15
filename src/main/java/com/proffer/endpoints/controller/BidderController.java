@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.proffer.endpoints.entity.Auction;
 import com.proffer.endpoints.entity.Bidder;
+import com.proffer.endpoints.entity.BidderCart;
+import com.proffer.endpoints.entity.BidderCartItem;
 import com.proffer.endpoints.service.AuctionService;
 import com.proffer.endpoints.service.BidderService;
+import com.proffer.endpoints.service.CartService;
 import com.proffer.endpoints.service.CategoryService;
 import com.proffer.endpoints.service.LiveBidService;
 import com.proffer.endpoints.service.SellerService;
 import com.proffer.endpoints.util.JwtUtil;
+import com.proffer.endpoints.util.PaymentStatus;
 
 @Controller
 public class BidderController {
@@ -48,30 +51,67 @@ public class BidderController {
 	@Autowired
 	private LiveBidService liveBidService;
 
-	@RequestMapping(value = "/bidder/cart", method = RequestMethod.GET)
-	public String bidWinnerCart(Model model, HttpServletRequest request, HttpServletResponse response) {
-//		model.addAttribute("bidderId", username);
+	@Autowired
+	private CartService cartService;
 
-		try {
-			String authorizationHeader = null;
+	@RequestMapping(value = "/bidder/cart")
+	public String bidWinnerCart(Model model, HttpServletRequest request) {
 
-			Cookie[] cookies = request.getCookies();
-			for (Cookie c : cookies) {
-				if (c.getName().equals("token")) {
-					authorizationHeader = c.getValue();
-				}
-				if (c.getName().equals("username")) {
-					c.getValue();
-				}
+		String username = "";
+		Cookie[] cookies = request.getCookies();
+		for (Cookie c : cookies) {
+			if (c.getName().equals("username")) {
+				username = c.getValue();
 			}
-			model.addAttribute("bidderEmail", jwtUtil.extractUsername(authorizationHeader));
-
-			// Block of code to try
-		} catch (Exception e) {
-			// Block of code to handle errors
-			return "Error happened";
 		}
+		BidderCart cart = cartService.findByBidderId(username);
+
+		if (cart == null) {
+			model.addAttribute("cart", cart);
+			return "cart";
+		}
+		// get only those items which are not paid
+		List<BidderCartItem> items = new ArrayList<>();
+		List<BidderCartItem> cartItems = cart.getCartItems();
+
+		double total = 0l;
+		for (BidderCartItem item : cartItems) {
+			if (!item.getPaymentStatus().equals(PaymentStatus.PAID.toString())) {
+				items.add(item);
+				total += item.getPrice();
+			}
+		}
+
+		if (items.size() == 0) {
+			cart = null;
+		} else {
+			cart.setCartItems(items);
+			cart.setTotalAmount(total);
+		}
+
+		model.addAttribute("cart", cart);
 		return "cart";
+	}
+
+	@RequestMapping(value = "/public/bidder/checkout")
+	public String bidderSignUp(HttpServletRequest request) {
+		String username = "";
+		Cookie[] cookies = request.getCookies();
+		for (Cookie c : cookies) {
+			if (c.getName().equals("username")) {
+				username = c.getValue();
+			}
+		}
+		BidderCart cart = cartService.findByBidderId(username);
+		// set all cart items to paid
+		List<BidderCartItem> cartItems = cart.getCartItems();
+		for (BidderCartItem bidderCartItem : cartItems) {
+			cartItems.get(cartItems.indexOf(bidderCartItem)).setPaymentStatus(PaymentStatus.PAID.toString());
+		}
+		cart.setCartItems(cartItems);
+		cart.setTotalAmount(0l);
+		cartService.save(cart);
+		return "success";
 	}
 
 	@RequestMapping(value = "/bidder/signup")
@@ -183,9 +223,31 @@ public class BidderController {
 	}
 
 	@RequestMapping(value = "/bidder/history")
-	public String histroy(Model model) {
+	public String histroy(HttpServletRequest request, Model model) {
 
-		// model.addAllAttributes(null,null);
+		String username = "";
+		Cookie[] cookies = request.getCookies();
+		for (Cookie c : cookies) {
+			if (c.getName().equals("username")) {
+				username = c.getValue();
+			}
+		}
+		BidderCart cart = cartService.findByBidderId(username);
+
+		// get only those items which are not paid
+		List<BidderCartItem> items = new ArrayList<>();
+		cart.getCartItems().forEach(item -> {
+			if (item.getPaymentStatus().equals(PaymentStatus.PAID.toString())) {
+				items.add(item);
+			}
+		});
+
+		if (items.size() == 0) {
+			model.addAttribute("items", null);
+		} else {
+			model.addAttribute("items", items);
+		}
+
 		return "bidder-history";
 	}
 

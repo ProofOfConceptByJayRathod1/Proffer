@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +29,9 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 	List<Auction> findAllByCategoryLike(String category);
 
 	List<Auction> findAllByCategoryContaining(String category);
+
+	@Query(value = "SELECT * FROM auction a WHERE a.event_no = ?1", nativeQuery = true)
+	Optional<Auction> findAuctionCategoryTitleAndSellerIdById(Long id);
 
 	@Query(value = "SELECT * FROM auction a WHERE a.start_date = CURRENT_DATE", nativeQuery = true)
 	List<Auction> findTodaysEvents();

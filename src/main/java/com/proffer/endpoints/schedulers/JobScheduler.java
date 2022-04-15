@@ -3,6 +3,8 @@ package com.proffer.endpoints.schedulers;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,12 +14,17 @@ import org.springframework.stereotype.Component;
 
 import com.proffer.endpoints.entity.Auction;
 import com.proffer.endpoints.entity.BidWinner;
+import com.proffer.endpoints.entity.BidderCart;
+import com.proffer.endpoints.entity.BidderCartItem;
 import com.proffer.endpoints.entity.LiveBid;
 import com.proffer.endpoints.service.AuctionService;
 import com.proffer.endpoints.service.BidWinnerService;
+import com.proffer.endpoints.service.BidderCartItemService;
+import com.proffer.endpoints.service.CartService;
 import com.proffer.endpoints.service.LiveBidService;
 import com.proffer.endpoints.util.AuctionStatus;
 import com.proffer.endpoints.util.LiveBidStatus;
+import com.proffer.endpoints.util.PaymentStatus;
 
 @Component
 public class JobScheduler {
@@ -35,6 +42,12 @@ public class JobScheduler {
 
 	@Autowired
 	private BidWinnerService bidWinnerService;
+
+	@Autowired
+	private CartService cartService;
+
+	@Autowired
+	private BidderCartItemService cartItemService;
 
 	@Scheduled(fixedDelay = 1000 * 60)
 	public void runEveryMinute() {
@@ -56,6 +69,7 @@ public class JobScheduler {
 				// check for bid winner and save in BidWinner
 				a.getItems().forEach(item -> {
 					LiveBid liveBid = liveBidService.findByItemId(item.getItemId());
+					LocalDateTime now = LocalDateTime.now();
 
 					if (liveBid.getBidStatus().equals(LiveBidStatus.LIVE.toString())) {
 						BidWinner bidWinner = new BidWinner();
@@ -63,9 +77,59 @@ public class JobScheduler {
 						bidWinner.setBidderId(liveBid.getBidderId());
 						bidWinner.setEventNo(liveBid.getAuctionId());
 						bidWinner.setItemId(liveBid.getCatalog().getItemId());
-						bidWinner.setTimestamp(LocalDateTime.now());
+						bidWinner.setTimestamp(now);
 
 						bidWinnerService.save(bidWinner);
+
+						BidderCart cart = cartService.findByBidderId(liveBid.getBidderId());
+						if (cart == null) {
+
+							BidderCartItem cartItem = new BidderCartItem();
+
+							// create new cart item
+							cartItem.setBidderId(liveBid.getBidderId());
+							cartItem.setName(liveBid.getCatalog().getItemName());
+							cartItem.setDescription(liveBid.getCatalog().getItemDesc());
+							cartItem.setImage(liveBid.getCatalog().getItemImage());
+							cartItem.setPrice(liveBid.getCurrentBidValue());
+							cartItem.setAuctionTitle(a.getEventTitle());
+							cartItem.setCategory(a.getCategory());
+							cartItem.setPaymentStatus(PaymentStatus.PENDING.toString());
+							cartItem.setEventDatetime(now);
+							cartItem.setSellerId(a.getSellerId());
+							cartItemService.save(cartItem);
+
+							// create new cart
+							cart = new BidderCart();
+							cart.setBidderId(liveBid.getBidderId());
+							cart.setCartItems(Arrays.asList(cartItem));
+							cart.setTotalAmount(liveBid.getCurrentBidValue());
+							cartService.save(cart);
+
+						} else {
+
+							BidderCartItem cartItem = new BidderCartItem();
+
+							// create new cart item
+							cartItem.setBidderId(liveBid.getBidderId());
+							cartItem.setName(liveBid.getCatalog().getItemName());
+							cartItem.setDescription(liveBid.getCatalog().getItemDesc());
+							cartItem.setImage(liveBid.getCatalog().getItemImage());
+							cartItem.setPrice(liveBid.getCurrentBidValue());
+							cartItem.setAuctionTitle(a.getEventTitle());
+							cartItem.setCategory(a.getCategory());
+							cartItem.setPaymentStatus(PaymentStatus.PENDING.toString());
+							cartItem.setEventDatetime(now);
+
+							// update cart
+							double totalPrice = cart.getCartItems().stream().map(x -> x.getPrice()).reduce(0,
+									(i1, i2) -> i1 + i2);
+							cart.setTotalAmount(totalPrice);
+							List<BidderCartItem> cartItems = cart.getCartItems();
+							cartItems.add(cartItem);
+							cart.setCartItems(cartItems);
+							cartService.save(cart);
+						}
 
 						// remove live bid after winner is declared
 						liveBidService.removeById(liveBid.getId());

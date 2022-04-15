@@ -63,7 +63,7 @@
 						href="http://localhost:9192/bidder/dashboard">Dashboard</a> <a
 						class="dropdown-item" href="http://localhost:9192/bidder/cart">My
 						Cart</a> <a class="dropdown-item"
-						href="http://localhost:9192/bidder/dashboard">History</a>
+						href="http://localhost:9192/bidder/history">History</a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="http://localhost:9192/logout">Log
 						Out</a>

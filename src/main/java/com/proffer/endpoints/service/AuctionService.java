@@ -3,6 +3,7 @@ package com.proffer.endpoints.service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ public class AuctionService {
 
 	@Autowired
 	private AuctionRepository auctionRepository;
+
+	public Auction findAuctionCategoryTitleAndSellerIdById(Long id) {
+		return auctionRepository.findAuctionCategoryTitleAndSellerIdById(id).orElse(null);
+	}
 
 	public List<Auction> findAllByCategoryContaining(String category) {
 		return auctionRepository.findAllByCategoryContaining(category);
