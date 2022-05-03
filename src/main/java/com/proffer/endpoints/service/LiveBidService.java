@@ -9,37 +9,37 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.proffer.endpoints.entity.Bid;
 import com.proffer.endpoints.entity.LiveBid;
 import com.proffer.endpoints.repository.LiveBidRepository;
 
 @Service
-@CacheConfig(cacheNames = "LiveBid")
+//@CacheConfig(cacheNames = "LiveBid")
 public class LiveBidService {
+
 	@Autowired
 	private LiveBidRepository liveBidRepository;
 
-	@CachePut(key = "#liveBid.id", condition = "#liveBid.id!=null")
+	// @CachePut(key = "#liveBid.id", condition = "#liveBid.id!=null")
 	public LiveBid save(LiveBid liveBid) {
 		return liveBidRepository.save(liveBid);
 	}
 
-	@CacheEvict(key = "#id")
+	// @CacheEvict(key = "#id")
 	public void removeById(Long id) {
 		liveBidRepository.deleteById(id);
 	}
 
-	@Cacheable(key = "#auctiontId", condition = "#auctiontId!=null")
+	// @Cacheable(key = "#auctiontId", condition = "#auctiontId!=null")
 	public List<LiveBid> findAllByAuctionId(long auctionId) {
 		return liveBidRepository.findAllByAuctionId(auctionId);
 	}
 
-	@CachePut(key = "#id")
+	// @CachePut(key = "#id")
 	public LiveBid findById(Long id) {
 		return liveBidRepository.findById(id).get();
 	}
 
-	@CachePut(key = "#itemId")
+	// @CachePut(key = "#itemId")
 	public LiveBid findByItemId(Long itemId) {
 		return liveBidRepository.findByItemId(itemId).get();
 	}

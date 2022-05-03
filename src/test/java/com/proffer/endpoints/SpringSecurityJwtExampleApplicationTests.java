@@ -1,4 +1,4 @@
-package com.project.bidding.api;
+package com.proffer.endpoints;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

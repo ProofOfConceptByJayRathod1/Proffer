@@ -69,4 +69,12 @@ public class AuctionService {
 		return auctionRepository.findLiveAuctionsByCategory(LocalDateTime.now(), category);
 	}
 
+	public List<Auction> findUpcomingEvents() {
+		return auctionRepository.findUpcomingEvents();
+	}
+
+	public List<Auction> findPastAuctionByAuctioneer(String username) {
+		return auctionRepository.findPastAuctionsByUsername(username,LocalDateTime.now());
+	}
+
 }

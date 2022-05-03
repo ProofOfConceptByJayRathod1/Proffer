@@ -1,8 +1,6 @@
 package com.proffer.endpoints.controller;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,13 +17,15 @@ import com.proffer.endpoints.entity.Auction;
 import com.proffer.endpoints.entity.Bid;
 import com.proffer.endpoints.entity.BidWinner;
 import com.proffer.endpoints.entity.BidderCart;
-import com.proffer.endpoints.entity.BidderCartItem;
+import com.proffer.endpoints.entity.CartItem;
+import com.proffer.endpoints.entity.Catalog;
 import com.proffer.endpoints.entity.LiveBid;
 import com.proffer.endpoints.service.AuctionService;
 import com.proffer.endpoints.service.BidService;
 import com.proffer.endpoints.service.BidWinnerService;
-import com.proffer.endpoints.service.BidderCartItemService;
+import com.proffer.endpoints.service.CartItemService;
 import com.proffer.endpoints.service.CartService;
+import com.proffer.endpoints.service.CatalogService;
 import com.proffer.endpoints.service.LiveBidService;
 import com.proffer.endpoints.util.LiveBidStatus;
 import com.proffer.endpoints.util.PaymentStatus;
@@ -45,10 +46,7 @@ public class BidController {
 	private CartService cartService;
 
 	@Autowired
-	private AuctionService auctionService;
-
-	@Autowired
-	private BidderCartItemService cartItemService;
+	private CatalogService catalogService;
 
 	@RequestMapping("/public/PlaceBid")
 	@ResponseBody
@@ -95,68 +93,53 @@ public class BidController {
 		// update live bid
 		liveBidService.save(bid);
 
-		BidWinner bidWinner = new BidWinner();
-		bidWinner.setBidderId(bidderId);
-		bidWinner.setAmount(bidValue);
-		bidWinner.setEventNo(bid.getAuctionId());
-		bidWinner.setTimestamp(now);
-		bidWinner.setItemId(bid.getCatalog().getItemId());
+		BidWinner bidWinner = bidWinnerService.prepareBidWinner(bid);
 		// save bid winner
 		bidWinnerService.save(bidWinner);
 
-		BidderCart cart = cartService.findByBidderId(bidderId);
-		if (cart == null) {
+		BidderCart cart = cartService.prepareCart(bid);
+		cartService.save(cart);
 
-			Auction auction = auctionService.findAuctionCategoryTitleAndSellerIdById(bid.getAuctionId());
-			BidderCartItem cartItem = new BidderCartItem();
-
-			// create new cart item
-			cartItem.setBidderId(bidderId);
-			cartItem.setSellerId(auction.getSellerId());
-			cartItem.setName(bid.getCatalog().getItemName());
-			cartItem.setDescription(bid.getCatalog().getItemDesc());
-			cartItem.setImage(bid.getCatalog().getItemImage());
-			cartItem.setPrice(bidValue);
-			cartItem.setAuctionTitle(auction.getEventTitle());
-			cartItem.setCategory(auction.getCategory());
-			cartItem.setPaymentStatus(PaymentStatus.PENDING.toString());
-			cartItem.setEventDatetime(now);
-			cartItemService.save(cartItem);
-
-			// create new cart
-			cart = new BidderCart();
-			cart.setBidderId(bidderId);
-			cart.setCartItems(Arrays.asList(cartItem));
-			cart.setTotalAmount(bidValue);
-			cartService.save(cart);
-
-		} else {
-
-			Auction auction = auctionService.findAuctionCategoryTitleAndSellerIdById(bid.getAuctionId());
-			BidderCartItem cartItem = new BidderCartItem();
-
-			// create new cart item
-			cartItem.setBidderId(bidderId);
-			cartItem.setSellerId(auction.getSellerId());
-			cartItem.setName(bid.getCatalog().getItemName());
-			cartItem.setDescription(bid.getCatalog().getItemDesc());
-			cartItem.setImage(bid.getCatalog().getItemImage());
-			cartItem.setPrice(bidValue);
-			cartItem.setAuctionTitle(auction.getEventTitle());
-			cartItem.setCategory(auction.getCategory());
-			cartItem.setPaymentStatus(PaymentStatus.PENDING.toString());
-			cartItem.setEventDatetime(now);
-
-			// update cart
-			double totalPrice = cart.getCartItems().stream().map(x -> x.getPrice()).reduce(0, (i1, i2) -> i1 + i2);
-
-			cart.setTotalAmount(totalPrice);
-			List<BidderCartItem> cartItems = cart.getCartItems();
-			cartItems.add(cartItem);
-			cart.setCartItems(cartItems);
-			cartService.save(cart);
-		}
+		// update catalog status
+		Catalog catalog = bid.getCatalog();
+		catalog.setWinner(bidWinner);
+		catalog.setBidStatus(bid.getBidStatus());
+		catalogService.save(catalog);
 		return bid;
+	}
+
+	@PostMapping("/public/setSecodaryStatus")
+	@ResponseBody
+	public String setSecondaryStatus(@RequestParam Long id, @RequestParam String bidderId, @RequestParam int bidValue,
+			@RequestParam String status) {
+
+		LiveBid bid = liveBidService.findById(id);
+
+		switch (status) {
+		case "NONE":
+			bid.setSecondaryStatus(LiveBidStatus.ONCE.toString());
+			break;
+		case "ONCE":
+			bid.setSecondaryStatus(LiveBidStatus.TWICE.toString());
+			break;
+		case "TWICE":
+			bid.setSecondaryStatus(LiveBidStatus.SOLD.toString());
+			bid.setBidStatus(LiveBidStatus.SOLD.toString());
+
+			// save bid winner
+			BidWinner bidWinner = bidWinnerService.prepareBidWinner(bid);
+			bidWinnerService.save(bidWinner);
+
+			// save or update cart
+			BidderCart cart = cartService.prepareCart(bid);
+			cartService.save(cart);
+			break;
+		}
+
+		// update live bid
+		liveBidService.save(bid);
+
+		return "Updated successfully!";
 	}
 
 	@MessageMapping("/UpdateLiveBid")

@@ -62,4 +62,7 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
 	@Query(value = "SELECT * FROM auction a WHERE a.date >= ?1 AND a.category LIKE %?2%", nativeQuery = true)
 	List<Auction> findUpcomingAuctionsByCategory(LocalDateTime now, String category);
+
+	@Query(value = "SELECT * FROM auction a WHERE a.start_date < ?2 AND a.seller_id=?1", nativeQuery = true)
+	List<Auction> findPastAuctionsByUsername(String username, LocalDateTime now);
 }

@@ -1,6 +1,7 @@
 package com.proffer.endpoints;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +14,7 @@ import java.io.File;
 @ComponentScan("com.proffer.endpoints")
 @EnableScheduling
 @EnableCaching
+@SpringBootConfiguration
 public class Proffer {
 
 	public static void main(String[] args) {

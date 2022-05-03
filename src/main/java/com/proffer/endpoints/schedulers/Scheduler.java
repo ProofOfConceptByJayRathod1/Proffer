@@ -11,10 +11,7 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@Slf4j
 public class Scheduler {
 
 	private static final Logger log = LoggerFactory.getLogger(Scheduler.class);
@@ -30,6 +27,10 @@ public class Scheduler {
 		executor.schedule(task, Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()));
 	}
 
+	public void scheduleTodaysAuctionAlert(final Runnable task, LocalDateTime dateTime) {
+		executor.schedule(task, Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()));
+	}
+	
 	public void scheduleTodaysAuctionEnding(final Runnable task, LocalDateTime dateTime, String eventTitle) {
 		log.info("\"" + eventTitle + "\"" + " scheduled to end on " + dateTime.toString());
 		executor.schedule(task, Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()));

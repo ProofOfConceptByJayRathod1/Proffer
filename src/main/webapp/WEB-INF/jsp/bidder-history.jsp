@@ -117,7 +117,7 @@
 											</div>
 											<div class="col">
 												<p class="card-text">
-													<span class="font-weight-bold">Price :</span> ${c.price}
+													<span class="font-weight-bold">Price :</span> $${c.price}
 												</p>
 												<div class="conatiner">
 													<span class="font-weight-bold">Seller :</span>

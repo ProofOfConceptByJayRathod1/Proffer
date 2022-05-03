@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class BidderCartItem {
+public class CartItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,6 +25,7 @@ public class BidderCartItem {
 	private LocalDateTime eventDatetime;
 	private String paymentStatus;
 	private Integer price;
+	private String status;
 
 	public Long getId() {
 		return id;
@@ -120,5 +121,13 @@ public class BidderCartItem {
 
 	public void setEventDatetime(LocalDateTime eventDatetime) {
 		this.eventDatetime = eventDatetime;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

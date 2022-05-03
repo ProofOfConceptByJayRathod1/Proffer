@@ -20,6 +20,45 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<style type="text/css">
+div.boxItem {
+	font-size: 1em;
+	display: inline-block;
+	border: 1px solid grey;
+	color: grey;
+	height: 1.5em;
+	width: 3.5em;
+	margin-right: 2.5em;
+	padding: 2px;
+	text-align: center;
+	position: relative;
+	display: inline-block;
+	margin-top: 0;
+	padding-top: 0;
+	margin-right: 2.5em;
+	position: relative;
+}
+
+.boxItem:before, .boxItem:after {
+	content: '';
+	width: 2em;
+	border-bottom: 1px solid grey;
+	position: absolute;
+	top: 50%;
+}
+
+:after {
+	left: 100%;
+}
+
+:before {
+	right: 100%;
+}
+
+.boxItem:first-of-type:before, .boxItem:last-of-type:after {
+	display: none;
+}
+</style>
 </head>
 <body>
 
@@ -86,11 +125,13 @@
 					<div class="container" id="live-container">
 						<c:forEach var="c" items="${liveItems}" varStatus="loopStatus">
 							<div class="card">
-								<img src="/catalogimage/${c.catalog.itemImage}"
-									style="border: 5px solid #555;" class="card-img-top" />
 
+								<img src="/catalogimage/${c.catalog.itemImage}"
+									style="border: 1px solid #555;" class="card-img-top" />
 
 								<div class="card-body" id="liveBidArea${loopStatus.index}">
+
+
 									<h5 class="card-title">${c.catalog.itemName}</h5>
 									<p class="card-text">${c.catalog.itemDesc}</p>
 
@@ -166,14 +207,57 @@
 													</div>
 												</div>
 											</div>
+											<div class="row">
+												<div class="col">
+													<div class="conatiner">
+														<div>
+															<c:choose>
+																<c:when test="${c.secondaryStatus.equals('NONE')}">
+																	<div class="boxItem">ONCE</div>
+																	<div class="boxItem">TWICE</div>
+																	<div class="boxItem">SOLD</div>
+																</c:when>
+
+																<c:otherwise>
+
+
+
+																	<c:if test="${c.secondaryStatus.equals('ONCE')}">
+
+																		<div class="boxItem"
+																			style="background: green; color: white;">ONCE</div>
+																		<div class="boxItem">TWICE</div>
+																		<div class="boxItem">SOLD</div>
+																	</c:if>
+																	<c:if test="${c.secondaryStatus.equals('TWICE')}">
+																		<div class="boxItem">ONCE</div>
+																		<div class="boxItem"
+																			style="background: orange; color: white;">TWICE</div>
+
+																		<div class="boxItem">SOLD</div>
+																	</c:if>
+																	<c:if test="${c.secondaryStatus.equals('SOLD')}">
+																		<div class="boxItem">ONCE</div>
+																		<div class="boxItem">TWICE</div>
+																		<div class="boxItem"
+																			style="background: green; color: white;">SOLD</div>
+																	</c:if>
+																</c:otherwise>
+															</c:choose>
+														</div>
+													</div>
+												</div>
+											</div>
+
 										</div>
 									</div>
 
+									<hr>
 									<c:if
 										test="${c.bidStatus.equals('SOLD') && c.bidderId.equals(bidderId)}">
 
 										<div class="container text-center"
-											style="font-weight: 800; color: red; font-size: 3em;">
+											style="font-weight: 600; color: red; font-size: 2.5em;">
 											<span>You won!!!</span> <br>
 
 											<button class="btn btn-dark float-right"
@@ -185,6 +269,7 @@
 
 									<c:if
 										test="${c.bidStatus.equals('LIVE') && c.bidderId.equals(bidderId)}">
+
 
 										<div class="container text-center"
 											style="font-weight: 800; color: green; font-size: 2.5em;">
@@ -210,6 +295,8 @@
 											BID $${c.currentBidValue+10}</button>
 									</c:if>
 								</div>
+
+
 							</div>
 						</c:forEach>
 					</div>
@@ -376,14 +463,8 @@
 
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
-	<script>
-		function redirectToPayment() {
-			window.location.replace("http://localhost:9192/bidder/cart");
-		}
-	</script>
 
 	<script type="text/javascript" src="/js/live-bid.js"></script>
-
 	<script>
 		$(document).ready(
 				function() {
@@ -405,38 +486,5 @@
 				});
 	</script>
 
-	<script>
-		window.onscroll = function() {
-			myFunction()
-		};
-
-		var header = document.getElementById("myHeader");
-		var sticky = header.offsetTop;
-
-		function myFunction() {
-			if (window.pageYOffset > sticky) {
-				header.classList.add("sticky");
-			} else {
-				header.classList.remove("sticky");
-			}
-		}
-	</script>
-
-
-	<script>
-		$(document).ready(
-				function() {
-					var dh = $(document).height(), fh = $(".footer")
-							.outerHeight(), bh = $("body").height();
-
-					if (bh < dh) {
-						$(".footer").css({
-							"position" : "fixed",
-							"display" : "block",
-							"top" : (dh - fh) + "px"
-						});
-					}
-				});
-	</script>
 </body>
 </html>

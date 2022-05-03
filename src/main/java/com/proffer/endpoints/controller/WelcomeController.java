@@ -75,7 +75,7 @@ public class WelcomeController {
 		model.addAttribute("auctionFourItems", listOfListOfCatalog.get(0));
 		model.addAttribute("auctionItems", listOfListOfCatalog);
 		model.addAttribute("catalogFiveItems", catalogService.getRandomFive());
-		model.addAttribute("upcomingAuctions", auctionService.findTodaysUpcomingEvents());
+		model.addAttribute("upcomingAuctions", auctionService.findUpcomingEvents());
 		return "index";
 	}
 

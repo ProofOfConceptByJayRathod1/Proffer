@@ -1,5 +1,5 @@
 package com.proffer.endpoints.util;
 
 public enum LiveBidStatus {
-	INITIAL, LIVE, SOLD, PASS
+	NONE, ONCE, TWICE, INITIAL, LIVE, SOLD, PASS
 }

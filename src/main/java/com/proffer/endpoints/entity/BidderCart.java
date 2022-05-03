@@ -22,9 +22,9 @@ public class BidderCart {
 	private String bidderId;
 	private double totalAmount;
 
-	@OneToMany(targetEntity = BidderCartItem.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = CartItem.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cart_item_id", referencedColumnName = "id")
-	private List<BidderCartItem> cartItems;
+	private List<CartItem> cartItems;
 
 	public Long getId() {
 		return id;
@@ -42,11 +42,11 @@ public class BidderCart {
 		this.bidderId = bidderId;
 	}
 
-	public List<BidderCartItem> getCartItems() {
+	public List<CartItem> getCartItems() {
 		return cartItems;
 	}
 
-	public void setCartItems(List<BidderCartItem> cartItems) {
+	public void setCartItems(List<CartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
 

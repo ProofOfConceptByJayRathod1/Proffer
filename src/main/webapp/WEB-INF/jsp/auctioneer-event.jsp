@@ -66,6 +66,9 @@
 					style="margin-right: 10px;">
 					<a class="dropdown-item"
 						href="http://localhost:9192/auctionhouse/dashboard">Dashboard</a>
+					<a class="dropdown-item"
+						href="http://localhost:9192/auctioneer/history">My Auction</a>
+					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="http://localhost:9192/logout">Log
 						Out</a>
 				</div>
@@ -153,6 +156,22 @@
 											<br>
 										</div>
 									</div>
+									<hr>
+									<c:if test="${c.secondaryStatus.equals('NONE')}">
+										<button class="btn btn-outline-success float-left"
+											style="margin-right: 3em; margin-top: 2em; width: 6em;"
+											onClick="setSecondaryStatus('${c.id}','${c.bidderId}','${c.currentBidValue}','${c.secondaryStatus}','liveBidArea${loopStatus.index}')">ONCE</button>
+									</c:if>
+									<c:if test="${c.secondaryStatus.equals('ONCE')}">
+										<button class="btn btn-success float-left"
+											style="margin-right: 3em; margin-top: 2em; width: 6em;"
+											onClick="setSecondaryStatus('${c.id}','${c.bidderId}','${c.currentBidValue}','${c.secondaryStatus}','liveBidArea${loopStatus.index}')">TWICE</button>
+									</c:if>
+									<c:if test="${c.secondaryStatus.equals('TWICE')}">
+										<button class="btn btn-warning float-left"
+											style="margin-right: 3em; margin-top: 2em; width: 6em;"
+											onClick="setSecondaryStatus('${c.id}','${c.bidderId}','${c.currentBidValue}','${c.secondaryStatus}','liveBidArea${loopStatus.index}')">SELL</button>
+									</c:if>
 
 									<c:if test="${c.bidStatus.equals('SOLD')}">
 										<div class="container text-center"
@@ -162,12 +181,11 @@
 
 									</c:if>
 									<c:if test="${c.bidStatus.equals('LIVE')}">
-										<button class="btn btn-success float-right"
+										<button class="btn btn-primary float-right"
 											style="margin-right: 3em; margin-top: 2em;" id=""
 											onClick="closeBid('${c.id}','${c.bidderId}','${c.currentBidValue}','liveBidArea${loopStatus.index}')">ACCEPT
 											& CLOSE</button>
 									</c:if>
-
 								</div>
 							</div>
 						</c:forEach>

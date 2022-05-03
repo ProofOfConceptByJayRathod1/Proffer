@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -35,11 +36,12 @@ import com.proffer.endpoints.service.CategoryService;
 import com.proffer.endpoints.service.LiveBidService;
 import com.proffer.endpoints.service.SellerService;
 import com.proffer.endpoints.util.AuctionStatus;
+import com.proffer.endpoints.util.CookieUtil;
 import com.proffer.endpoints.util.DateFormatter;
 import com.proffer.endpoints.util.JwtUtil;
 
 @Controller
-public class AuctionHouseController {
+public class AuctioneerController {
 
 	@Autowired
 	private SellerService sellerService;
@@ -95,6 +97,7 @@ public class AuctionHouseController {
 
 		try {
 			Files.write(fileNameAndPath, file.getBytes());
+
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -184,6 +187,10 @@ public class AuctionHouseController {
 			Path fileNameAndPath1 = Paths.get(uploadDirectory, filename1);
 
 			try {
+				auction.setImageName(file1.getOriginalFilename());
+//				String fileBytes = Base64.getEncoder().withoutPadding().encodeToString(file1.getBytes());
+//				auction.setImage(fileBytes);
+//				System.out.println(fileBytes);
 				Files.write(fileNameAndPath1, file1.getBytes());
 			} catch (IOException e) {
 
@@ -282,6 +289,15 @@ public class AuctionHouseController {
 	@RequestMapping(value = "/auctionhouse/catalog", method = RequestMethod.GET)
 	public String navigateToCatalogAfterAuctioneerSignup() {
 		return "auctionhouse-catalog";
+	}
+
+	@RequestMapping(value = "/auctioneer/history", method = RequestMethod.GET)
+	public String history(HttpServletRequest request, Model model) {
+
+		String username = CookieUtil.getCookieByName(request, "username");
+		model.addAttribute("myAuction", auctionService.findPastAuctionByAuctioneer(username));
+
+		return "auctioneer-history";
 	}
 
 }

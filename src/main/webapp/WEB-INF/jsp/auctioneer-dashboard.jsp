@@ -157,6 +157,9 @@ to {
 					style="margin-right: 10px;">
 					<a class="dropdown-item"
 						href="http://localhost:9192/auctionhouse/dashboard">Dashboard</a>
+					<a class="dropdown-item"
+						href="http://localhost:9192/auctioneer/history">My Auction</a>
+					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="http://localhost:9192/logout">Log
 						Out</a>
 				</div>

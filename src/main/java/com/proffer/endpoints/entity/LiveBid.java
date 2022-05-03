@@ -1,5 +1,6 @@
 package com.proffer.endpoints.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -16,7 +17,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class LiveBid {
+public class LiveBid implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -26,6 +31,7 @@ public class LiveBid {
 	private String bidderId;
 	private int currentBidValue;
 	private String bidStatus;
+	private String secondaryStatus;
 
 	@OneToOne(targetEntity = Catalog.class, fetch = FetchType.EAGER)
 	@JoinColumn(name = "itemId", referencedColumnName = "itemId")
@@ -93,6 +99,14 @@ public class LiveBid {
 
 	public void setBidDate(LocalDate bidDate) {
 		this.bidDate = bidDate;
+	}
+
+	public String getSecondaryStatus() {
+		return secondaryStatus;
+	}
+
+	public void setSecondaryStatus(String secondaryStatus) {
+		this.secondaryStatus = secondaryStatus;
 	}
 
 }

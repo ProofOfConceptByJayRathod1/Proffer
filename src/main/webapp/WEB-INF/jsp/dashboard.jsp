@@ -184,9 +184,8 @@
 										class="timer${loop.index}">Countdown Timer</span>
 								</p>
 
-
-
-								<a href="#" class="btn btn-outline-success" style="width: 10em;">Notify</a>
+								<button onclick="notify('${auction.eventNo}')"
+									class="btn btn-outline-success" style="width: 10em;">Notify</button>
 							</div>
 						</div>
 					</div>
@@ -197,6 +196,21 @@
 
 	<script type="text/javascript" src="/js/countdown-timer.js">
 		
+	</script>
+	<script type="text/javascript">
+		function notify(eventNo) {
+			$
+					.ajax({
+						type : "POST",
+						url : "http://localhost:9192/public/createNotification?eventNo="
+								+ eventNo,
+						contentType : "application/json",
+						async : false,
+						success : function(result) {
+							alert(result)
+						}
+					});
+		}
 	</script>
 </body>
 </html>

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.proffer.endpoints.entity.Auction;
 import com.proffer.endpoints.entity.Bidder;
 import com.proffer.endpoints.entity.BidderCart;
-import com.proffer.endpoints.entity.BidderCartItem;
+import com.proffer.endpoints.entity.CartItem;
 import com.proffer.endpoints.service.AuctionService;
 import com.proffer.endpoints.service.BidderService;
 import com.proffer.endpoints.service.CartService;
@@ -71,11 +71,11 @@ public class BidderController {
 			return "cart";
 		}
 		// get only those items which are not paid
-		List<BidderCartItem> items = new ArrayList<>();
-		List<BidderCartItem> cartItems = cart.getCartItems();
+		List<CartItem> items = new ArrayList<>();
+		List<CartItem> cartItems = cart.getCartItems();
 
 		double total = 0l;
-		for (BidderCartItem item : cartItems) {
+		for (CartItem item : cartItems) {
 			if (!item.getPaymentStatus().equals(PaymentStatus.PAID.toString())) {
 				items.add(item);
 				total += item.getPrice();
@@ -104,9 +104,9 @@ public class BidderController {
 		}
 		BidderCart cart = cartService.findByBidderId(username);
 		// set all cart items to paid
-		List<BidderCartItem> cartItems = cart.getCartItems();
-		for (BidderCartItem bidderCartItem : cartItems) {
-			cartItems.get(cartItems.indexOf(bidderCartItem)).setPaymentStatus(PaymentStatus.PAID.toString());
+		List<CartItem> cartItems = cart.getCartItems();
+		for (CartItem cartItem : cartItems) {
+			cartItems.get(cartItems.indexOf(cartItem)).setPaymentStatus(PaymentStatus.PAID.toString());
 		}
 		cart.setCartItems(cartItems);
 		cart.setTotalAmount(0l);
@@ -235,7 +235,7 @@ public class BidderController {
 		BidderCart cart = cartService.findByBidderId(username);
 
 		// get only those items which are not paid
-		List<BidderCartItem> items = new ArrayList<>();
+		List<CartItem> items = new ArrayList<>();
 		cart.getCartItems().forEach(item -> {
 			if (item.getPaymentStatus().equals(PaymentStatus.PAID.toString())) {
 				items.add(item);
