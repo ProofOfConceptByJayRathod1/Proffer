@@ -157,7 +157,15 @@
 										</div>
 									</div>
 									<hr>
-									<c:if test="${c.secondaryStatus.equals('NONE')}">
+
+									<c:if test="${c.bidderId.equals('NONE')}">
+										<button class="btn btn-outline-success float-left"
+											style="margin-right: 3em; margin-top: 2em; width: 6em;"
+											onClick="setSecondaryStatus('${c.id}','${c.bidderId}','${c.currentBidValue}','PASS','liveBidArea${loopStatus.index}')">PASS</button>
+									</c:if>
+
+									<c:if
+										test="${c.secondaryStatus.equals('NONE') && not c.bidderId.equals('NONE')}">
 										<button class="btn btn-outline-success float-left"
 											style="margin-right: 3em; margin-top: 2em; width: 6em;"
 											onClick="setSecondaryStatus('${c.id}','${c.bidderId}','${c.currentBidValue}','${c.secondaryStatus}','liveBidArea${loopStatus.index}')">ONCE</button>

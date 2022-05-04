@@ -10,14 +10,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.proxibid.entity.Auctioneer;
 import com.proxibid.entity.Bidder;
 import com.proxibid.repository.BidderRepository;
-import com.proxibid.repository.SellerRepository;
+import com.proxibid.repository.AuctioneerRepository;
 
 import java.util.ArrayList;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
-	private SellerRepository repository;
+	private AuctioneerRepository repository;
 
 	@Autowired
 	private BidderRepository bidderRepository;

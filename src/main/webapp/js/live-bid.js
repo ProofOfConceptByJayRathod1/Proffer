@@ -3,14 +3,18 @@ var stompClient = null;
 var socket = new SockJS('/bidsocket');
 stompClient = Stomp.over(socket);
 stompClient.connect({}, function(frame) {
+
 	stompClient.subscribe('/bid/RefreshFeed', function(result) {
 		$("#live-container").load(location.href + " #live-container");
 	});
 
-	stompClient.subscribe('/notificaton/alerts', function(result) {
-		$("#live-container").load(location.href + " #live-container");
+	stompClient.subscribe('/alert/' + $("#navbarDropdownMenuLink").text().trim(), function(result) {
+		console.log(result.body)
+		alert(result.body)
 	});
 });
+
+
 
 function updateBid(liveBidId, bidderId, bidValue, target) {
 	$.ajax({
@@ -57,11 +61,11 @@ function checkoutCartItems() {
 	}
 }
 
-function setSecondaryStatus(liveBidId, bidderId, bidValue,status ,target) {
+function setSecondaryStatus(liveBidId, bidderId, bidValue, status, target) {
 	$.ajax({
 		type: "POST",
 		url: "http://localhost:9192/public/setSecodaryStatus?id=" + liveBidId
-			+ "&bidderId=" + bidderId + "&bidValue=" + bidValue+"&status="+status,
+			+ "&bidderId=" + bidderId + "&bidValue=" + bidValue + "&status=" + status,
 		contentType: "application/json",
 		async: false,
 		success: function(result) {

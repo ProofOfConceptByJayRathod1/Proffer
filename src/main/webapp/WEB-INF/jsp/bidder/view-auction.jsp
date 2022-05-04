@@ -20,6 +20,9 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="/css/event.css" />
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
 <body>
 
@@ -327,6 +330,8 @@
 
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
+
+	<script type="text/javascript" src="/js/auction-alert.js"></script>
 	<script>
 		$(document).ready(
 				function() {

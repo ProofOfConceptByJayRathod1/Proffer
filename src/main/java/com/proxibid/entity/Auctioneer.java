@@ -1,5 +1,6 @@
 package com.proxibid.entity;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -19,19 +21,7 @@ public class Auctioneer implements UserDetails {
 	private String address;
 	private String contact;
 	private String password;
-
-	public Auctioneer() {
-		super();
-	}
-
-	public Auctioneer(String email, String houseName, String address, String contact, String password) {
-		super();
-		this.email = email;
-		this.houseName = houseName;
-		this.address = address;
-		this.contact = contact;
-		this.password = password;
-	}
+	private String role;
 
 	public String getEmail() {
 		return email;
@@ -75,8 +65,7 @@ public class Auctioneer implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.asList(new SimpleGrantedAuthority(role));
 	}
 
 	@Override
@@ -104,6 +93,14 @@ public class Auctioneer implements UserDetails {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }

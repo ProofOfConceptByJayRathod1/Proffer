@@ -6,31 +6,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proxibid.entity.Auctioneer;
-import com.proxibid.repository.SellerRepository;
+import com.proxibid.repository.AuctioneerRepository;
 
 @Service
-public class SellerService {
+public class AuctioneerService {
 
 	@Autowired
-	private SellerRepository sellerRepository;
+	private AuctioneerRepository auctioneerRepository;
 
 	public void saveSeller(Auctioneer auctioneer) {
-		sellerRepository.save(auctioneer);
+		auctioneerRepository.save(auctioneer);
 
 	}
 
 	public boolean checkIfSellerEmailIdAlreadyExistInTheDatabase(Auctioneer auctioneer) {
-		if (sellerRepository.findByEmail(auctioneer.getEmail()) != null)
+		if (auctioneerRepository.findByEmail(auctioneer.getEmail()) != null)
 			return true;
 		return false;
 	}
 
 	public boolean existsByEmail(String email) {
-		return sellerRepository.existsByEmail(email);
+		return auctioneerRepository.existsByEmail(email);
 	}
 
 	public Auctioneer findByEmail(String sellerId) {
-		return sellerRepository.findByEmail(sellerId).get();
+		return auctioneerRepository.findByEmail(sellerId).get();
 
 	}
 }

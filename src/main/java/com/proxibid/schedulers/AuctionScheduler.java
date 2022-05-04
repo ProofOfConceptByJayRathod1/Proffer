@@ -29,12 +29,12 @@ import com.proxibid.util.LiveBidStatus;
 import com.proxibid.util.PaymentStatus;
 
 @Component
-public class JobScheduler {
+public class AuctionScheduler {
 
 	@Autowired
 	private Scheduler scheduler;
 
-	private static final Logger log = LoggerFactory.getLogger(JobScheduler.class);
+	private static final Logger log = LoggerFactory.getLogger(AuctionScheduler.class);
 
 	@Autowired
 	private AuctionService auctionService;
@@ -54,9 +54,8 @@ public class JobScheduler {
 	@Autowired
 	private CatalogService catalogService;
 
-	// change scheduler's time before running app
 	@Scheduled(cron = "0 59 10 ? * *")
-	public void runEveryMidnight() {
+	public void scheduleLiveAuction() {
 
 		List<Auction> todaysAuction = auctionService.getTodaysEvents();
 		// set initial live bid at start of the day
@@ -67,7 +66,7 @@ public class JobScheduler {
 				LiveBid liveBid = new LiveBid();
 
 				liveBid.setAuctionId(a.getEventNo());
-				liveBid.setBidderId("None");
+				liveBid.setBidderId(LiveBidStatus.NONE.toString());
 				liveBid.setBidStatus(LiveBidStatus.INITIAL.toString());
 				liveBid.setBidTime(LocalTime.now());
 				liveBid.setBidDate(LocalDate.now());
@@ -81,13 +80,12 @@ public class JobScheduler {
 
 		});
 
-		// ends auction automatically and declares bid winner
-		runNow();
+		scheduleAuctionEndings();
 
 	}
 
 	// ends auction automatically and declares bid winner
-	public void runNow() {
+	public void scheduleAuctionEndings() {
 
 		List<Auction> todaysAuction = auctionService.getTodaysEvents();
 

@@ -27,4 +27,12 @@ public class NotificationService {
 		return notificationRepository.findTodaysAlerts();
 	}
 
+	public List<Notification> findAllAlerts() {
+		return notificationRepository.findAll();
+	}
+
+	public boolean existByEventIdAndUserId(String userId, Long eventId) {
+		return notificationRepository.existsByUserIdAndEventId(userId, eventId);
+	}
+
 }

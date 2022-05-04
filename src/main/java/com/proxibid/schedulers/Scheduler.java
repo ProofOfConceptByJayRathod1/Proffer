@@ -30,7 +30,11 @@ public class Scheduler {
 	public void scheduleTodaysAuctionAlert(final Runnable task, LocalDateTime dateTime) {
 		executor.schedule(task, Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()));
 	}
-	
+
+	public void scheduleAlert(final Runnable task, LocalDateTime dateTime) {
+		executor.schedule(task, Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()));
+	}
+
 	public void scheduleTodaysAuctionEnding(final Runnable task, LocalDateTime dateTime, String eventTitle) {
 		log.info("\"" + eventTitle + "\"" + " scheduled to end on " + dateTime.toString());
 		executor.schedule(task, Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant()));

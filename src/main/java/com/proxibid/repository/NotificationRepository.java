@@ -14,4 +14,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 	@Query(value = "SELECT * FROM notification n WHERE n.notify_at = CURRENT_DATE", nativeQuery = true)
 	List<Notification> findTodaysAlerts();
 
+	boolean existsByUserIdAndEventId(String userId, Long eventId);
+
 }

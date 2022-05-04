@@ -17,7 +17,9 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="/css/dashboard.css" />
-
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
 <body>
 
@@ -88,7 +90,6 @@
 		</button>
 	</div>
 	<div id="mobile-filter">
-		<!-- <p class="pl-sm-0 pl-2"> Home | <b>All Breads</b></p> -->
 		<div class="border-bottom pb-2 ml-2">
 			<h4 id="burgundy">Categories</h4>
 		</div>
@@ -125,92 +126,82 @@
 		</div>
 
 	</section>
-	<!-- live event products start -->
-	<section id="products">
-		<div class="container">
-			<h2>Live events</h2>
-			<c:forEach var="auction" items="${auctions}">
-				<div class="card mb-3" style="max-width: fit-content;">
-					<div class="row no-gutters">
-						<div class="col-md-4">
-							<img src="/auctionimage/${auction.imageName}" class="card-img"
-								alt="...">
-						</div>
-						<div class="col-md-8">
-							<div class="card-body">
-								<h5 class="card-title">${auction.eventNo}.${auction.eventTitle}</h5>
-								<p class="card-text">${auction.description}Thisisawidercard
-									with supporting text below as a natural lead-in to additional
-									content. This content is a little bit longer.</p>
-								<p class="card-text">
-									<span style="font-weight: 800; color: red;"><i
-										class="fa fa-wifi" aria-hidden="true"></i> LIVE</span>
-								</p>
-								<a href="/bidder/event/${auction.eventNo}"
-									class="btn btn-primary"><b>Enter this auction event</b></a>
+
+
+	<div id="AllProducts">
+
+
+		<!-- live event products start -->
+		<section id="products">
+			<div class="container">
+				<h2>Live events</h2>
+				<c:forEach var="auction" items="${auctions}">
+					<div class="card mb-3" style="max-width: fit-content;">
+						<div class="row no-gutters">
+							<div class="col-md-4">
+								<img src="/auctionimage/${auction.imageName}" class="card-img"
+									alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body">
+									<h5 class="card-title">${auction.eventNo}.${auction.eventTitle}</h5>
+									<p class="card-text">${auction.description}Thisisawidercard
+										with supporting text below as a natural lead-in to additional
+										content. This content is a little bit longer.</p>
+									<p class="card-text">
+										<span style="font-weight: 800; color: red;"><i
+											class="fa fa-wifi" aria-hidden="true"></i> LIVE</span>
+									</p>
+									<a href="/bidder/event/${auction.eventNo}"
+										class="btn btn-primary"><b>Enter this auction event</b></a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</c:forEach>
-		</div>
-	</section>
-	<!-- live event products end -->
+				</c:forEach>
+			</div>
+		</section>
+		<!-- live event products end -->
 
-	<!-- products section -->
-	<section id="products">
-		<div class="container">
-			<h2>Today's upcoming events</h2>
-			<c:forEach var="auction" items="${upcomingTodaysAuctions}"
-				varStatus="loop">
-				<div class="card mb-3" style="max-width: fit-content;">
-					<div class="row no-gutters">
-						<div class="col-md-4">
-							<img src="/auctionimage/${auction.imageName}" class="card-img"
-								alt="...">
-						</div>
-						<div class="col-md-8">
-							<div class="card-body">
-								<h5 class="card-title">${auction.eventNo}.${auction.eventTitle}</h5>
-								<p class="card-text">${auction.description}Thisisawidercard
-									with supporting text below as a natural lead-in to additional
-									content. This content is a little bit longer.</p>
-
+		<!-- products section -->
+		<section id="products">
+			<div class="container">
+				<h2>Today's upcoming events</h2>
+				<c:forEach var="auction" items="${upcomingTodaysAuctions}"
+					varStatus="loop">
+					<div class="card mb-3" style="max-width: fit-content;">
+						<div class="row no-gutters">
+							<div class="col-md-4">
+								<img src="/auctionimage/${auction.imageName}" class="card-img"
+									alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body">
+									<h5 class="card-title">${auction.eventNo}.${auction.eventTitle}</h5>
+									<p class="card-text">${auction.description}Thisisawidercard
+										with supporting text below as a natural lead-in to additional
+										content. This content is a little bit longer.</p>
 
 
-								<p class="card-text">
-									<b> Starts in</b>&nbsp;&nbsp; <span
-										onload="countdownTimeStart('${auction.startDateTime}','timer${loop.index}')"
-										class="timer${loop.index}">Countdown Timer</span>
-								</p>
 
-								<button onclick="notify('${auction.eventNo}')"
-									class="btn btn-outline-success" style="width: 10em;">Notify</button>
+									<p class="card-text">
+										<b> Starts in</b>&nbsp;&nbsp; <span
+											onload="countdownTimeStart('${auction.startDateTime}','timer${loop.index}')"
+											class="timer${loop.index}">Countdown Timer</span>
+									</p>
+
+									<button onclick="createAlert('${auction.eventNo}')"
+										class="btn btn-outline-success" style="width: 10em;">Notify</button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</c:forEach>
-		</div>
-	</section>
+				</c:forEach>
+			</div>
+		</section>
 
-	<script type="text/javascript" src="/js/countdown-timer.js">
-		
-	</script>
-	<script type="text/javascript">
-		function notify(eventNo) {
-			$
-					.ajax({
-						type : "POST",
-						url : "http://localhost:9192/public/createNotification?eventNo="
-								+ eventNo,
-						contentType : "application/json",
-						async : false,
-						success : function(result) {
-							alert(result)
-						}
-					});
-		}
-	</script>
+	</div>
+	<script type="text/javascript" src="/js/countdown-timer.js"></script>
+	<script type="text/javascript" src="/js/auction-alert.js"></script>
 </body>
 </html>

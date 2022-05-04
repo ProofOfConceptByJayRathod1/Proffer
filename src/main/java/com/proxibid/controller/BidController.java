@@ -1,5 +1,6 @@
 package com.proxibid.controller;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -116,6 +117,9 @@ public class BidController {
 		LiveBid bid = liveBidService.findById(id);
 
 		switch (status) {
+		case "PASS":
+			bid.setSecondaryStatus(LiveBidStatus.PASS.toString());
+			break;
 		case "NONE":
 			bid.setSecondaryStatus(LiveBidStatus.ONCE.toString());
 			break;
@@ -144,7 +148,8 @@ public class BidController {
 
 	@MessageMapping("/UpdateLiveBid")
 	@SendTo("/bid/RefreshFeed")
-	public String updateLiveBid() throws Exception {
+	public String updateLiveBid(Principal principal) throws Exception {
+		System.out.println(principal.getName() + "................");
 		return "Feed  refreshed successfully!";
 	}
 

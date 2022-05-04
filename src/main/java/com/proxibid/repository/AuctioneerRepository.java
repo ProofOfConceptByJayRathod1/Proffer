@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.proxibid.entity.Auctioneer;
 
-public interface SellerRepository extends JpaRepository<Auctioneer, String> {
+public interface AuctioneerRepository extends JpaRepository<Auctioneer, String> {
 
 	Auctioneer save(Auctioneer auctioneer);
 

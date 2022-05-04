@@ -256,14 +256,12 @@ div.boxItem {
 									<c:if
 										test="${c.bidStatus.equals('SOLD') && c.bidderId.equals(bidderId)}">
 
-										<div class="container text-center"
-											style="font-weight: 600; color: red; font-size: 2.5em;">
-											<span>You won!!!</span> <br>
-
-											<button class="btn btn-dark float-right"
-												style="margin-right: 0.5em; margin-top: 2em; width: 10em;"
-												onClick="redirectToPayment()">Checkout Now</button>
+										<div class="container text-center">
+											<span style="font-weight: 600; color: red; font-size: 2.5em;">You
+												won!!!</span> <br>
+											<p>Visit your cart to checkout!</p>
 										</div>
+
 
 									</c:if>
 
@@ -465,6 +463,7 @@ div.boxItem {
 		All rights reserved</footer>
 
 	<script type="text/javascript" src="/js/live-bid.js"></script>
+	<script type="text/javascript" src="/js/auction-alert.js"></script>
 	<script>
 		$(document).ready(
 				function() {

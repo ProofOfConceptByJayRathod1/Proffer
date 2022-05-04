@@ -27,7 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.proxibid.filter.JwtFilter;
 import com.proxibid.service.BidderService;
 import com.proxibid.service.CustomUserDetailsService;
-import com.proxibid.service.SellerService;
+import com.proxibid.service.AuctioneerService;
 import com.proxibid.util.JwtUtil;
 
 @Configuration
@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtFilter jwtFilter;
 
 	@Autowired
-	private SellerService sellerService;
+	private AuctioneerService auctioneerService;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -63,11 +63,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().disable().csrf().disable();
 		http.authorizeRequests()
-				.antMatchers("/authenticate", "/auctionhouse/signup", "/auctionhouse/signup/save", "/bidder/signup",
+				.antMatchers("/auctionhouse/signup", "/auctionhouse/signup/save", "/bidder/signup",
 						"/bidder/signup/save", "/css/**", "/scripts/**", "/", "/category/**", "/proxibid.com",
 						"/carousel/**", "/auctionimage/**", "/catalogimage/**", "/proxibid.com/**", "/login",
 						"/public/**")
-				.permitAll().anyRequest().authenticated();
+				.permitAll()
+				.antMatchers("/bidder/**").hasAuthority("BIDDER")
+				.antMatchers("/auctionhouse/**").hasAuthority("AUCTIONEER")
+				.anyRequest().authenticated();
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -91,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						username.setHttpOnly(true);
 						response.addCookie(username);
 
-						if (sellerService.existsByEmail(authentication.getName())) {
+						if (auctioneerService.existsByEmail(authentication.getName())) {
 							new DefaultRedirectStrategy().sendRedirect(request, response, "/auctionhouse/dashboard");
 						} else {
 							new DefaultRedirectStrategy().sendRedirect(request, response, "/bidder/dashboard");

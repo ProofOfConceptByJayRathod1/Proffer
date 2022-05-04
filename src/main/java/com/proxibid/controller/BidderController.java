@@ -27,10 +27,11 @@ import com.proxibid.service.BidderService;
 import com.proxibid.service.CartService;
 import com.proxibid.service.CategoryService;
 import com.proxibid.service.LiveBidService;
-import com.proxibid.service.SellerService;
+import com.proxibid.service.AuctioneerService;
 import com.proxibid.util.CookieUtil;
 import com.proxibid.util.JwtUtil;
 import com.proxibid.util.PaymentStatus;
+import com.proxibid.util.ROLE;
 
 @Controller
 public class BidderController {
@@ -45,7 +46,7 @@ public class BidderController {
 	private AuctionService auctionService;
 
 	@Autowired
-	private SellerService sellerService;
+	private AuctioneerService auctioneerService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -66,7 +67,7 @@ public class BidderController {
 
 		if (cart == null) {
 			model.addAttribute("cart", cart);
-			return "cart";
+			return "bidder/cart";
 		}
 
 		// get only those items which are not paid
@@ -122,7 +123,8 @@ public class BidderController {
 
 		model.addAttribute("eventNumber", eventNo);
 
-		model.addAttribute("auctionHouseName", sellerService.findByEmail(current_auction.getSellerId()).getHouseName());
+		model.addAttribute("auctionHouseName",
+				auctioneerService.findByEmail(current_auction.getSellerId()).getHouseName());
 
 		Auction auction = auctionService.findByeventNo(eventNo);
 		model.addAttribute("catalog", auction.getItems());
@@ -179,7 +181,7 @@ public class BidderController {
 			model.addAttribute("items", items);
 		}
 
-		return "bidder-history";
+		return "/bidder/history";
 	}
 
 	/* Rest Controller */
@@ -213,6 +215,7 @@ public class BidderController {
 			return "bidder-signup";
 		} else {
 			bidder.setBidderPassword(new BCryptPasswordEncoder().encode(bidder.getBidderPassword()));
+			bidder.setRole(ROLE.ROLE_BIDDER.toString());
 			bidderService.bidderSignUp(bidder);
 			return "redirect:/login";
 		}

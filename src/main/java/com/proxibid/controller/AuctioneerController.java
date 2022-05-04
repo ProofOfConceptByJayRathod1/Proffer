@@ -34,17 +34,18 @@ import com.proxibid.service.AuctionService;
 import com.proxibid.service.CatalogService;
 import com.proxibid.service.CategoryService;
 import com.proxibid.service.LiveBidService;
-import com.proxibid.service.SellerService;
+import com.proxibid.service.AuctioneerService;
 import com.proxibid.util.AuctionStatus;
 import com.proxibid.util.CookieUtil;
 import com.proxibid.util.DateFormatter;
 import com.proxibid.util.JwtUtil;
+import com.proxibid.util.ROLE;
 
 @Controller
 public class AuctioneerController {
 
 	@Autowired
-	private SellerService sellerService;
+	private AuctioneerService auctioneerService;
 
 	@Autowired
 	private AuctionService auctionService;
@@ -72,13 +73,13 @@ public class AuctioneerController {
 	@RequestMapping(value = "/auctionhouse/signup/save")
 	public String signUpAsAuctioneer(@ModelAttribute Auctioneer auctioneer, HttpServletRequest request) {
 		request.setAttribute("error", null);
-		if (sellerService.existsByEmail(auctioneer.getEmail())) {
+		if (auctioneerService.existsByEmail(auctioneer.getEmail())) {
 			request.setAttribute("error", "User with same email already exixst!");
 			return "auctioneer-signup";
 		} else {
 			auctioneer.setPassword(new BCryptPasswordEncoder().encode(auctioneer.getPassword()));
-			sellerService.saveSeller(auctioneer);
-			System.out.println("user created");
+			auctioneer.setRole(ROLE.ROLE_AUCTIONEER.toString());
+			auctioneerService.saveSeller(auctioneer);
 			return "redirect:/login";
 		}
 	}

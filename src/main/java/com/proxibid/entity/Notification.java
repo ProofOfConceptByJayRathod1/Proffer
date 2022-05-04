@@ -26,6 +26,7 @@ public class Notification {
 	private boolean isRead;
 	private LocalDateTime notifyAt;
 	private String userId;
+	private Long eventId;
 
 	public String getMessage() {
 		return message;
@@ -66,11 +67,20 @@ public class Notification {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public LocalDateTime getNotifyAt() {
 		return notifyAt;
 	}
 
 	public void setNotifyAt(LocalDateTime notifyAt) {
 		this.notifyAt = notifyAt;
+	}
+
+	public Long getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
 	}
 }

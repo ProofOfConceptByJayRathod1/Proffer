@@ -149,7 +149,7 @@
 	</div>
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
-
 	<script type="text/javascript" src="/js/live-bid.js"></script>
+	<script type="text/javascript" src="/js/auction-alert.js"></script>
 </body>
 </html>

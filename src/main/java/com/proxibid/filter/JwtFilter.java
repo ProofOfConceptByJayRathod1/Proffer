@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.proxibid.service.CustomUserDetailsService;
+import com.proxibid.util.CookieUtil;
 import com.proxibid.util.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -30,36 +31,25 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			FilterChain filterChain) throws ServletException, IOException {
 
-		String authorizationHeader = null;
-		Cookie[] cookies = httpServletRequest.getCookies();
-		if (cookies != null) {
-			for (Cookie c : cookies) {
-				if (c.getName().equals("token")) {
-					authorizationHeader = c.getValue();
-				}
-			}
-		}
-
-		String token = null;
+		String token = CookieUtil.getCookieByName(httpServletRequest, "token");
 		String userName = null;
 
-		if (authorizationHeader != null) {
-			token = authorizationHeader;
+		if (token != null) {
 			userName = jwtUtil.extractUsername(token);
 		}
 
 		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
 			UserDetails userDetails;
 			userDetails = userDetailsService.loadUserByUsername(userName);
 
 			if (jwtUtil.validateToken(token, userDetails)) {
 
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-						userDetails, null, userDetails.getAuthorities());
-				usernamePasswordAuthenticationToken
-						.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				UsernamePasswordAuthenticationToken authenticationToken = null;
+				authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
+						userDetails.getAuthorities());
+
+				authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 			}
 		}
 		filterChain.doFilter(httpServletRequest, httpServletResponse);

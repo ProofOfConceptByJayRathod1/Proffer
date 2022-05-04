@@ -294,5 +294,10 @@ to {
 	<br>
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
+	<script type="text/javascript">
+		function showName(name) {
+			alter(name)
+		}
+	</script>
 </body>
 </html>
