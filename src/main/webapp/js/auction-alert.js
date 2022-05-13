@@ -5,8 +5,9 @@ stompClient = Stomp.over(socket);
 stompClient.connect({}, function(frame) {
 
 	stompClient.subscribe('/alert/' + $("#navbarDropdownMenuLink").text().trim(), function(result) {
-		$("#AllProducts").load(location.href + " #AllProducts");
 		alert(result.body);
+		//$("#AllProducts").load(location.href + " #AllProducts");
+		$("#main").load(location.href + " #main");
 	});
 });
 

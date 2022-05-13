@@ -1,5 +1,6 @@
 package com.proxibid.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,6 +58,10 @@ public class NotificationController {
 		notification.setUserId(userId);
 		notification.setNotifyAt(auction.getDate());
 		notification.setEventId(eventNo);
+		notification.setImageName(auction.getImageName());
+		notification.setEventTitle(auction.getEventTitle());
+		notification.setNotifyDate(auction.getDate().toLocalDate());
+		notification.setNotifyTime(auction.getDate().toLocalTime());
 
 		notificationService.create(notification);
 

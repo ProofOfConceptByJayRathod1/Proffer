@@ -149,7 +149,6 @@ public class BidController {
 	@MessageMapping("/UpdateLiveBid")
 	@SendTo("/bid/RefreshFeed")
 	public String updateLiveBid(Principal principal) throws Exception {
-		System.out.println(principal.getName() + "................");
 		return "Feed  refreshed successfully!";
 	}
 

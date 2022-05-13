@@ -1,5 +1,7 @@
 package com.proxibid.service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,6 +35,14 @@ public class NotificationService {
 
 	public boolean existByEventIdAndUserId(String userId, Long eventId) {
 		return notificationRepository.existsByUserIdAndEventId(userId, eventId);
+	}
+
+	public List<Notification> findTodaysByUserId(String userId) {
+		return notificationRepository.findTodaysByUserId(userId, LocalTime.now());
+	}
+
+	public List<Notification> findPastByUserId(String userId) {
+		return notificationRepository.findPastNotificationsByUserId(userId);
 	}
 
 }

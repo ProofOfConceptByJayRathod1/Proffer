@@ -7,11 +7,6 @@ stompClient.connect({}, function(frame) {
 	stompClient.subscribe('/bid/RefreshFeed', function(result) {
 		$("#live-container").load(location.href + " #live-container");
 	});
-
-	stompClient.subscribe('/alert/' + $("#navbarDropdownMenuLink").text().trim(), function(result) {
-		console.log(result.body)
-		alert(result.body)
-	});
 });
 
 

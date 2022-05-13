@@ -78,7 +78,7 @@ public class AuctioneerController {
 			return "auctioneer-signup";
 		} else {
 			auctioneer.setPassword(new BCryptPasswordEncoder().encode(auctioneer.getPassword()));
-			auctioneer.setRole(ROLE.ROLE_AUCTIONEER.toString());
+			auctioneer.setRole(ROLE.AUCTIONEER.toString());
 			auctioneerService.saveSeller(auctioneer);
 			return "redirect:/login";
 		}

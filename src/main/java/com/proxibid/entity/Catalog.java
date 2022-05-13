@@ -11,8 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Catalog implements Serializable{
-	
+public class Catalog implements Serializable {
+
 	/**
 	 * 
 	 */

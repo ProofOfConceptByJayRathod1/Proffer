@@ -1,17 +1,12 @@
 package com.proxibid.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import java.time.LocalTime;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Table
@@ -21,10 +16,14 @@ public class Notification {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	private String eventTitle;
+	private String imageName;
 	private String message;
 	private LocalDateTime createdAt;
 	private boolean isRead;
 	private LocalDateTime notifyAt;
+	private LocalTime notifyTime;
+	private LocalDate notifyDate;
 	private String userId;
 	private Long eventId;
 
@@ -82,5 +81,37 @@ public class Notification {
 
 	public void setEventId(Long eventId) {
 		this.eventId = eventId;
+	}
+
+	public String getEventTitle() {
+		return eventTitle;
+	}
+
+	public void setEventTitle(String eventTitle) {
+		this.eventTitle = eventTitle;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public LocalTime getNotifyTime() {
+		return notifyTime;
+	}
+
+	public void setNotifyTime(LocalTime notifyTime) {
+		this.notifyTime = notifyTime;
+	}
+
+	public LocalDate getNotifyDate() {
+		return notifyDate;
+	}
+
+	public void setNotifyDate(LocalDate notifyDate) {
+		this.notifyDate = notifyDate;
 	}
 }

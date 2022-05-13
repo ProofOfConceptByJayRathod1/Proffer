@@ -22,11 +22,13 @@ import com.proxibid.entity.Auction;
 import com.proxibid.entity.Bidder;
 import com.proxibid.entity.BidderCart;
 import com.proxibid.entity.CartItem;
+import com.proxibid.entity.Notification;
 import com.proxibid.service.AuctionService;
 import com.proxibid.service.BidderService;
 import com.proxibid.service.CartService;
 import com.proxibid.service.CategoryService;
 import com.proxibid.service.LiveBidService;
+import com.proxibid.service.NotificationService;
 import com.proxibid.service.AuctioneerService;
 import com.proxibid.util.CookieUtil;
 import com.proxibid.util.JwtUtil;
@@ -49,7 +51,7 @@ public class BidderController {
 	private AuctioneerService auctioneerService;
 
 	@Autowired
-	private JwtUtil jwtUtil;
+	private NotificationService notificationService;
 
 	@Autowired
 	private LiveBidService liveBidService;
@@ -94,11 +96,15 @@ public class BidderController {
 	}
 
 	@RequestMapping(value = "/bidder/dashboard", method = RequestMethod.GET)
-	public String bidderdashboard(Model model) {
+	public String bidderdashboard(Model model, HttpServletRequest request) {
+
+		String username = CookieUtil.getCookieByName(request, "username");
 
 		model.addAttribute("upcomingTodaysAuctions", auctionService.findTodaysUpcomingEvents());
 		model.addAttribute("auctions", auctionService.findAllLiveEvents());
 		model.addAttribute("categories", categoryService.getAllCategories());
+		model.addAttribute("todaysAlerts", notificationService.findTodaysByUserId(username));
+		model.addAttribute("pastAlerts", notificationService.findPastByUserId(username));
 		return "/bidder/dashboard";
 	}
 
@@ -148,10 +154,9 @@ public class BidderController {
 		model.addAttribute("catalog", a.getItems());
 		model.addAttribute("eventNo", eventNo);
 
-		String authorizationHeader = CookieUtil.getCookieByName(httpServletRequest, "token");
 		String username = CookieUtil.getCookieByName(httpServletRequest, "username");
 
-		model.addAttribute("bidderEmail", jwtUtil.extractUsername(authorizationHeader));
+		model.addAttribute("bidderEmail", username);
 		model.addAttribute("bidderId", username);
 		return "/bidder/live-auction";
 	}
@@ -166,6 +171,11 @@ public class BidderController {
 
 		String username = CookieUtil.getCookieByName(request, "username");
 		BidderCart cart = cartService.findByBidderId(username);
+
+		if (cart == null) {
+			model.addAttribute("items", null);
+			return "/bidder/history";
+		}
 
 		// get only those items which are not paid
 		List<CartItem> items = new ArrayList<>();
@@ -187,14 +197,9 @@ public class BidderController {
 	/* Rest Controller */
 
 	@RequestMapping(value = "/public/bidder/checkout")
-	public String bidderSignUp(HttpServletRequest request) {
-		String username = "";
-		Cookie[] cookies = request.getCookies();
-		for (Cookie c : cookies) {
-			if (c.getName().equals("username")) {
-				username = c.getValue();
-			}
-		}
+	public String checkout(HttpServletRequest request) {
+		String username = CookieUtil.getCookieByName(request, "username");
+
 		BidderCart cart = cartService.findByBidderId(username);
 		// set all cart items to paid
 		List<CartItem> cartItems = cart.getCartItems();
@@ -212,10 +217,10 @@ public class BidderController {
 		request.setAttribute("error", null);
 		if (bidderService.bidderExistsByEmail(bidder.getBidderEmail())) {
 			request.setAttribute("error", "User with same email already exixst!");
-			return "bidder-signup";
+			return "/bidder/signup";
 		} else {
 			bidder.setBidderPassword(new BCryptPasswordEncoder().encode(bidder.getBidderPassword()));
-			bidder.setRole(ROLE.ROLE_BIDDER.toString());
+			bidder.setRole(ROLE.BIDDER.toString());
 			bidderService.bidderSignUp(bidder);
 			return "redirect:/login";
 		}

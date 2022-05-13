@@ -8,6 +8,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.proxibid.entity.Notification;
+import com.proxibid.repository.NotificationRepository;
 import com.proxibid.service.CustomUserDetailsService;
 import com.proxibid.util.CookieUtil;
 import com.proxibid.util.JwtUtil;
@@ -18,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalTime;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {

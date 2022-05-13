@@ -24,11 +24,13 @@ function countdownTimeStart(startTime, target) {
 			let updatedTime = hours + "h " + minutes + "m "
 				+ seconds + "s ";
 
-			document.getElementsByClassName(target)[0].innerText = updatedTime;
+			if (document.getElementsByClassName(target)[0] != undefined) {
+				document.getElementsByClassName(target)[0].innerText = updatedTime;
+			}
+
 
 			if (distance < 0) {
 				clearInterval(x);
-				document.getElementsByClassName(target)[0].innerHTML = "EXPIRED";
 			}
 		}, 1000);
 }

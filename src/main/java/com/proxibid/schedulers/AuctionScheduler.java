@@ -49,9 +49,6 @@ public class AuctionScheduler {
 	private CartService cartService;
 
 	@Autowired
-	private CartItemService cartItemService;
-
-	@Autowired
 	private CatalogService catalogService;
 
 	@Scheduled(cron = "0 59 10 ? * *")

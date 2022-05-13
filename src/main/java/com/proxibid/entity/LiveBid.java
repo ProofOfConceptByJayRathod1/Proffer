@@ -33,7 +33,7 @@ public class LiveBid implements Serializable {
 	private String bidStatus;
 	private String secondaryStatus;
 
-	@OneToOne(targetEntity = Catalog.class, fetch = FetchType.EAGER)
+	@OneToOne(targetEntity = Catalog.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "itemId", referencedColumnName = "itemId")
 	private Catalog catalog;
 
