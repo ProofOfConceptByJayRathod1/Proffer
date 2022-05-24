@@ -185,7 +185,6 @@ to {
 				<div class="card-body">
 					<p class="card-text">
 					<div class="container">
-
 						<div class="row">
 							<div class="col-sm-6">
 								<div class="card">
@@ -240,14 +239,12 @@ to {
 		<h2>Today's Upcoming events</h2>
 		<!-- Card Start -->
 		<c:forEach var="auction" items="${todayUpcomingAuctions}">
-
 			<div class="card">
 				<img src="/auctionimage/${auction.imageName}"
 					style="border: 10px solid;" class="card-img-top" />
 				<div class="card-body">
 					<p class="card-text">
 					<div class="container">
-
 						<div class="row">
 							<div class="col-sm-6">
 								<div class="card">
@@ -258,7 +255,6 @@ to {
 											<b>Description: </b>${auction.description}</p>
 										<p class="card-text">
 											<b>Category: </b>${auction.category}</p>
-
 									</div>
 								</div>
 							</div>

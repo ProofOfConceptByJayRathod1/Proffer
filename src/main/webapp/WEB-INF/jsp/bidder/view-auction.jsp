@@ -83,16 +83,12 @@
 			<div class="card-body">
 				<h5 class="card-title">${items.eventTitle}</h5>
 				<hr>
-
 				<p class="card-text">
 				<div class="container">
-
 					<div class="row">
-
 						<div class="col"></div>
 						<div class="col"
 							style="border-left: 1px solid rgb(170, 170, 170);">
-
 							Internet Premium: 19.5% See Special Terms for additional fees</div>
 					</div>
 				</div>
@@ -104,10 +100,7 @@
 							aria-hidden="true"></i> Enter in live auction
 						</a>
 					</div>
-
 				</div>
-				</p>
-
 			</div>
 		</div>
 		<!-- End of card -->
@@ -121,16 +114,11 @@
 				<div style="text-align: right;">
 					<b>Seller name</b>: ${auctionHouseName}
 				</div>
-
 			</div>
 		</div>
 		<br>
-
 		<hr>
 	</div>
-
-
-
 
 	<section>
 		<div class="tabs">
@@ -138,7 +126,6 @@
 				<li class="active"><a href="#tab1">Catalog</a></li>
 				<li><a href="#tab2"> Terms of Sale</a></li>
 			</ul>
-
 			<div class="tab-content">
 				<div id="tab1" class="tab active">
 					<div class="container">
@@ -309,24 +296,12 @@
 						purchased with the expectation to resell for appraisal price, or
 						for profit.</p>
 				</div>
-
-
-
 			</div>
-
 		</div>
-
 	</section>
-
 	<br>
 	<hr>
 	<br>
-
-
-
-	<!-- <footer class="footer" style="height: 20px;">
-        <p >Proxibid </p>
-      </footer> -->
 
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
@@ -386,10 +361,5 @@
 					}
 				});
 	</script>
-
-
-
-
 </body>
-
 </html>

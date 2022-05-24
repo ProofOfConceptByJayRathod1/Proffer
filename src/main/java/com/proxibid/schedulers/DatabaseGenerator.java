@@ -54,7 +54,7 @@ public class DatabaseGenerator {
 
 	private static final Logger log = LoggerFactory.getLogger(DatabaseGenerator.class);
 
-	@Scheduled(cron = "00 37 10 ? * *")
+	@Scheduled(cron = "00 29 14 ? * *")
 	public void generateDatabase() {
 
 		log.info("Database generator started...");

@@ -127,9 +127,6 @@
 							<c:forEach var="category" items="${categories}">
 								<option>${category.categoryName}</option>
 							</c:forEach>
-
-							<option>Jwellery</option>
-							<option>Vehicales</option>
 						</select>
 					</div>
 				</div>
@@ -265,7 +262,6 @@
 													window.location.href = "http://localhost:9192/auctionhouse/auction";
 												});
 							}
-							// console.log(result);
 						}
 					});
 		}

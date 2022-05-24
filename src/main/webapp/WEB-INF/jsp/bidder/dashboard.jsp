@@ -22,11 +22,8 @@
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
 		var down = false;
-
 		$('#bell').click(function(e) {
-
 			var color = $(this).text();
 			if (down) {
 				$('#box').css('height', '0px');
@@ -36,11 +33,8 @@
 				$('#box').css('height', 'auto');
 				$('#box').css('opacity', '1');
 				down = true;
-
 			}
-
 		});
-
 	});
 </script>
 <style type="text/css">
@@ -160,7 +154,6 @@
 				<ul class="navbar-nav mr-auto">
 				</ul>
 
-
 				<div class="nav-item icon nav-link" id="bell"
 					style="font-size: 1em;">
 					<i class="fa fa-bell"></i>
@@ -224,10 +217,6 @@
  %> <i class="fa fa-user rounded-circle" aria-hidden="true"></i>
 					</a>
 
-
-
-
-
 					<div class="dropdown-menu dropdown-menu-right"
 						style="margin-right: 10px;">
 
@@ -245,9 +234,6 @@
 			</div>
 		</nav>
 		<!-- navigation bar end -->
-
-
-
 
 
 		<!-- Navbar section -->
@@ -351,8 +337,6 @@
 										<p class="card-text">${auction.description}Thisisawidercard
 											with supporting text below as a natural lead-in to additional
 											content. This content is a little bit longer.</p>
-
-
 
 										<p class="card-text">
 											<b> Starts in</b>&nbsp;&nbsp; <span

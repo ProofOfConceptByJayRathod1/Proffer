@@ -7,12 +7,8 @@ import java.util.Random;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +21,6 @@ import com.proxibid.entity.Auction;
 import com.proxibid.entity.Bidder;
 import com.proxibid.entity.BidderCart;
 import com.proxibid.entity.CartItem;
-import com.proxibid.entity.Notification;
 import com.proxibid.service.AuctionService;
 import com.proxibid.service.BidderService;
 import com.proxibid.service.CartService;
@@ -35,7 +30,6 @@ import com.proxibid.service.MailSenderService;
 import com.proxibid.service.NotificationService;
 import com.proxibid.service.AuctioneerService;
 import com.proxibid.util.CookieUtil;
-import com.proxibid.util.JwtUtil;
 import com.proxibid.util.PaymentStatus;
 import com.proxibid.util.ROLE;
 

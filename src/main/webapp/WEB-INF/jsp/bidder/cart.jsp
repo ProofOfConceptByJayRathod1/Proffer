@@ -89,7 +89,6 @@
 		<!-- navbar end -->
 
 		<c:if test="${cart!=null}">
-
 			<section style="margin-top: 1em;">
 				<div class="container" id="live-container">
 					<c:forEach var="c" items="${cart.getCartItems()}"
@@ -132,14 +131,11 @@
 						</div>
 					</c:forEach>
 					<div class="container mt-2 d-table">
-
 						<div class="d-table-row">
 							<div class="float-left" style="font-size: 1.5em;">
 								<span class="font-weight-bold"> Total items : </span>${cart.getCartItems().size()}
 
 							</div>
-
-
 							<div class="float-right" style="font-size: 1.5em;">
 								<span class="font-weight-bold"> Total Amount : </span>
 								$${cart.getTotalAmount()}
@@ -161,7 +157,6 @@
 	</div>
 	<footer style="text-align: center; color: white;"> ProxiBid
 		All rights reserved</footer>
-
 	<script type="text/javascript" src="/js/live-bid.js"></script>
 </body>
 </html>

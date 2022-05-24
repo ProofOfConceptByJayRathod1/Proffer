@@ -1,16 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Required meta tags -->
-<!-- <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
- -->
-<!-- Bootstrap CSS -->
-
 <title>Home</title>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
@@ -27,9 +18,7 @@
 </head>
 <body>
 
-
 	<div class="caontiner">
-
 		<!-- navigation bar start -->
 		<nav class="navbar navbar-expand-lg"
 			style="border-bottom: 1px solid grey;">
@@ -122,8 +111,6 @@
 						style="width: 20%; border-top-right-radius: 0; border-bottom-left-radius: calc(0.25rem - 1px); margin-left: 1em;"
 						class="card-img-top" />
 
-
-
 					<div class="card-body">
 						<h5 class="card-title">${item.itemName}</h5>
 						<hr>
@@ -148,11 +135,7 @@
 											class="fa fa-wifi" aria-hidden="true"></i> Enter live auction
 										</a>
 									</div>
-
-
 								</div>
-
-
 							</div>
 						</div>
 					</div>

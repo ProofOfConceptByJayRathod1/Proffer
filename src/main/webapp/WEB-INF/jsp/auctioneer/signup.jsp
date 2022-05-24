@@ -1,25 +1,19 @@
 <!doctype html>
 <html>
-
 <head>
 <title>Auctioneer Sign Up</title>
 <!-- Include CSS File Here -->
 <link rel="stylesheet" href="/css/style.css" />
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
-
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 
-
 <!-- Include JS File Here -->
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-
 </head>
-
 <body>
 	<div class="container card shadow-lg " style="height: 75%;">
-
 		<div class="card text-center mt-3"
 			style="color: rgb(153, 40, 59); border: none;">
 			<h2 style="font-weight: bold;">Create Auctioneer Account</h2>
@@ -72,11 +66,9 @@
 													window.location.href = "http://localhost:9192/auctionhouse/login";
 												});
 							}
-							console.log(result);
 						}
 					});
 		}
 	</script>
 </body>
-
 </html>

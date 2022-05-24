@@ -186,11 +186,8 @@ to {
 										<p class="card-text">${auction.description}</p>
 										<p class="card-text">
 											<b>Category: </b>${auction.category}</p>
-
 										<p class="card-text">
 											<b>Date: </b>${auction.date}</p>
-
-
 										<a data-toggle="collapse"
 											href="#collapseExample${loopStatus.index}" role="button"
 											aria-expanded="false" aria-controls="collapseExample"
@@ -211,9 +208,7 @@ to {
 										<div class="card-body">
 											<h5 class="card-title">${c.itemName}</h5>
 											<p class="card-text">${c.itemDesc}</p>
-
 											<div id="name-from">
-
 												<div class="container-fluid"
 													id="liveBidArea${loopStatus.index}">
 													<div class="row">
@@ -221,16 +216,13 @@ to {
 															<small id="${c.itemId}auction" class="text-muted"></small>
 														</div>
 													</div>
-
 													<div class="row">
 														<div class="col">
 															<div class="conatiner">
-
 																<span style="font-size: 20px; font-weight: 300;">STATUS
 																	: <span style="font-weight: 800; color: green;">
 																		${c.bidStatus}</span>
 																</span>
-
 															</div>
 														</div>
 														<div class="col">

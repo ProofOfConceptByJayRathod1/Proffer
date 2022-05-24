@@ -1,5 +1,4 @@
 <html>
-
 <head>
 <title>Login</title>
 <!-- Include CSS File Here -->
@@ -29,9 +28,7 @@
 		</div>
 
 		<form method="post" name="myform" action="http://localhost:9192/login">
-
 			<div class="error-space">
-
 				<%
 				if (null != request.getAttribute("error")) {
 					out.println("<div class=\"error alert alert-danger\"><b>" + request.getAttribute("error") + "</b></div>");
@@ -47,10 +44,7 @@
 				<br> <a href="/bidder/signup">Create Bidder Account</a> OR <a
 					href="/auctionhouse/signup">Create Auctioneer Account</a>
 			</div>
-
 		</form>
-
 	</div>
 </body>
-
 </html>

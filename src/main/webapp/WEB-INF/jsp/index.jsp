@@ -165,7 +165,7 @@
 				<a
 					href="http://localhost:9192/proxibid.com/ViewCategory?category=all"
 					style="font-size: 20px; font-weight: bold; float: right;"> View
-					all</a>
+					All</a>
 			</div>
 		</div>
 		<!-- auction item slider end -->
@@ -185,7 +185,8 @@
 					<div class="carousel-item row active">
 						<c:forEach var="item" items="${catalogItems}">
 							<div class="col-3 float-left">
-								<img class="img-fluid" src="/catalogimage/${item.itemImage}" style="height: 200px;width: 200px;"/>
+								<img class="img-fluid" src="/catalogimage/${item.itemImage}"
+									style="height: 200px; width: 200px;" />
 								<h5>${item.itemName}</h5>
 								<p>${auction.description}</p>
 							</div>
@@ -224,7 +225,7 @@
 						<div class="card col-2 " style="margin: 1em; float: right;">
 							<a
 								href="http://localhost:9192/proxibid.com/ViewCategory?category=all">
-								More categories</a>
+								More Categories</a>
 						</div>
 					</div>
 				</div>
@@ -277,7 +278,7 @@
 									<div class="col">
 										<b> Starts in</b>&nbsp;&nbsp; <span
 											onload="countdownTimeStart('${item.startDateTime}','timer${loop.index}')"
-											class="timer${loop.index}">Countdown Timer</span>
+											class="timer${loop.index}">00:00:00</span>
 									</div>
 								</div>
 

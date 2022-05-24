@@ -128,23 +128,21 @@ public class AuctioneerController {
 	public String saveCatalogInfo(@RequestParam("itemName") ArrayList<String> itemName,
 			@RequestParam("itemImage") ArrayList<MultipartFile> file,
 			@RequestParam("itemStartBid") ArrayList<Integer> itemStartBid,
-			@RequestParam("itemDesc") ArrayList<String> itemDesc) {
+			@RequestParam("itemDesc") ArrayList<String> itemDesc) throws IOException{
+		
+			
 		int n = itemName.size();
+		
 		for (int i = 0; i < n; i++) {
 			Catalog c = new Catalog();
 			c.setItemDesc(itemDesc.get(i));
 			c.setItemName(itemName.get(i));
 			c.setItemStartBid(itemStartBid.get(i));
+			
 			MultipartFile f = file.get(i);
 			String filename = f.getOriginalFilename();
 			Path fileNameAndPath = Paths.get(uploadDirectoryForCatalog, filename);
-			try {
-				Files.write(fileNameAndPath, f.getBytes());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-
+			Files.write(fileNameAndPath, f.getBytes());
 			c.setItemImage(filename);
 
 			catalogService.save(c);
