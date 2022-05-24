@@ -185,7 +185,7 @@
 					<div class="carousel-item row active">
 						<c:forEach var="item" items="${catalogItems}">
 							<div class="col-3 float-left">
-								<img class="img-fluid" src="/catalogimage/${item.itemImage}" />
+								<img class="img-fluid" src="/catalogimage/${item.itemImage}" style="height: 200px;width: 200px;"/>
 								<h5>${item.itemName}</h5>
 								<p>${auction.description}</p>
 							</div>

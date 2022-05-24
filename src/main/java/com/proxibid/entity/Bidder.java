@@ -25,6 +25,8 @@ public class Bidder implements UserDetails {
 	private int bidderContact;
 	private String bidderPassword;
 	private String role;
+	private boolean isAccountVerified;
+	private int otpPassword;
 
 	public String getBidderEmail() {
 		return bidderEmail;
@@ -110,6 +112,22 @@ public class Bidder implements UserDetails {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public boolean isAccountVerified() {
+		return isAccountVerified;
+	}
+
+	public void setAccountVerified(boolean isAccountVerified) {
+		this.isAccountVerified = isAccountVerified;
+	}
+
+	public int getOtpPassword() {
+		return otpPassword;
+	}
+
+	public void setOtpPassword(int otpPassword) {
+		this.otpPassword = otpPassword;
 	}
 
 }

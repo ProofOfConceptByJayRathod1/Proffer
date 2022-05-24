@@ -19,4 +19,7 @@ public class BidderService {
 		return bidderRepository.existsByBidderEmail(email);
 	}
 
+	public Bidder findByEmail(String bidderEmail) {
+		return bidderRepository.findByBidderEmail(bidderEmail).orElse(null);
+	}
 }

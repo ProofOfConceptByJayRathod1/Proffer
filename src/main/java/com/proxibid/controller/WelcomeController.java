@@ -15,14 +15,20 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.proxibid.entity.Bidder;
 import com.proxibid.entity.Catalog;
 import com.proxibid.service.AuctionService;
+import com.proxibid.service.BidderService;
 import com.proxibid.service.CatalogService;
 import com.proxibid.service.CategoryService;
+import com.proxibid.service.MailSenderService;
+import com.proxibid.util.CookieUtil;
 import com.proxibid.util.ListUtils;
 
 @Controller
@@ -54,6 +60,7 @@ public class WelcomeController {
 				errorMessage = ex.getMessage();
 			}
 		}
+
 		model.addAttribute("error", errorMessage);
 		return "login";
 	}
@@ -70,8 +77,7 @@ public class WelcomeController {
 
 		model.addAttribute("catalogItems", catalogService.getFirstEight());
 
-		List<List<Catalog>> listOfListOfCatalog = ListUtils.chunkList(auctionService.getAll().get(0).getItems(), 4);
-
+		List<List<Catalog>> listOfListOfCatalog = ListUtils.chunkList(catalogService.getFirstEight(), 4);
 		model.addAttribute("auctionFourItems", listOfListOfCatalog.get(0));
 		model.addAttribute("auctionItems", listOfListOfCatalog);
 		model.addAttribute("catalogFiveItems", catalogService.getRandomFive());
@@ -120,7 +126,7 @@ public class WelcomeController {
 	public String bidderLogout(HttpServletRequest request, HttpServletResponse response) {
 
 		Cookie cookie = new Cookie("token", "");
-		cookie.setMaxAge(0); // expires in 10 minutes
+		cookie.setMaxAge(0);
 		cookie.setSecure(true);
 		cookie.setHttpOnly(true);
 		response.addCookie(cookie);

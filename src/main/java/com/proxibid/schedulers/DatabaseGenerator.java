@@ -54,7 +54,7 @@ public class DatabaseGenerator {
 
 	private static final Logger log = LoggerFactory.getLogger(DatabaseGenerator.class);
 
-	@Scheduled(cron = "00 38 12 ? * *")
+	@Scheduled(cron = "00 37 10 ? * *")
 	public void generateDatabase() {
 
 		log.info("Database generator started...");
@@ -266,7 +266,7 @@ public class DatabaseGenerator {
 		coin1.setBidStatus(LiveBidStatus.INITIAL.toString());
 		coin1.setItemDesc("The 1804 silver dollar; estimate $8 million to $10 million.");
 		coin1.setItemImage("coin1.jpg");
-		coin1.setItemName("he 1804 silver dollar");
+		coin1.setItemName("The 1804 silver dollar");
 		coin1.setWinner(null);
 		coin1.setItemStartBid(10);
 		list.add(catalogRepository.save(coin1));
@@ -504,7 +504,7 @@ public class DatabaseGenerator {
 		coin1.setBidStatus(LiveBidStatus.INITIAL.toString());
 		coin1.setItemDesc("The 1804 silver dollar; estimate $8 million to $10 million.");
 		coin1.setItemImage("coin1.jpg");
-		coin1.setItemName("he 1804 silver dollar");
+		coin1.setItemName("The 1804 silver dollar");
 		coin1.setWinner(null);
 		coin1.setItemStartBid(10);
 		list.add(coin1);
@@ -689,6 +689,7 @@ public class DatabaseGenerator {
 		john.setBidderEmail("john@gmail.com");
 		john.setBidderPassword(new BCryptPasswordEncoder().encode("123456"));
 		john.setRole(ROLE.BIDDER.toString());
+		john.setAccountVerified(true);
 		bidderRepository.save(john);
 
 		Bidder tony = new Bidder();
@@ -698,6 +699,7 @@ public class DatabaseGenerator {
 		tony.setBidderEmail("tony@gmail.com");
 		tony.setBidderPassword(new BCryptPasswordEncoder().encode("123456"));
 		tony.setRole(ROLE.BIDDER.toString());
+		tony.setAccountVerified(true);
 		bidderRepository.save(tony);
 
 	}

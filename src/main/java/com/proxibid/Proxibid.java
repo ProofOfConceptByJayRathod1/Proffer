@@ -12,6 +12,7 @@ import java.io.File;
 @SpringBootApplication
 @EnableScheduling
 @EnableCaching
+//@EnableEurekaClient
 public class Proxibid {
 
 	public static void main(String[] args) {

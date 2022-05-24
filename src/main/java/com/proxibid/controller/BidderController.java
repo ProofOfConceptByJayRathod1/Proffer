@@ -2,8 +2,11 @@ package com.proxibid.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ import com.proxibid.service.BidderService;
 import com.proxibid.service.CartService;
 import com.proxibid.service.CategoryService;
 import com.proxibid.service.LiveBidService;
+import com.proxibid.service.MailSenderService;
 import com.proxibid.service.NotificationService;
 import com.proxibid.service.AuctioneerService;
 import com.proxibid.util.CookieUtil;
@@ -37,6 +41,9 @@ import com.proxibid.util.ROLE;
 
 @Controller
 public class BidderController {
+
+	@Autowired
+	private MailSenderService mailSenderService;
 
 	@Autowired
 	private BidderService bidderService;
@@ -213,17 +220,76 @@ public class BidderController {
 	}
 
 	@RequestMapping(value = "/bidder/signup/save")
-	public String bidderSignInAfterSignUp(@ModelAttribute Bidder bidder, HttpServletRequest request) {
+	public String bidderSignInAfterSignUp(@ModelAttribute Bidder bidder, HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+
 		request.setAttribute("error", null);
+
 		if (bidderService.bidderExistsByEmail(bidder.getBidderEmail())) {
 			request.setAttribute("error", "User with same email already exixst!");
 			return "/bidder/signup";
 		} else {
+
+			Cookie cookie = new Cookie("username", bidder.getBidderEmail());
+			cookie.setMaxAge(6 * 60); // expires in 10 minutes
+			cookie.setSecure(true);
+			cookie.setHttpOnly(true);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+
+			int otp = new Random().nextInt(999999);
+
+			mailSenderService.sendEmail(bidder.getBidderEmail(), "OTP for PROXIBID sign-up",
+					"Hi " + bidder.getBidderFirstName() + " " + bidder.getBidderLastName() + ",\n\n\n"
+							+ "Use the following one-time password (OTP) to sign in to your Proxibid account.\r\n" + otp
+							+ "\n\n\nRegards," + "\nProxibid Team" + "\nwww.proxibid.com");
+
+			bidder.setAccountVerified(false);
+			bidder.setOtpPassword(otp);
 			bidder.setBidderPassword(new BCryptPasswordEncoder().encode(bidder.getBidderPassword()));
 			bidder.setRole(ROLE.BIDDER.toString());
+
 			bidderService.bidderSignUp(bidder);
-			return "redirect:/login";
+
+			model.addAttribute("email", bidder.getBidderEmail());
+			return "otp";
 		}
 	}
 
+	@RequestMapping("/bidder/validateOTP")
+	public String validateOtp(String d1, String d2, String d3, String d4, String d5, String d6,
+			HttpServletRequest request) {
+		String otp = d1 + d2 + d3 + d4 + d5 + d6;
+
+		String username = CookieUtil.getCookieByName(request, "username");
+		Bidder bidder = bidderService.findByEmail(username);
+		if (otp.equals(bidder.getOtpPassword() + "")) {
+			bidder.setOtpPassword(0);
+			bidder.setAccountVerified(true);
+			bidderService.bidderSignUp(bidder);
+			return "login";
+		}
+		request.setAttribute("error", "Invalid OTP! Please, try again.");
+		return "otp";
+	}
+
+	@RequestMapping("/bidder/resendOTP")
+	public String resendOtp(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String username = CookieUtil.getCookieByName(request, "username");
+		int otp = new Random().nextInt(999999);
+
+		Bidder bidder = bidderService.findByEmail(username);
+
+		mailSenderService.sendEmail(bidder.getBidderEmail(), "OTP for PROXIBID sign-up",
+				"Hi " + bidder.getBidderFirstName() + " " + bidder.getBidderLastName() + ",\n\n\n"
+						+ "Use the following one-time password (OTP) to sign in to your Proxibid account.\r\n" + otp
+						+ "\n\n\nRegards," + "\nProxibid Team" + "\nwww.proxibid.com");
+
+		bidder.setOtpPassword(otp);
+		bidderService.bidderSignUp(bidder);
+
+		model.addAttribute("email", bidder.getBidderEmail());
+		return "otp";
+	}
 }

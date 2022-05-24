@@ -64,13 +64,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().disable().csrf().disable();
 		http.authorizeRequests()
 				.antMatchers("/auctionhouse/signup", "/auctionhouse/signup/save", "/bidder/signup",
-						"/bidder/signup/save", "/css/**", "/scripts/**", "/", "/category/**", "/proxibid.com",
-						"/carousel/**", "/auctionimage/**", "/catalogimage/**", "/proxibid.com/**", "/login",
-						"/public/**")
-				.permitAll()
-				.antMatchers("/bidder/**").hasAuthority("BIDDER")
-				.antMatchers("/auctionhouse/**").hasAuthority("AUCTIONEER")
-				.anyRequest().authenticated();
+						"/bidder/validateOTP", "/bidder/resendOTP", "/bidder/signup/save", "/css/**", "/scripts/**",
+						"/", "/category/**", "/proxibid.com", "/carousel/**", "/auctionimage/**", "/catalogimage/**",
+						"/proxibid.com/**", "/login", "/public/**")
+				.permitAll().antMatchers("/bidder/**").hasAuthority("BIDDER").antMatchers("/auctionhouse/**")
+				.hasAuthority("AUCTIONEER").anyRequest().authenticated();
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
