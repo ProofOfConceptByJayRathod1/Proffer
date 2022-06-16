@@ -18,6 +18,8 @@ An online bidding system inspired from real proxibod.com which is an online bidd
 - Real-time and Live bidding
 - Upcoming auctions
 - Bidder cart and history
+- Auction alerts
+- Email verification through OTP
 
 
 
