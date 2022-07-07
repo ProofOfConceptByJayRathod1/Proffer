@@ -37,6 +37,7 @@ com\proxibid\util\NotificationMessage.class
 com\proxibid\config\SecurityConfig.class
 com\proxibid\controller\NotificationController.class
 com\proxibid\entity\Bid.class
+com\proxibid\service\MailSenderService.class
 com\proxibid\entity\Notification.class
 com\proxibid\util\AuctionStatus.class
 com\proxibid\service\CategoryService.class
@@ -62,4 +63,5 @@ com\proxibid\util\ROLE.class
 com\proxibid\entity\BidWinner.class
 com\proxibid\repository\AuctioneerRepository.class
 com\proxibid\entity\Catalog.class
+com\proxibid\entity\MailMessage.class
 com\proxibid\aspect\LoggingAspect.class

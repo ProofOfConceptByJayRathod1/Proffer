@@ -17,6 +17,7 @@ C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\entity\Category.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\repository\AuctioneerRepository.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\util\JwtUtil.java
+C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\entity\MailMessage.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\service\BidderService.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\util\DateFormatter.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\util\CookieUtil.java
@@ -46,6 +47,7 @@ C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\controller\BidderController.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\service\BidWinnerService.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\service\CartService.java
+C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\service\MailSenderService.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\repository\BidderHistoryItemRepository.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\entity\CartItem.java
 C:\Users\amit\Documents\Spring-Workspace-sts-4-4.13.1.RELEASE\Proxibid\src\main\java\com\proxibid\repository\CategoryRepository.java
