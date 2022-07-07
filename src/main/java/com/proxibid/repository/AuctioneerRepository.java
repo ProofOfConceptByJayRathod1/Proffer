@@ -14,3 +14,4 @@ public interface AuctioneerRepository extends JpaRepository<Auctioneer, String> 
 
 	boolean existsByEmail(String email);
 }
+	
