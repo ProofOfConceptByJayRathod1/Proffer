@@ -13,18 +13,19 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-@DataJdbcTest
+
+@DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@ExtendWith(MockitoExtension.class)
 class AuctioneerRepositoryTest {
 
-    @MockBean
+    @Mock
     private AuctioneerRepository auctioneerRepository;
 
     @Test
@@ -76,11 +77,11 @@ class AuctioneerRepositoryTest {
         when(auctioneerRepository.findByEmail(any())).thenReturn(Optional.empty());
         
         //Act
-        Optional<Auctioneer> auctioneer2=auctioneerRepository.findByEmail("auctioneer@gmail.com");
+        Optional<Auctioneer> optionalAuctioneer=auctioneerRepository.findByEmail("auctioneer@gmail.com");
         
         
         //Assert
-        assertEquals(true, auctioneer2.isEmpty());
+        assertEquals(true, optionalAuctioneer.isPresent());
         verify(auctioneerRepository,times(1)).findByEmail(any());
     }
 
