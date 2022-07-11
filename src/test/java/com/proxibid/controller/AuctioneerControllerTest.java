@@ -5,9 +5,7 @@ import com.proxibid.entity.Auctioneer;
 import com.proxibid.repository.AuctioneerRepository;
 import com.proxibid.service.AuctioneerService;
 import com.proxibid.util.ROLE;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -34,7 +31,7 @@ class AuctioneerControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private AuctioneerRepository auctioneerRepository;
 
     @MockBean
@@ -76,47 +73,38 @@ class AuctioneerControllerTest {
     @Test
     void testSignUpAsAuctioneerPOST1() throws Exception {
         // Arrange
-        Auctioneer auctioneer = new Auctioneer();
-        auctioneer.setAddress("address");
-        auctioneer.setContact("1234567879");
-        auctioneer.setEmail("auctioneer@gmail.com");
-        auctioneer.setPassword("1234567889");
-        auctioneer.setRole(ROLE.AUCTIONEER.toString());
-        auctioneer.setHouseName("housename");
-        when(auctioneerRepository.findByEmail(any())).thenReturn(null);
+        when(auctioneerService.existsByEmail(auctioneer.getEmail())).thenReturn(true);
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/auctionhouse/signup/save")
                 .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
-                .param("password", "123456")
-                .param("email", "asd123456@gmail.com")
-                .flashAttr("auctioneer", objectMapper.writeValueAsBytes(auctioneer))
-                .content(objectMapper.writeValueAsString(auctioneer));
+                .param("password", auctioneer.getPassword())
+                .param("email", auctioneer.getEmail());
 
         // Act
         mockMvc.perform(requestBuilder)
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/login"));
+                .andExpect(MockMvcResultMatchers.forwardedUrl("/WEB-INF/jsp/auctioneer-signup.jsp"))
+                .andExpect(MockMvcResultMatchers.request().attribute("error", "User with same email already exixst!"));
 
     }
 
     @Test
-    @Disabled
     void testSignUpAsAuctioneerPOST2() throws Exception {
         // Arrange
+        when(auctioneerRepository.existsByEmail(any())).thenReturn(false);
+        when(auctioneerRepository.save(any())).thenReturn(auctioneer);
 
-        when(auctioneerService.existsByEmail(auctioneer.getEmail())).thenReturn(true);
-        when(auctioneerRepository.existsByEmail(auctioneer.getEmail())).thenReturn(true);
-
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("auctionhouse/signup/save")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/auctionhouse/signup/save")
                 .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(auctioneer));
+                .param("password", auctioneer.getPassword())
+                .param("email", auctioneer.getEmail());
 
-        // Act
-        mockMvc.perform(requestBuilder).andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.request().attribute("error", "User with same email already exixst !"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("error"))
-                .andExpect(MockMvcResultMatchers.redirectedUrl("auctioneer-signup"));
+        // Act and Assert
+        mockMvc.perform(requestBuilder)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/login"));
 
     }
 

@@ -71,7 +71,7 @@ public class AuctioneerController {
 	}
 
 	@RequestMapping(value = "/auctionhouse/signup/save")
-	public String signUpAsAuctioneer(@ModelAttribute Auctioneer auctioneer, HttpServletRequest request) {
+	public String signUpAsAuctioneer(@ModelAttribute("auctioneer") Auctioneer auctioneer, HttpServletRequest request) {
 		request.setAttribute("error", null);
 		if (auctioneerService.existsByEmail(auctioneer.getEmail())) {
 			request.setAttribute("error", "User with same email already exixst!");
